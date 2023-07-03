@@ -18,7 +18,12 @@ import path from 'path';
 export default defineConfig({
   // 用于cdn静态部署，
   base: '/',
-  server: {},
+  server: {
+    open: true,//启动项目后自动打开浏览器
+    port: 5120, //端口配置
+    hmr: true, //开启热加载
+    proxy:{},
+  },
   resolve: {
     alias: {
       // 把 @ 指向到 src 目录去
@@ -52,7 +57,26 @@ export default defineConfig({
         'vue-router',
         '@vueuse/core',
         // 自定义工具组件加载
+        /*         {
+                  '/src/utils/flowForms': ['flowForms'],
+                  '/src/utils/flowNode': ['flowNode'],
+                  '/src/utils/flowNodeIntercept': ['nodeIntercepts'],
+                  '/src/utils/tools': [
+                    'getPagination',
+                    'loadInfo',
+                    'loadJSONInfo',
+                    'toRawMeta',
+                    'toNodeMeta',
+                    'getPrvNodes',
+                    'treeFindPath',
+                  ],
+                }, */
       ],
+      eslintrc: {
+        enabled: true, // Default `false`
+        filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
+        globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+      },
       resolvers: [ElementPlusResolver()],
     }),
     Components({
@@ -66,7 +90,85 @@ export default defineConfig({
       // AntDesignVue 用less 开发指定加载less 便于主题修改
       resolvers: [AntDesignVueResolver({ importStyle: 'less' }), VueUseComponentsResolver(), IconsResolver(), ElementPlusResolver()],
     }),
-
+    themePreprocessorPlugin({
+      less: {
+        arbitraryMode: false,
+        extract: true,
+        // 各个主题文件的位置
+        multipleScopeVars: [
+          {
+            scopeName: 'theme-default', // 主题名称
+            path: path.resolve('src/assets/styles/themes/default.less'), // 主题文件地址
+          },
+        ],
+        defaultScopeName: 'theme-default', // 默认主题
+      },
+    }),
+    themePreprocessorHmrPlugin(),
+    createStyleImportPlugin({
+      resolves: [AndDesignVueResolve()],
+      // libs: [
+      //   // 如果没有你需要的resolve，可以在lib内直接写，也可以给我们提供PR
+      //   {
+      //     libraryName: 'ant-design-vue',
+      //     esModule: true,
+      //     resolveStyle: name => {
+      //       return `ant-design-vue/es/${name}/style/index`;
+      //     },
+      //   },
+      // ],
+    }),
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+      // 指定symbolId格式
+      symbolId: 'icon-[dir]-[name]',
+    }),
+    Icons({
+      //加载icons 使用icones图标库icones.netlify.app
+      autoInstall: true,
+    }),
   ],
-
+  optimizeDeps: {
+    // 排除 browser-utils.js 在vite的缓存依赖，对应 import { toggleTheme } from "@zougt/vite-plugin-theme-preprocessor/dist/browser-utils" 的路径
+    exclude: ['@zougt/vite-plugin-theme-preprocessor/dist/browser-utils'],
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/assets/styles/variables.scss";`,
+        javascriptEnabled: true,
+      },
+      less: {
+        // additionalData: [`@import "@/assets/styles/default.less";`],
+        javascriptEnabled: true,
+      },
+    },
+  },
+  json: {
+    namedExports: true, // 是否支持从.json文件中进行按名导入
+    stringify: false, //  开启此项，导入的 JSON 会被转换为 export default JSON.parse("...") 会禁用按名导入
+  },
+  build: {
+    target: 'esnext',
+    minify: 'terser', // 混淆器，terser构建后文件体积更小,esbulid速率二十到四十倍于terser
+    // 消除打包大小超过500kb警告
+    chunkSizeWarningLimit: 2000,
+    reportCompressedSize:false,//启用/禁用 gzip 压缩大小报告。压缩大型输出文件可能会很慢，因此禁用该功能可能会提高大型项目的构建性能。
+    // 前提在于minify设置为terser,在生产环境移除console.log
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    // 静态资源打包到dist下的不同目录
+    rollupOptions: {
+      output: {
+        chunkFileNames: 'static/js/[name]-[hash].js',
+        entryFileNames: 'static/js/[name]-[hash].js',
+        assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+      },
+    },
+  },
 })
