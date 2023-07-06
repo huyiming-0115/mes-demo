@@ -6,7 +6,7 @@ import { themePreprocessorHmrPlugin, themePreprocessorPlugin } from '@zougt/vite
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver, AntDesignVueResolver, VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
+import { ElementPlusResolver, AntDesignVueResolver, VueUseComponentsResolver,NaiveUiResolver  } from 'unplugin-vue-components/resolvers'
 import { createStyleImportPlugin, AndDesignVueResolve } from 'vite-plugin-style-import';
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import Icons from 'unplugin-icons/vite';
@@ -56,6 +56,14 @@ export default defineConfig({
         'pinia',
         'vue-router',
         '@vueuse/core',
+        {
+          'naive-ui': [
+            'useDialog',
+            'useMessage',
+            'useNotification',
+            'useLoadingBar'
+          ]
+        },
         // 自定义工具组件加载
         /*         {
                   '/src/utils/flowForms': ['flowForms'],
@@ -88,7 +96,7 @@ export default defineConfig({
       //此UI库的组件也会自动导入和注册（element-ui对应ElementUiResolver，Naive UI对应NaiveUiResolver，vant对应VantResolver，iview对应ViewUiResolver等等）
       //配置之后，无需在 main.js 引入了,想要使用哪个组件，可直接在 template 中引入
       // AntDesignVue 用less 开发指定加载less 便于主题修改
-      resolvers: [AntDesignVueResolver({ importStyle: 'less' }), VueUseComponentsResolver(), IconsResolver(), ElementPlusResolver()],
+      resolvers: [AntDesignVueResolver({ importStyle: 'less' }), VueUseComponentsResolver(), IconsResolver(), ElementPlusResolver(),NaiveUiResolver()],
     }),
     themePreprocessorPlugin({
       less: {

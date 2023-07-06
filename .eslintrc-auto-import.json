@@ -307,6 +307,10 @@
     "watchDeep": true,
     "watchImmediate": true,
     "watchPostEffect": true,
-    "watchSyncEffect": true
+    "watchSyncEffect": true,
+    "useDialog": true,
+    "useLoadingBar": true,
+    "useMessage": true,
+    "useNotification": true
   }
 }
