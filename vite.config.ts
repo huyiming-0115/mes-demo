@@ -45,8 +45,9 @@ export default defineConfig({
       importMode: 'async',
       //遍历路由信息，给默认路由加⼀个redirect
       extendRoute(route) {
-        if (route.path === '/') return { ...route, redirect: '/login/login' };
-        if (route.path === '/auth') return { ...route, redirect: '/login/login' };
+        console.log("当前的继承路由界面",route)
+        if (route.path === '/') return { ...route, redirect: '/login' };
+        if (route.path === '/login') return { ...route, redirect: '/login' };
       },
     }),
     AutoImport({

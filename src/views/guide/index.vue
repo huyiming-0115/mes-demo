@@ -1,0 +1,3 @@
+<template>
+    <Guide></Guide>
+</template>
