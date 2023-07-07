@@ -1,6 +1,7 @@
 import 'nprogress/nprogress.css';
-import { createApp } from 'vue'
-import './style.css'
+import pinia from './store';
+import router from './router';
+import axios from './axios';
 import App from './App.vue'
 
-createApp(App).mount('#app')
+createApp(App).use(pinia).use(axios, { router }).use(router).mount('#app');

@@ -19,7 +19,7 @@ export default defineConfig({
   // 用于cdn静态部署，
   base: '/',
   server: {
-    open: true,//启动项目后自动打开浏览器
+    open: false,//启动项目后自动打开浏览器
     port: 5120, //端口配置
     hmr: true, //开启热加载
     proxy:{},
@@ -104,16 +104,16 @@ export default defineConfig({
         extract: true,
         // 各个主题文件的位置
         multipleScopeVars: [
-          {
+/*           {
             scopeName: 'theme-default', // 主题名称
-            path: path.resolve('src/assets/styles/themes/default.less'), // 主题文件地址
-          },
+           path: path.resolve('src/assets/styles/themes/default.less'), // 主题文件地址
+          }, */
         ],
         defaultScopeName: 'theme-default', // 默认主题
       },
     }),
     themePreprocessorHmrPlugin(),
-    createStyleImportPlugin({
+    /* createStyleImportPlugin({
       resolves: [AndDesignVueResolve()],
       // libs: [
       //   // 如果没有你需要的resolve，可以在lib内直接写，也可以给我们提供PR
@@ -125,7 +125,7 @@ export default defineConfig({
       //     },
       //   },
       // ],
-    }),
+    }), */
     createSvgIconsPlugin({
       // 指定需要缓存的图标文件夹
       iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
@@ -144,7 +144,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@/assets/styles/variables.scss";`,
+       // additionalData: `@import "@/assets/styles/variables.scss";`,
         javascriptEnabled: true,
       },
       less: {
