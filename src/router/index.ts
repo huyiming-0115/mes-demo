@@ -19,15 +19,15 @@ const router:any = createRouter({
  * @return {*}
  */
 router.beforeEach((to:any,from:any,  next :any) => {
-  console.log("当前的一些路由界面信息==>",routes)
+  /* console.log("当前的一些路由界面信息==>",routes) */
   let query = to.query;
   //如果在查询条件中带有token
   let token = query.token;
-  console.log("当前正在进入路由前置校验",to,next)
+/*   console.log("当前正在进入路由前置校验",to,next)
   console.log("当前界面预期展环境变量数据",import.meta.env)
   console.log("当前界面预期展示标题",import.meta.env.VITE_APP_TITLE)
   console.log("检测当前路由",router,router.hasRoute(to.name))
-  console.log("打印当前路由全部信息",router.routes)
+  console.log("打印当前路由全部信息",router.routes) */
   // 设置页面标题
   document.title = to.meta.title || import.meta.env.VITE_APP_TITLE;
   if (to.name !== 'login') {
@@ -39,7 +39,7 @@ router.beforeEach((to:any,from:any,  next :any) => {
       console.log("cascacacasacas")
       return checkToken(to, token, next);
     } */
-    console.log("cascacacasacas==!login")
+    /* console.log("cascacacasacas==!login") */
     return next({ name: "login" });
   } else {
     if (router.hasRoute(to.name)) {
@@ -53,12 +53,12 @@ router.beforeEach((to:any,from:any,  next :any) => {
         console.log("sssss")
         return next();
       } */
-      console.log("scsacascascasikoooooo")
-      return next({ name: 'login' });
+      /* console.log("scsacascascasikoooooo") */
+      return next();
     } else {
       //未匹配到的时候跳转到404页面
       //return next({ name: 'workflow-notFindPage-404' });
-      console.log("sssafascvasc")
+      /* console.log("sssafascvasc") */
       return next({ name: 'login' });
     }
   }

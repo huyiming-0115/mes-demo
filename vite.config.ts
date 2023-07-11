@@ -6,7 +6,7 @@ import { themePreprocessorHmrPlugin, themePreprocessorPlugin } from '@zougt/vite
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver, AntDesignVueResolver, VueUseComponentsResolver,NaiveUiResolver  } from 'unplugin-vue-components/resolvers'
+import { ElementPlusResolver, AntDesignVueResolver, VueUseComponentsResolver, NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { createStyleImportPlugin, AndDesignVueResolve } from 'vite-plugin-style-import';
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import Icons from 'unplugin-icons/vite';
@@ -22,7 +22,7 @@ export default defineConfig({
     open: false,//启动项目后自动打开浏览器
     port: 5120, //端口配置
     hmr: true, //开启热加载
-    proxy:{},
+    proxy: {},
   },
   resolve: {
     alias: {
@@ -45,9 +45,10 @@ export default defineConfig({
       importMode: 'async',
       //遍历路由信息，给默认路由加⼀个redirect
       extendRoute(route) {
-        console.log("当前的继承路由界面",route)
+        console.log("vite.config.ts == route ==>", route)
+        console.log("当前的继承路由界面", route)
         if (route.path === '/') return { ...route, redirect: '/login' };
-        if (route.path === '/login') return { ...route, redirect: '/login' };
+        // if (route.path === '/login') return { ...route, redirect: '/login' };
       },
     }),
     AutoImport({
@@ -97,7 +98,7 @@ export default defineConfig({
       //此UI库的组件也会自动导入和注册（element-ui对应ElementUiResolver，Naive UI对应NaiveUiResolver，vant对应VantResolver，iview对应ViewUiResolver等等）
       //配置之后，无需在 main.js 引入了,想要使用哪个组件，可直接在 template 中引入
       // AntDesignVue 用less 开发指定加载less 便于主题修改
-      resolvers: [AntDesignVueResolver({ importStyle: 'less' }), VueUseComponentsResolver(), IconsResolver(), ElementPlusResolver(),NaiveUiResolver()],
+      resolvers: [AntDesignVueResolver({ importStyle: 'less' }), VueUseComponentsResolver(), IconsResolver(), ElementPlusResolver(), NaiveUiResolver()],
     }),
     themePreprocessorPlugin({
       less: {
@@ -105,16 +106,16 @@ export default defineConfig({
         extract: true,
         // 各个主题文件的位置
         multipleScopeVars: [
-/*           {
-            scopeName: 'theme-default', // 主题名称
-           path: path.resolve('src/assets/styles/themes/default.less'), // 主题文件地址
-          }, */
+          /*           {
+                      scopeName: 'theme-default', // 主题名称
+                     path: path.resolve('src/assets/styles/themes/default.less'), // 主题文件地址
+                    }, */
         ],
         defaultScopeName: 'theme-default', // 默认主题
       },
     }),
     themePreprocessorHmrPlugin(),
-    /* createStyleImportPlugin({
+    createStyleImportPlugin({
       resolves: [AndDesignVueResolve()],
       // libs: [
       //   // 如果没有你需要的resolve，可以在lib内直接写，也可以给我们提供PR
@@ -126,7 +127,7 @@ export default defineConfig({
       //     },
       //   },
       // ],
-    }), */
+    }),
     createSvgIconsPlugin({
       // 指定需要缓存的图标文件夹
       iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
@@ -145,7 +146,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-       // additionalData: `@import "@/assets/styles/variables.scss";`,
+        // additionalData: `@import "@/assets/styles/variables.scss";`,
         javascriptEnabled: true,
       },
       less: {
@@ -163,7 +164,7 @@ export default defineConfig({
     minify: 'terser', // 混淆器，terser构建后文件体积更小,esbulid速率二十到四十倍于terser
     // 消除打包大小超过500kb警告
     chunkSizeWarningLimit: 2000,
-    reportCompressedSize:false,//启用/禁用 gzip 压缩大小报告。压缩大型输出文件可能会很慢，因此禁用该功能可能会提高大型项目的构建性能。
+    reportCompressedSize: false,//启用/禁用 gzip 压缩大小报告。压缩大型输出文件可能会很慢，因此禁用该功能可能会提高大型项目的构建性能。
     // 前提在于minify设置为terser,在生产环境移除console.log
     terserOptions: {
       compress: {

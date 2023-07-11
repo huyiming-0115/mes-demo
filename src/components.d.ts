@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
+    ARadioGroup: typeof import('ant-design-vue/es')['RadioGroup']
     Guide: typeof import('./components/guide/Guide.vue')['default']
     Login: typeof import('./components/login/Login.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
