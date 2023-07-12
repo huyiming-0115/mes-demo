@@ -32,8 +32,8 @@
             </svg>
             <input type="password" v-model="password" autocomplete="off" placeholder="请输入密码" @keyup.enter="login" />
           </div>
-          <span style="color: white;font-size: 16px;">角色选择</span><br/>
-          <a-radio-group v-model:value="value1" :options="plainOptions" />
+          <span style="color: white;font-size: 16px;display:block">角色选择</span><br/>
+          <a-radio-group v-model:value="checkRole" :options="plainOptions" @change="roleOptionChange"/>
           <div class="button">
             <input @click="login" type="submit" :value="buttonText" onclick="return false" class="form-btn" />
           </div>
@@ -69,24 +69,42 @@
 </template>
 
 <script lang="ts" setup>
+import {basicRole,basicMember} from '../../types/basic/basic'
 const { proxy }: any = getCurrentInstance();
-const plainOptions = ['Apple', 'Pear', 'Orange'];
-const value1 = ref<string>('Apple');
+const plainOptions = basicRole;
+const checkRole = ref<string>('ADMINISTRATORS');
 let userName: string = "";
 let password: string = "";
-
 let buttonText: string = "立 即 登 录";
 
 const login = async () => {
-  if (userName == null || userName == "" || userName == undefined) {
-    proxy.message.error("请输入您的账号信息！");
-    return;
-  }
-  if (password == "" || password == null || password == undefined) {
-    proxy.message.error("请输入您的密码！");
-    return;
+  if(checkInfo()){
+    console.log("当前角色可以登录")
   }
 };
+
+
+const checkInfo = ():boolean => {
+  let userArr = basicMember;
+  if (checkCharEmpty(userName)) {
+    proxy.message.error("请填写您的账号！");
+    return false;
+  }
+  if (checkCharEmpty(password)) {
+    proxy.message.error("请填写您的密码！");
+    return false;
+  }
+  if(!userArr.some((x:UserInfoType) => { return x.name === userName && x.password === password})){
+    proxy.message.error("当前用户未被系统记录或密码错误，请重新尝试");
+    return false;
+  }
+  return true;
+}
+
+
+const roleOptionChange = (e:any) =>{
+  checkRole.value = e.target.value
+}
 
 const toChorme = () => {
   window.open("https://www.google.cn/intl/zh-CN/chrome/");

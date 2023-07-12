@@ -297,6 +297,17 @@
     "watchThrottled": true,
     "watchTriggerable": true,
     "watchWithFilter": true,
-    "whenever": true
+    "whenever": true,
+    "checkCharEmpty": true,
+    "flowForms": true,
+    "flowNode": true,
+    "getPagination": true,
+    "getPrvNodes": true,
+    "loadInfo": true,
+    "loadJSONInfo": true,
+    "nodeIntercepts": true,
+    "toNodeMeta": true,
+    "toRawMeta": true,
+    "treeFindPath": true
   }
 }

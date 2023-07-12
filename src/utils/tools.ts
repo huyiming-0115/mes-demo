@@ -117,3 +117,12 @@ export const treeFindPath:any = (tree:any, func:any, name = 'id', path:any = [])
   }
   return [];
 };
+
+/**
+ * 校验当前传入字符是否为空
+ * @param char 字符串
+ * @returns 标志
+ */
+export const checkCharEmpty = (char:string|number) =>{
+  return char == null || char == "" || char == undefined
+} 

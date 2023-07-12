@@ -40,7 +40,7 @@ router.beforeEach((to:any,from:any,  next :any) => {
       return checkToken(to, token, next);
     } */
     /* console.log("cascacacasacas==!login") */
-    return next({ name: "login" });
+    return next();
   } else {
     if (router.hasRoute(to.name)) {
 /*       if (to.name !== 'login' && to.name.indexOf('notFindPag') < 1) {

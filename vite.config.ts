@@ -45,8 +45,6 @@ export default defineConfig({
       importMode: 'async',
       //遍历路由信息，给默认路由加⼀个redirect
       extendRoute(route) {
-        console.log("vite.config.ts == route ==>", route)
-        console.log("当前的继承路由界面", route)
         if (route.path === '/') return { ...route, redirect: '/login' };
         // if (route.path === '/login') return { ...route, redirect: '/login' };
       },
@@ -67,20 +65,18 @@ export default defineConfig({
           ]
         },
         // 自定义工具组件加载
-        /*         {
-                  '/src/utils/flowForms': ['flowForms'],
-                  '/src/utils/flowNode': ['flowNode'],
-                  '/src/utils/flowNodeIntercept': ['nodeIntercepts'],
-                  '/src/utils/tools': [
-                    'getPagination',
-                    'loadInfo',
-                    'loadJSONInfo',
-                    'toRawMeta',
-                    'toNodeMeta',
-                    'getPrvNodes',
-                    'treeFindPath',
-                  ],
-                }, */
+        {
+          '/src/utils/tools': [
+            'getPagination',
+            'loadInfo',
+            'loadJSONInfo',
+            'toRawMeta',
+            'toNodeMeta',
+            'getPrvNodes',
+            'treeFindPath',
+            'checkCharEmpty',
+          ],
+        },
       ],
       eslintrc: {
         enabled: true, // Default `false`
@@ -106,10 +102,10 @@ export default defineConfig({
         extract: true,
         // 各个主题文件的位置
         multipleScopeVars: [
-          /*           {
-                      scopeName: 'theme-default', // 主题名称
-                     path: path.resolve('src/assets/styles/themes/default.less'), // 主题文件地址
-                    }, */
+          {
+            scopeName: 'theme-default', // 主题名称
+            path: path.resolve('src/assets/styles/themes/default.less'), // 主题文件地址
+          },
         ],
         defaultScopeName: 'theme-default', // 默认主题
       },
