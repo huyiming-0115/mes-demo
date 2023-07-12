@@ -1,5 +1,5 @@
 <template>
-  <a-layout-sider class="cs-sider" v-model:collapsed="collapsed" mode="inline">
+  <a-layout-sider class="cs-sider" v-model:collapsed="collapsed" defaultCollapsed collapsible mode="inline">
    <!--  <a-menu mode="inline" :openKeys="openKeys" :selectedKeys="selectedKeys" class="cs-sider-menu" @select="menuclick">
       <i-aside-menu v-for="(child, index) in menuList" :menu="child" />
     </a-menu> -->
