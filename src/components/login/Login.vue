@@ -70,6 +70,7 @@
 
 <script lang="ts" setup>
 import {basicRole,basicMember} from '../../types/basic/basic'
+const router = useRouter();
 const { proxy }: any = getCurrentInstance();
 const plainOptions = basicRole;
 const checkRole = ref<string>('ADMINISTRATORS');
@@ -80,6 +81,8 @@ let buttonText: string = "立 即 登 录";
 const login = async () => {
   if(checkInfo()){
     console.log("当前角色可以登录")
+    router.push({ path: '/work/visitor' });
+    sessionStorage.setItem("auth","true")
   }
 };
 

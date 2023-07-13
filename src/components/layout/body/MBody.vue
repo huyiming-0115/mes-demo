@@ -4,7 +4,8 @@
       <a-layout>
         <m-breadcrumb />
         <m-content />
-        <m-footer />
       </a-layout>
     </a-layout>
   </template>
+
+  

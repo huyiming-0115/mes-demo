@@ -1,7 +1,7 @@
 <template>
   <a-layout-content>
     <a-spin :spinning="store.spinning" tip="加载中,请稍后..." size="large">
-      <div class="layout-content">
+      <div class="m-layout-content">
         <router-view />
       </div>
     </a-spin>
@@ -14,7 +14,7 @@ const store = loadSpin();
 </script>
 
 <style>
-.-ayout-content {
+.m-layout-content {
   margin: 5px;
   height: calc(100vh - 120px);
   width: calc(100% - 5px);

@@ -51,4 +51,76 @@ export const basicMember = [
     mingAdmin, mingPurchase, mingManager, mingVisitor
 ]
 
+//定义菜单权限
+export const menuList = [
+    {
+        type:"",
+        menu:[
+            {
+                id:"1",
+                name:"index",
+                title:"系统管理",
+                icon:"systemIcon",
+                desc:"",
+                route:"/",
+                parentId:"",
+                child:[
+                    {
+                        id:"01",
+                        name:"index",
+                        title:"资源管理",
+                        icon:"",
+                        desc:"",
+                        route:"/",
+                        parentId:"1",
+                        child:[
+                            {
+                                id:"001",
+                                name:"index",
+                                title:"用户管理",
+                                icon:"",
+                                desc:"",
+                                route:"work-system-user",
+                                parentId:"01",
+                                child:[],
+                            },
+                            {
+                                id:"002",
+                                name:"index",
+                                title:"权限管理",
+                                icon:"",
+                                desc:"",
+                                route:"work-system-auth",
+                                parentId:"01",
+                                child:[],
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                id:"2",
+                name:"index",
+                title:"仓储管理",
+                icon:"storageIcon",
+                desc:"",
+                route:"/",
+                parentId:"",
+                child:[
+                    {
+                        id:"02",
+                        name:"index",
+                        title:"库存管理",
+                        icon:"",
+                        desc:"",
+                        route:"storage",
+                        parentId:"2",
+                        child:[],
+                    },
+                ],
+            },
+        ]
+    },
+]
+
 

@@ -6,9 +6,10 @@
     <a-menu
     v-model:openKeys="openKeys"
     v-model:selectedKeys="selectedKeys"
-    style="width: 256px"
     mode="vertical"
     @click="handleClick"
+    theme="dark"
+    class="cs-sider-menu"
   >
     <a-menu-item key="1">
       <template #icon>
@@ -108,11 +109,11 @@ onMounted(() => {
 }
 
 .cs-sider .ant-menu:not(.ant-menu-item-selected) .ant-menu-item-active {
-  background-color: @menu-item-active-background;
+  background-color: red;
   border-left: 2px solid @menu-item-active-bg;
 }
 .cs-sider .ant-menu-submenu-title:hover {
-  background-color: @menu-item-active-background;
+  background-color: red;
   border-left: 2px solid @menu-item-active-bg;
 }
 

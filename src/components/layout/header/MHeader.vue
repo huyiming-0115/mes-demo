@@ -2,7 +2,7 @@
   <a-layout-header class="admin-header">
     <div class="admin-header-wide">
       <router-link to="/" :class="['logo', 'pc']">
-        <img width="200" src="/logo/onlogo.png" alt=""/>
+        <img width="160" src="/logo/elevLogo.png" alt=""/>
       </router-link>
       <div class="admin-header-right">
        <!--  <m-header-notice class="header-item" /> -->

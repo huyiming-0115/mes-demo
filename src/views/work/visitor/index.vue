@@ -1,0 +1,1 @@
+<template>测试当前页面成功接入demo系统</template>
