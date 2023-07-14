@@ -30,5 +30,6 @@
   padding-left: 10px;
   height: @breadcrumb-height;
   border-bottom: 1px solid @breadcrumb-bottom;
+  user-select: none;
 }
 </style>

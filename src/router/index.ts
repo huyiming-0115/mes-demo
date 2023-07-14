@@ -32,7 +32,7 @@ router.beforeEach((to: any, from: any, next: any) => {
   document.title = to.meta.title || import.meta.env.VITE_APP_TITLE;
   if (to.name !== 'login') {
     //token = sessionStorage.getItem('token') ?? '';
-    let auth = sessionStorage.getItem('auth') ?? '';
+    let auth = localStorage.getItem('auth') ?? '';
     if (auth) {
       return next();
     } else {

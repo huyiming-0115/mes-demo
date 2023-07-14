@@ -32,8 +32,9 @@
             </svg>
             <input type="password" v-model="password" autocomplete="off" placeholder="请输入密码" @keyup.enter="login" />
           </div>
-          <span style="color: white;font-size: 16px;display:block">角色选择</span><br/>
-          <a-radio-group v-model:value="checkRole" :options="plainOptions" @change="roleOptionChange"/>
+          <span style="color: white; font-size: 16px; display: block;">角色选择</span>
+          <br />
+          <a-radio-group v-model:value="checkRole" :options="plainOptions" @change="roleOptionChange" />
           <div class="button">
             <input @click="login" type="submit" :value="buttonText" onclick="return false" class="form-btn" />
           </div>
@@ -48,13 +49,7 @@
               版权所有：杭州云川控制系统有限公司
               <br />
               为了更好的用户体验，推荐您使用谷歌浏览器
-              <img
-                class="chorme-image"
-                alt="chrome"
-                src="@assets/img/login/google.png"
-                title="点击前往下载谷歌浏览器"
-                @click="toChorme"
-              />
+              <img class="chorme-image" alt="chrome" src="@assets/img/login/google.png" title="点击前往下载谷歌浏览器" @click="toChorme" />
               。
             </div>
           </div>
@@ -69,25 +64,24 @@
 </template>
 
 <script lang="ts" setup>
-import {basicRole,basicMember} from '../../types/basic/basic'
+import { basicRole, basicMember } from "../../types/basic/basic";
 const router = useRouter();
 const { proxy }: any = getCurrentInstance();
 const plainOptions = basicRole;
-const checkRole = ref<string>('ADMINISTRATORS');
+const checkRole = ref<string>("ADMINISTRATORS");
 let userName: string = "";
 let password: string = "";
 let buttonText: string = "立 即 登 录";
 
 const login = async () => {
-  if(checkInfo()){
-    console.log("当前角色可以登录")
-    router.push({ path: '/work/visitor' });
-    sessionStorage.setItem("auth","true")
+  if (checkInfo()) {
+    console.log("当前角色可以登录");
+    router.push({ path: "/work/visitor" });
+    localStorage.setItem("auth", "true");
   }
 };
 
-
-const checkInfo = ():boolean => {
+const checkInfo = (): boolean => {
   let userArr = basicMember;
   if (checkCharEmpty(userName)) {
     proxy.message.error("请填写您的账号！");
@@ -97,17 +91,20 @@ const checkInfo = ():boolean => {
     proxy.message.error("请填写您的密码！");
     return false;
   }
-  if(!userArr.some((x:UserInfoType) => { return x.name === userName && x.password === password})){
+  if (
+    !userArr.some((x: UserInfoType) => {
+      return x.name === userName && x.password === password;
+    })
+  ) {
     proxy.message.error("当前用户未被系统记录或密码错误，请重新尝试");
     return false;
   }
   return true;
-}
+};
 
-
-const roleOptionChange = (e:any) =>{
-  checkRole.value = e.target.value
-}
+const roleOptionChange = (e: any) => {
+  checkRole.value = e.target.value;
+};
 
 const toChorme = () => {
   window.open("https://www.google.cn/intl/zh-CN/chrome/");
@@ -161,7 +158,7 @@ const toChorme = () => {
     line-height: 80px;
     bottom: 12%;
     font-size: 14px;
-    
+
     user-select: none;
     .allCopy {
       position: absolute;
@@ -286,7 +283,7 @@ const toChorme = () => {
     .button {
       height: 50px;
       width: 100%;
-margin-top: 50px;
+      margin-top: 50px;
       input {
         width: 100%;
         font-size: 16px;
@@ -299,7 +296,6 @@ margin-top: 50px;
         border-radius: 25px;
         color: white;
         cursor: pointer;
-       
 
         &:hover {
           background: rgba(15, 81, 142, 1);
