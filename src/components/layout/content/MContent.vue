@@ -1,18 +1,27 @@
 <template>
-  <a-layout-content>
+  <a-layout-content class="box-content">
     <a-spin :spinning="store.spinning" tip="加载中,请稍后..." size="large">
       <div class="m-layout-content">
-        <router-view />
+        <router-view :key="menuStore.routerKey"></router-view>
       </div>
     </a-spin>
   </a-layout-content>
 </template>
 
 <script setup lang="ts">
-import loadSpin from "../../../store/loadSpin";
+import loadSpin from "@/store/loadSpin";
+import { useMenuStore } from "@/store/menu";
 const store = loadSpin();
+const menuStore = useMenuStore();
 </script>
 
+<style lang="less" scoped>
+.box-content {
+  //padding-left: 10px;
+ // padding-right: 5px;
+  //margin-top: 10px;
+}
+</style>
 <style>
 .m-layout-content {
   margin: 5px;

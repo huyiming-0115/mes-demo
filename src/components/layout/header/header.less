@@ -1,9 +1,8 @@
 .admin-header {
   padding: 0;
   z-index: 2;
-  box-shadow: border-box;
   position: relative;
-  background: black;
+  background: #001529;
   .head-menu {
     height: 60px;
     line-height: 60px;
@@ -21,6 +20,9 @@
   }
   .admin-header-wide {
     padding-left: 24px;
+    display: flex;
+    height: 60px;
+    justify-content: space-between;
     &.head.fixed {
       max-width: 1400px;
       margin: auto;
@@ -64,14 +66,17 @@
       display: inline-block;
     }
     .admin-header-right {
-      float: right;
+      //float: right;
       display: flex;
       color: white;
+      justify-content: right;
       .header-item {
         color: white;
-        padding: 0 50px;
-        margin-right: 50px;
+        display: inline-block;
+        //padding: 0 50px;
+        //margin-right: 50px;
         cursor: pointer;
+        height: 60px;
         align-self: center;
         a {
           color: white;
@@ -79,7 +84,46 @@
             font-size: 26px;
           }
         }
+
+        .header-item-post {
+          width: 80px;
+          height: 20px;
+          line-height: 18px;
+          text-align: center;
+          border-radius: 10px;
+          font-size: 10px;
+          margin: 5px 0;
+          color: #1569ac;
+          border: 1px solid #1569ac;
+        }
       }
+
+      // 姓名
+      .header-item-name {
+        width: 70px;
+        display: inline-block;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        margin: 0 5px;
+        font-size: 14px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        float: left;
+      }
+
+      // 头像
+      .header-item-img {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        background-color: #ffffff;
+        border-radius: 50%;
+        border: 1px solid #999090;
+        float: left;
+      }
+
       // each(@theme-list, {
       //   &.@{value} .header-item{
       //     &:hover{

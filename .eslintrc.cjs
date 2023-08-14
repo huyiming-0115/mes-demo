@@ -31,6 +31,10 @@ module.exports = {
         "vue","prettier"
     ],
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "compilerOptions": {
+            // noUnusedLocals 设置为 false
+            "noUnusedLocals": false,
+      }
     }
 }

@@ -308,6 +308,7 @@
     "nodeIntercepts": true,
     "toNodeMeta": true,
     "toRawMeta": true,
-    "treeFindPath": true
+    "treeFindPath": true,
+    "ElMessage": true
   }
 }

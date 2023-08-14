@@ -34,7 +34,12 @@ router.beforeEach((to: any, from: any, next: any) => {
     //token = sessionStorage.getItem('token') ?? '';
     let auth = localStorage.getItem('auth') ?? '';
     if (auth) {
-      return next();
+      if (router.hasRoute(to.name)) {
+        return next();
+      }else{
+        return next({ name: 'work-error-404' });
+      }
+      
     } else {
       return next({ name: 'login' });
     }

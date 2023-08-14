@@ -6,7 +6,8 @@ import loadSpin from '../store/loadSpin';
 // axios.defaults.baseURL = process.env.VUE_APP_BASE_API || "";
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-import { message,Modal } from 'ant-design-vue';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+import { Modal } from 'ant-design-vue';
 const BASE_PREFIX = import.meta.env.VITE_API_BASEURL;
 
 let config = {
@@ -68,21 +69,23 @@ const ofInstall = (app:any, { router }:any) => {
       const store = loadSpin();
       store.setSpinning(false);
       if (response.data.code !== 200) {
-        message.destroy();
-        message.error(response.data.message);
+        ElMessage.closeAll()
+        //message.destroy();
+        ElMessage.error(response.data.message);
       }
       return response.data;
     },
     error => {
       // Do something with response error
+      ElMessage.closeAll()
       NProgress.done();
       const store = loadSpin();
       store.setSpinning(false);
-      message.destroy();
+      //message.destroy();
       if (error.response.data) {
-        message.error(error.response.data.message);
+        ElMessage.error(error.response.data.message);
       } else {
-        message.error('当前服务不可用！');
+        ElMessage.error('当前服务不可用！');
       }
       if (error.response.status === 401) {
         router.push({ name: 'login' });
@@ -116,7 +119,7 @@ const ofInstall = (app:any, { router }:any) => {
     });
   });
   app.config.globalProperties.api = api;
-  app.config.globalProperties.message = message;
+  app.config.globalProperties.message = ElMessage;
   app.config.globalProperties.Modal = Modal;
 };
 

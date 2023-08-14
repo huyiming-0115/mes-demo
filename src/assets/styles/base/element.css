@@ -1,0 +1,45 @@
+/* dialog 头部公共样式 */
+.el-dialog__header{
+    border-bottom: 1px solid grey;
+    margin-left: 16px;
+    padding-left: 14px;
+  }
+/* dialog边框 */
+.el-dialog{
+    border-radius: 5px;
+}
+/* dialog标题 */
+.el-dialog__title{
+  position: relative;
+  font-size: 16px;
+  font-weight: 500;
+}
+/* dialog 标题的伪元素 */
+.el-dialog__title:after{
+  content: " ";
+  position: absolute;
+  left: -10px;
+  top: 2px;
+  color: #eee;
+  font-size: 12px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: pointer;
+  text-align: center;
+  line-height: 48px;
+  width: 4px;
+  height: 18px;
+  opacity: 1;
+  background: rgba(21, 105, 172, 1);
+}
+/* 弹窗距离底部距离 */
+.el-dialog__body{
+  padding-bottom: 24px;
+}
+
+/* 按钮的大小 */
+.mes-btn{
+  width: 100px;
+  height: 35px;
+}

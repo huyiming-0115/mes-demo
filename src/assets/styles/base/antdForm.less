@@ -1,0 +1,33 @@
+// 添加这个类名加一个*号 必填
+.form-item-require {
+    position: relative;
+
+    &::before {
+        content: "*";
+        color: red;
+        position: absolute;
+        font-size: 12px;
+        width: 4px;
+        top: 5px;
+        left: -7px;
+        margin: 0;
+    }
+
+    &::after {
+        font-size: 12px;
+    }
+}
+
+// 覆盖原本的默认样式
+:deep(.ant-form-item-required) {
+    &::before {
+        content: ' ' !important;
+        margin-right: 0 !important;
+    }
+}
+
+// 关闭upload提示
+.el-icon--close-tip {
+    display: none !important;
+    opacity: 0 !important;
+}
