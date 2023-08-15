@@ -2,7 +2,7 @@
   <a-layout-content class="box-content">
     <a-spin :spinning="store.spinning" tip="加载中,请稍后..." size="large">
       <div class="m-layout-content">
-        <router-view :key="menuStore.routerKey"></router-view>
+        <router-view class="router-position" :key="menuStore.routerKey"></router-view>
       </div>
     </a-spin>
   </a-layout-content>
@@ -20,6 +20,7 @@ const menuStore = useMenuStore();
   //padding-left: 10px;
  // padding-right: 5px;
   //margin-top: 10px;
+ 
 }
 </style>
 <style>
@@ -30,6 +31,13 @@ const menuStore = useMenuStore();
   overflow: auto;
   background: rgba(255, 255, 255, 1);
   border-radius: 4px;
+  position: absolute;
+
+}
+
+.router-position{
+  position: relative;
+  min-width: 1050px;
 }
 .cs-stream-content {
   min-width: 1000px;

@@ -1,36 +1,56 @@
 <template>
-    <div class="search"><ToolBarEx :selectOptions="selectOptions" :function-name="listFn"></ToolBarEx></div>
-  </template>
-  
-  <script setup lang="ts">
-  const selectOptions: Array<ToolBarSelectionType> = [
-    {
-      label: "项目名称",
-      value: 0,
-    },
-    {
-      label: "商务负责人",
-      value: 1,
-    },
-    {
-      label: "电梯系列",
-      value: 2,
-    },
-  ];
-  const listFn: FunctionType = inject("getListFn");
-  
-  
-  
-  </script>
-  
-  <style scoped lang="less">
-  .search {
-    min-height: 70px;
-  
-    .time {
-      margin-left: 30px;
-      font-size: 14px;
-    }
+  <div class="search">
+    <div class="toolbar-position">
+      <div class="toolbar-left">
+        <ToolBarEx :selectOptions="selectOptions" :function-name="listFn"></ToolBarEx>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+const selectOptions: Array<ToolBarSelectionType> = [
+  {
+    label: "项目名称",
+    value: 0,
+  },
+  {
+    label: "商务负责人",
+    value: 1,
+  },
+  {
+    label: "电梯系列",
+    value: 2,
+  },
+];
+const listFn: FunctionType = inject("getListFn");
+</script>
+
+<style scoped lang="less">
+.search {
+  min-height: 70px;
+
+  .time {
+    margin-left: 30px;
+    font-size: 14px;
   }
-  </style>
-  
+
+  .toolbar-position {
+    height: 36px;
+    padding-top: 17px;
+  }
+
+  .toolbar-left {
+    float: left;
+  }
+
+  .toolbar-right {
+    float: right;
+  }
+
+  .button-position {
+    float: right;
+    background-color: rgba(21, 105, 172, 1);
+  }
+}
+</style>

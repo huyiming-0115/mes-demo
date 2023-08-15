@@ -11,7 +11,11 @@ const listRef: any = ref(null);
 const getListFn = (params: any) => {
   listRef.value.getListFn(params);
 };
+const exportFn = (pid: any) => {
+    listRef.value.exportFn(pid)
+}
 provide("getListFn", getListFn);
+provide('exportFn', exportFn)
 </script>
 
 <style scoped lang="less">
