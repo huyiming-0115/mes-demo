@@ -54,8 +54,8 @@
           </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click.stop="">关联部门</div>
-            <div class="btn-link ml24" @click.stop="">修改</div>
+            <div class="btn-link" @click.stop="linkFn(record)">关联部门</div>
+            <div class="btn-link ml24" @click.stop="editFn(record)">修改</div>
             <a-popconfirm title="确定删除该公司信息?" @confirm.stop="">
               <template #default>
                 <div class="btn-link ml24">删除</div>
@@ -70,6 +70,12 @@
       </a-table>
     </a-spin>
   </div>
+  <MDialog :dialog="dialog">
+    <DetailSystemCompany @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row"></DetailSystemCompany>
+  </MDialog>
+  <MDialog :dialog="dialogDepart">
+    <LinkDepartSystemCompany @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row"></LinkDepartSystemCompany>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -88,14 +94,13 @@ const columns = [
     title: "公司名称",
     dataIndex: "organizeName",
     key: "organizeName",
-    width: 250,
+    width: 300,
     ellipsis: true,
   },
   {
     title: "公司简介",
     dataIndex: "explan",
     key: "explan",
-    width: 300,
     ellipsis: true,
   },
   {
@@ -109,6 +114,7 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
+    width: 280,
   },
 ];
 // 表体数据
@@ -147,6 +153,38 @@ const tableChangeFn = (pagination: any) => {
   }
   getListFn();
 };
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  addTitle: "修改公司",
+  flag: "edit",
+  row: {},
+  width:550
+});
+
+const editFn = (item:any) => {
+  dialog.title = "修改公司";
+  dialog.flag = "edit";
+  dialog.row = item;
+  dialog.show = true;
+};
+
+
+// 弹窗所有变量
+let dialogDepart: any = reactive({
+  show: false,
+  title: "修改公司",
+  flag: "edit",
+  row: {},
+  width:822
+});
+const linkFn = (item:any) => {
+  dialogDepart.title = "关联部门";
+  dialogDepart.flag = "edit";
+  dialogDepart.row = item;
+  dialogDepart.show = true;
+}
 
 /**
  * filterList 筛选列表

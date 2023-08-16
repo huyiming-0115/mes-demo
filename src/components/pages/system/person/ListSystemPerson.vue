@@ -83,7 +83,7 @@
           </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">修改</div>
+            <div class="btn-link" @click.stop="editFn(record)">修改</div>
             <a-popconfirm title="确定删除这条数据吗?" @confirm="">
               <template #default>
                 <div class="btn-link ml24">删除</div>
@@ -98,6 +98,10 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialog">
+    <DetailSystemPerson @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row"></DetailSystemPerson>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -105,6 +109,20 @@
 let spinning = ref<boolean>(false);
 const developFn = () => {
   ElMessage.warning("开发中");
+};
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "修改岗位",
+  flag: "edit",
+  row: {},
+  width: 550,
+});
+// 新增部门
+const editFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
 };
 // 表头
 const columns = [
@@ -119,33 +137,28 @@ const columns = [
     title: "人员账号",
     dataIndex: "account",
     key: "account",
-    width: 90,
   },
   {
     title: "人员姓名",
-    dataIndex: "name",
-    key: "name",
-    width: 120,
+    dataIndex: "username",
+    key: "username",
   },
   {
     title: "联系电话",
     dataIndex: "phone",
     key: "phone",
-    width: 120,
     ellipsis: true,
   },
   {
     title: "所属部门",
     dataIndex: "depart",
     key: "depart",
-    width: 150,
     ellipsis: true,
   },
   {
     title: "所属岗位",
     dataIndex: "role",
     key: "role",
-    width: 150,
     ellipsis: true,
   },
   {
@@ -159,6 +172,7 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
+    width: 280,
   },
 ];
 // 表体数据
@@ -245,9 +259,11 @@ const changeStatusFn = async (record: any) => {
     {
       id: 1,
       account: "hym",
-      name: "胡一鸣",
+      username: "胡一鸣",
       phone: 18879118804,
+      branchId: 1,
       depart: "FBI部门",
+      roleId: 1,
       role: "超级管理员",
       state: 1,
     },
@@ -264,9 +280,11 @@ const getListFn = async (params?: any) => {
     {
       id: 1,
       account: "hym",
-      name: "胡一鸣",
+      username: "胡一鸣",
       phone: 18879118804,
+      branchId: 1,
       depart: "FBI部门",
+      roleId: 1,
       role: "超级管理员",
       state: 0,
     },

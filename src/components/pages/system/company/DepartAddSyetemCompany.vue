@@ -1,5 +1,5 @@
 <template>
-  <!--公司管理 新增岗位弹窗 -->
+  <!--公司管理=>关联部门=> 新增部门弹窗 -->
   <div style="height: 350px; padding-left: 5px;">
     <a-form
       :model="formState"
@@ -11,12 +11,12 @@
       autocomplete="off"
       :layout="'horizontal'"
     >
-      <a-form-item class="form-item-require" label="岗位名称" name="roleName" :rules="rules.roleName">
-        <a-input placeholder="请填写岗位名称" :maxlength="20" style="width: 100%;" v-model:value="formState.roleName" />
+      <a-form-item class="form-item-require" label="部门名称" name="branchName" :rules="rules.branchName">
+        <a-input placeholder="请填写部门名称" :maxlength="20" style="width: 100%;" v-model:value="formState.branchName" />
       </a-form-item>
 
-      <a-form-item class="form-item-require" label="岗位简介" name="explan" :rules="rules.explan">
-        <a-textarea v-model:value="formState.explan" showCount :maxlength="200" placeholder="请填写岗位简介" :auto-size="{ minRows: 3, maxRows: 6 }" />
+      <a-form-item class="form-item-require" label="部门简介" name="explan" :rules="rules.explan">
+        <a-textarea v-model:value="formState.explan" showCount :maxlength="200" placeholder="请填写部门简介" :auto-size="{ minRows: 3, maxRows: 6 }" />
       </a-form-item>
     </a-form>
     <div class="flex-center mt48">
@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 const { pid, row } = defineProps<{
-  pid: string;
+  pid: "add";
   row?: any;
 }>();
 const emit = defineEmits(["close"]);
@@ -42,18 +42,18 @@ const optionsConfig: any = reactive({
   organizeIdOptions: [],
 });
 const rules = {
-  roleName: [
-    { required: true, message: "请填写岗位名称" },
+  branchName: [
+    { required: true, message: "请填写部门名称" },
     { pattern: /^[^\s]*$/, message: "禁止输入空格" },
   ],
   explan: [
-    { required: true, message: "请填写岗位简介" },
+    { required: true, message: "请填写部门简介" },
     { pattern: /^[^\s]*$/, message: "禁止输入空格" },
   ],
 };
 // 表单数据
 const formState = reactive({
-  roleName: "",
+  branchName: "",
   explan: "",
   organizeId: undefined, //公司id
 });
@@ -68,25 +68,13 @@ const submitFn = async () => {
     .then((res: any) => res)
     .catch((_err: any) => "error");
   if (res === "error") return;
- addSubmitFn();
+  pid === "add" && addSubmitFn();
 };
 const getListFn: any = inject("getListFn");
 // 新增提交函数
 const addSubmitFn = async () => {
   closeFn();
 };
-
-// 回显处理函数
-const echoFn = () => {
-  formState.roleName = row.roleName;
-  formState.explan = row.explan;
-};
-
-onMounted(() => {
-  if (pid === "edit") {
-    echoFn();
-  }
-});
 // 接收行数据
 const getCompanyRowFn: any = inject("getCompanyRowFn");
 </script>

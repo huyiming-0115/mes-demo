@@ -6,30 +6,26 @@
       ref="modelForm"
       name="basic"
       :label-col="labelCol"
-      style="height: 260px;"
+      style="height: 160px;"
       :wrapper-col="{ span: 24 }"
       autocomplete="off"
       :layout="'horizontal'"
     >
-      <!-- 权限组名称 -->
-      <a-form-item class="form-item-require" label="权限组名称" name="title" :rules="rules.title">
+      <!-- 部门 -->
+      <a-form-item class="form-item-require" label="部门" name="title" :rules="rules.title">
         <a-input placeholder="请填写权限组名称" style="width: 100%;" v-model:value="formState.title" />
       </a-form-item>
-      <!-- 权限组类型 -->
+      <!-- 岗位 -->
+      <a-form-item class="form-item-require" label="岗位" name="title" :rules="rules.title">
+        <a-input placeholder="请填写权限组名称" style="width: 100%;" v-model:value="formState.title" />
+      </a-form-item>
+      <!-- 资源类型 -->
       <a-form-item class="form-item-require" label="资源类型" name="selectValue">
         <a-radio-group v-model:value="formState.type" @change="changeFn" name="radioGroup">
-          <a-radio :value="0">权限</a-radio>
-          <a-radio :value="1">白名单</a-radio>
-          <a-radio :value="2">数据权限</a-radio>
-          <a-radio :value="3">菜单</a-radio>
+          <a-radio :value="0">菜单</a-radio>
+          <a-radio :value="1">权限</a-radio>
         </a-radio-group>
       </a-form-item>
-      <!-- 权限组说明 -->
-      <a-form-item label="权限组说明" name="explain">
-        <a-textarea v-model:value="formState.explain" placeholder="请填写权限组说明" :maxlength="200" :auto-size="{ minRows: 3, maxRows: 3 }" />
-      </a-form-item>
-      <!-- 权限组资源选择 -->
-      <a-form-item label="资源选择" name="desc"></a-form-item>
     </a-form>
     <!-- 表格 -->
     <div style="height: 300px; overflow-y: auto;">
@@ -60,7 +56,7 @@
         </a-table>
       </a-spin>
     </div>
-    <div class="flex-center mt32">
+    <div class="flex-center mt48">
       <a-button class="mr32 w100 h35" @click="closeFn">取消</a-button>
       <a-button v-throttle class="w100 h35 primary-button" type="primary" @click="submitFn">确定</a-button>
     </div>
@@ -174,42 +170,42 @@ const submitFn = async () => {
 // 菜单提交函数
 const menuSubmitFn = async () => {
   /*   const arr: any = ["type", "route", "name", "title", "serialNo", "parentId", "icon", "desc"];
-  const data: any = arrToObjFn(formState, arr);
-  data.serialNo = Number(data.serialNo);
-  data.type = Number(data.type);
-  // 这里需要区分一下是新增还是修改
-  let res: any = null;
-  pid === "add" && (res = await request.addResourceApi(data));
-  pid === "edit" && (res = await request.editResourceApi(data));
-  console.log(res, "res");
-  res.code === 200 && ElMessage.success("保存成功");
-  if (res.code !== 200) return ElMessage.warning(res.message || "保存失败");
-  emit("close");
-  getListFn(); */
+      const data: any = arrToObjFn(formState, arr);
+      data.serialNo = Number(data.serialNo);
+      data.type = Number(data.type);
+      // 这里需要区分一下是新增还是修改
+      let res: any = null;
+      pid === "add" && (res = await request.addResourceApi(data));
+      pid === "edit" && (res = await request.editResourceApi(data));
+      console.log(res, "res");
+      res.code === 200 && ElMessage.success("保存成功");
+      if (res.code !== 200) return ElMessage.warning(res.message || "保存失败");
+      emit("close");
+      getListFn(); */
 };
 // 资源提交函数
 const resourceSubmitFn = async () => {
   /*   const arr: any = ["type", "route", "name", "title", "method", "desc"];
-  const data: any = arrToObjFn(formState, arr);
-  let res: any = null;
-  pid === "add" && (res = await request.addResourceApi(data));
-  pid === "edit" && (res = await request.editResourceApi(data));
-  console.log(res, "res");
-  res.code === 200 && ElMessage.success("保存成功");
-  if (res.code !== 200) return ElMessage.warning(res.message || "保存失败");
-  emit("close");
-  getListFn(); */
+      const data: any = arrToObjFn(formState, arr);
+      let res: any = null;
+      pid === "add" && (res = await request.addResourceApi(data));
+      pid === "edit" && (res = await request.editResourceApi(data));
+      console.log(res, "res");
+      res.code === 200 && ElMessage.success("保存成功");
+      if (res.code !== 200) return ElMessage.warning(res.message || "保存失败");
+      emit("close");
+      getListFn(); */
 };
 // 白名单提交函数
 const whiteSubmitFn = async () => {
   /*   const arr: any = ["route", "name", "title", "desc"];
-  const data: any = arrToObjFn(formState, arr);
-  let res: any = null;
-  pid === "add" && (res = await request.addResourceApi(data));
-  pid === "edit" && (res = await request.editResourceApi(data));
-  console.log(res, "res");
-  res.code === 200 && ElMessage.success("保存成功");
-  if (res.code !== 200) return ElMessage.warning(res.message || "保存失败"); */
+      const data: any = arrToObjFn(formState, arr);
+      let res: any = null;
+      pid === "add" && (res = await request.addResourceApi(data));
+      pid === "edit" && (res = await request.editResourceApi(data));
+      console.log(res, "res");
+      res.code === 200 && ElMessage.success("保存成功");
+      if (res.code !== 200) return ElMessage.warning(res.message || "保存失败"); */
   emit("close");
   /* getListFn(); */
 };
@@ -217,15 +213,15 @@ const whiteSubmitFn = async () => {
 const echoFn = async () => {
   console.log(row, "row");
   /*   Object.assign(formState, { type: 1 }); //暂时回显个2
-  // 调接口回显
-  const id = row.id;
-  const res = await request.queryResourceApi({ id }); */
+      // 调接口回显
+      const id = row.id;
+      const res = await request.queryResourceApi({ id }); */
   /*  console.log(res, "查询回显的res"); */
 };
 // 初始化
 const createdFn = () => {
   /* pid === "add" && console.log("%c%s", "color:green", "add");
-  pid === "edit" && echoFn(); */
+      pid === "edit" && echoFn(); */
 };
 createdFn();
 

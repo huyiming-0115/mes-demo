@@ -9,6 +9,25 @@
       </div>
     </div>
   </div>
+  <!-- 新增弹窗 -->
+<!--   <el-dialog
+    :close-on-click-modal="false"
+    destroy-on-close
+    draggable
+    :append-to-body="true"
+    :title="dialog.addTitle"
+    v-model="dialog.show"
+    width="600"
+    class="mes-el-dialog"
+  >
+    <template #default>
+      <DetailSystemCompany @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row"></DetailSystemCompany>
+    </template>
+  </el-dialog> -->
+
+  <MDialog :dialog="dialog">
+    <DetailSystemCompany @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row"></DetailSystemCompany>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -22,13 +41,14 @@ const listFn: FunctionType = inject("getListFn");
 // 弹窗所有变量
 let dialog: any = reactive({
   show: false,
-  addTitle: "新增公司",
+  title: "新增公司",
   flag: "add",
   row: {},
+  width:550
 });
 // 新增公司
 const addFn = () => {
-  dialog.addTitle = "新增公司";
+  dialog.title = "新增公司";
   dialog.flag = "add";
   dialog.row = undefined;
   dialog.show = true;

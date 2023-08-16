@@ -54,8 +54,7 @@
           </div>
           <!-- 操作 -->
           <div v-if="column.title === '操作'" class="flex-start">
-            <div class="btn-link" @click="">关联岗位</div>
-            <div class="btn-link ml24" @click="">修改</div>
+            <div class="btn-link" @click.stop="editFn(record)">修改</div>
             <a-popconfirm title="确定删除这条数据吗?" @confirm="">
               <template #default>
                 <div class="btn-link ml24">删除</div>
@@ -70,6 +69,10 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialog">
+    <DetailSystemDepart :pid="dialog.flag" :row="dialog.row"></DetailSystemDepart>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -82,20 +85,19 @@ const columns = [
     dataIndex: "name",
     key: "number",
     customRender: ({ index }: any) => `${index + 1}`,
-    width: 70,
+    width: 60,
   },
   {
     title: "部门名称",
     dataIndex: "branchName",
     key: "branchName",
-    width: 200,
+    width: 300,
     ellipsis: true,
   },
   {
     title: "部门简介",
     dataIndex: "explan",
     key: "explan",
-    width: 300,
     ellipsis: true,
   },
   {
@@ -109,8 +111,27 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
+    width: 280,
   },
 ];
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "修改部门",
+  flag: "edit",
+  row: {},
+  width: 550,
+});
+// 新增部门
+const editFn = (item:any) => {
+  dialog.title = "修改部门";
+  dialog.flag = "edit";
+  dialog.row = item;
+  dialog.show = true;
+};
+
+
 // 表体数据
 const tableList: any = ref([]);
 const pagination = getPagination();
@@ -153,7 +174,7 @@ const tableChangeFn = (pagination: any) => {
  * filterChecked 控制筛选的值
  * filterSubmitFn 筛选确定函数
  */
- const filterList: any = [
+const filterList: any = [
   {
     value: 1,
     text: "启用",

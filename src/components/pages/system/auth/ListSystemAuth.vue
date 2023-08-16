@@ -23,7 +23,7 @@
           </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">查看详情</div>
+            <div class="btn-link" @click.stop="queryFn(record)">查看详情</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -33,6 +33,10 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialog">
+    <DetailSystemAuth @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row"></DetailSystemAuth>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -45,38 +49,53 @@ const columns = [
     dataIndex: "name",
     key: "number",
     customRender: ({ index }: any) => `${index + 1}`,
-    width: 70,
+    width: 60,
   },
   {
     title: "授权部门",
     dataIndex: "depart",
     key: "depart",
-    width: 200,
+    ellipsis: true,
   },
   {
     title: "授权岗位",
     dataIndex: "role",
     key: "role",
-    width: 200,
+    ellipsis: true,
   },
   {
     title: "授权时间",
     dataIndex: "authDate",
     key: "authDate",
-    width: 150,
+    ellipsis: true,
   },
   {
     title: "操作人",
     dataIndex: "person",
     key: "person",
-    width: 120,
+    ellipsis: true,
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
+    width: 280,
   },
 ];
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "查看详情",
+  flag: "detail",
+  row: {},
+  width: 620,
+});
+
+const queryFn = (item: any) => {
+  dialog.show = true;
+};
+
 // 表体数据
 const tableList: any = ref([]);
 const pagination = getPagination();

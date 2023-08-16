@@ -37,7 +37,7 @@ const menuStore = useMenuStore();
 
 .router-position{
   position: relative;
-  min-width: 1050px;
+  min-width: 1400px;
 }
 .cs-stream-content {
   min-width: 1000px;

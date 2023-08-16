@@ -9,6 +9,10 @@
       </div>
     </div>
   </div>
+
+  <MDialog :dialog="dialog">
+    <DetailSystemPost @close="dialog.show = false" :pid="dialog.flag"></DetailSystemPost>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -22,15 +26,13 @@ const listFn: FunctionType = inject("getListFn");
 // 弹窗所有变量
 let dialog: any = reactive({
   show: false,
-  addTitle: "新增岗位",
+  title: "新增岗位",
   flag: "add",
   row: {},
+  width: 550,
 });
 // 新增岗位
 const addFn = () => {
-  dialog.addTitle = "新增岗位";
-  dialog.flag = "add";
-  dialog.row = undefined;
   dialog.show = true;
 };
 </script>

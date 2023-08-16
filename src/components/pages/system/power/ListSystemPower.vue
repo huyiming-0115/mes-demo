@@ -36,12 +36,12 @@
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index }">
           <div v-if="column.key === 'type'">
-              {{ powerTypeCn(record.type) }}
+            {{ powerTypeCn(record.type) }}
           </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">查看详情</div>
-            <div class="btn-link ml24" @click="">修改</div>
+            <div class="btn-link" @click.stop="queryFn(record)">查看详情</div>
+            <div class="btn-link ml24" @click.stop="editFn(record)">修改</div>
             <a-popconfirm title="确定删除这条数据吗?" @confirm="">
               <template #default>
                 <div class="btn-link ml24">删除</div>
@@ -56,6 +56,10 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialog">
+    <DetailSystemPower @close="dialog.show = false" :row="dialog.row" :pid="dialog.flag"></DetailSystemPower>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -68,19 +72,20 @@ const columns = [
     dataIndex: "name",
     key: "number",
     customRender: ({ index }: any) => `${index + 1}`,
-    width: 70,
+    width: 60,
   },
   {
     title: "权限组名称",
     dataIndex: "title",
-    key: "name",
+    key: "title",
+    width: 300,
+    ellipsis: true,
   },
   {
     title: "权限组简介",
     dataIndex: "explain",
     key: "explain",
     ellipsis: true,
-    width: 300,
   },
   {
     title: "资源类型",
@@ -93,9 +98,33 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 250,
+    width: 280,
   },
 ];
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "修改权限组",
+  flag: "edit",
+  row: {},
+  width: 900,
+});
+
+const editFn = (item: any) => {
+  dialog.title = "修改权限组";
+  dialog.flag = "edit";
+  dialog.show = true;
+  dialog.row = item;
+};
+
+const queryFn = (item: any) => {
+  dialog.title = "查看权限组";
+  dialog.flag = "detail";
+  dialog.show = true;
+  dialog.row = item;
+};
+
 // 表体数据
 const tableList: any = ref([]);
 const pagination = getPagination();
@@ -217,6 +246,4 @@ defineExpose({ getListFn });
 .filter-result {
   stroke: #1569ac;
 }
-
-
 </style>

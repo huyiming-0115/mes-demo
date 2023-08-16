@@ -57,6 +57,9 @@ div {
 .font-blue {
   color: #1569ac;
 }
+.primary-button {
+  background-color: #1569ac;
+}
 .tac {
   text-align: center;
 }
@@ -126,6 +129,12 @@ div {
 .mt32 {
   margin-top: 32px;
 }
+.mt48 {
+  margin-top: 48px;
+}
+.mt60 {
+  margin-top: 60px;
+}
 .mb11 {
   margin-bottom: 11px;
 }
@@ -162,4 +171,19 @@ div {
 .page-line {
   border-top: 1px solid grey;
   height: 20px;
+}
+::-webkit-scrollbar {
+  width: 0.5px;
+  height: 18px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10;
+  background: #d7d7d7;
+}
+::-webkit-scrollbar-track {
+  background-color: #d7d7d7;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #d7d7d7;
+  transition: 0.7s;
 }

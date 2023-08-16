@@ -65,8 +65,8 @@
           </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">查看详情</div>
-            <div class="btn-link ml24" @click="">修改</div>
+            <div class="btn-link" @click.stop="queryFn(record)">查看详情</div>
+            <div class="btn-link ml24" @click.stop="editFn(record)">修改</div>
             <a-popconfirm title="确定删除这条数据吗?" @confirm="">
               <template #default>
                 <div class="btn-link ml24">删除</div>
@@ -81,6 +81,10 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialog">
+    <DetailSystemBrand @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row"></DetailSystemBrand>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -93,34 +97,30 @@ const columns = [
     dataIndex: "number",
     key: "number",
     customRender: ({ index }: any) => `${index + 1}`,
-    width: 70,
+    width: 60,
   },
   {
     title: "品牌名称",
     dataIndex: "brandName",
     key: "brandName",
-    width: 160,
     ellipsis: true,
   },
   {
     title: "品牌性质",
     dataIndex: "type",
     key: "type",
-    width: 120,
     customFilterDropdown: true,
   },
   {
     title: "经销商信息",
     dataIndex: "dealer",
     key: "dealer",
-    width: 150,
     ellipsis: true,
   },
   {
     title: "联系方式",
     dataIndex: "phone",
     key: "phone",
-    width: 130,
     ellipsis: true,
   },
   {
@@ -134,8 +134,35 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
+    width: 280,
   },
 ];
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "修改岗位",
+  flag: "edit",
+  row: {},
+  width: 550,
+});
+
+// 新增部门
+const editFn = (item: any) => {
+  dialog.flag = "edit";
+  dialog.row = item;
+  dialog.show = true;
+  dialog.title = "修改品牌"
+};
+
+// 新增部门
+const queryFn = (item: any) => {
+  dialog.flag = "detail";
+  dialog.row = item;
+  dialog.show = true;
+  dialog.title = "查看品牌"
+};
+
 // 表体数据
 const tableList: any = ref([]);
 const pagination = getPagination();

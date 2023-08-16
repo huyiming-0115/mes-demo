@@ -207,7 +207,7 @@ createdFn();
 
 .cs-sider .ant-menu-item {
   height: 56px;
-  background-color: #001529;
+ // background-color: #001529;
 }
 
 aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-has-trigger.cs-sider {
