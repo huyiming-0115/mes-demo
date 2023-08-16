@@ -1,0 +1,152 @@
+:deep(.ant-pagination.mini) {
+  color: #333333;
+  height: 28px;
+  line-height: 28px;
+  position: relative;
+  font-size: 12px;
+  user-select: none;
+}
+:deep(.ant-pagination.mini) .ant-pagination-total-text {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  letter-spacing: 1px;
+  line-height: 100%;
+}
+:deep(.ant-pagination.mini) .ant-pagination-prev,
+:deep(.ant-pagination.mini) .ant-pagination-next,
+:deep(.ant-pagination.mini) .ant-pagination-item {
+  height: 28px;
+  width: 28px;
+  line-height: 26px;
+  border-radius: 4px;
+  margin-right: 8px;
+  border: solid 1px rgba(0, 0, 0, 0.15);
+}
+:deep(.ant-pagination.mini) .ant-pagination-next {
+  margin-right: 20px !important;
+}
+:deep(.ant-pagination.mini) .ant-pagination-item:hover > a {
+  color: unset;
+}
+:deep(.ant-pagination.mini) .ant-pagination-item-active {
+  background-color: #1569ac;
+  border-color: #1569ac;
+  color: #ffffff;
+  font-weight: normal;
+}
+:deep(.ant-pagination.mini) .ant-pagination-item-active > a {
+  background-color: #1569ac;
+  border-color: #1569ac;
+  color: #ffffff;
+}
+:deep(.ant-pagination.mini) .ant-pagination-options {
+  display: flex;
+  line-height: 28px;
+  height: 28px;
+  margin: 0;
+}
+:deep(.ant-pagination.mini) .ant-pagination-options .ant-select-arrow {
+  right: 5px;
+}
+:deep(.ant-pagination.mini) .ant-pagination-options .anticon {
+  color: #333333;
+}
+:deep(.ant-pagination.mini) .ant-pagination-options .ant-select-selector {
+  border-radius: 4px;
+  box-shadow: none;
+  height: 28px;
+  font-size: 12px;
+  padding: 0 !important;
+  width: 100px !important;
+}
+:deep(.ant-pagination.mini) .ant-pagination-options .ant-select-selector .ant-select-selection-search {
+  display: none;
+}
+:deep(.ant-pagination.mini) .ant-pagination-options .ant-select-selector .ant-select-selection-item {
+  display: block;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  padding: 0 22px 0 5px;
+}
+:deep(.ant-pagination.mini) .ant-pagination-options .ant-select-selector::after {
+  display: none;
+}
+:deep(.ant-pagination.mini) .ant-pagination-options-quick-jumper {
+  display: flex;
+  height: 28px;
+  line-height: 28px;
+  align-items: center;
+}
+:deep(.ant-pagination.mini) .ant-pagination-options-quick-jumper input {
+  border-radius: 4px;
+  border: solid 1px rgba(0, 0, 0, 0.15);
+  width: 47px;
+  height: 28px;
+  box-shadow: none;
+}
+:deep(.ant-table-thead .ant-table-cell) {
+  background-color: #f5f5f7 !important;
+  font-size: 14px;
+  font-weight: 600;
+  padding-left: 16px !important;
+  color: #555555;
+}
+:deep(.ant-table-tbody .ant-table-cell) {
+  font-size: 13px;
+  padding-left: 16px !important;
+}
+:deep(.ant-table-container) {
+  font-size: 14px;
+}
+:deep(.ant-table-container) .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #1569ac;
+  border-color: #1569ac;
+}
+:deep(.ant-table-container) .ant-checkbox-indeterminate .ant-checkbox-inner::after {
+  background-color: #1569ac;
+}
+:deep(.ant-table-container) .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+:deep(.ant-table-container) .ant-checkbox:hover .ant-checkbox-inner,
+:deep(.ant-table-container) .ant-checkbox-input:focus + .ant-checkbox-inner {
+  border-color: #1569ac;
+}
+:deep(.ant-table-container) th.ant-table-selection-column,
+:deep(.ant-table-container) td.ant-table-selection-column {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+:deep(.ant-table-container) th {
+  border: 0px;
+  height: 40px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color: rgba(215, 215, 215, 0.447);
+  color: black;
+  font-family: system-ui, KaiTi, sans-serif;
+}
+:deep(.ant-table-container) .table-striped td {
+  background-color: #fafafa;
+}
+:deep(.ant-table-container) .ant-table-tbody > tr > td {
+  height: 36px;
+  padding: 0 16px 0 16px;
+}
+:deep(.ant-table-container) .ant-table-tbody > tr .table-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:deep(.ant-table-container) tr.ant-table-row-selected > td {
+  background: none;
+  background-color: #e7f0f6;
+}
+:deep(.ant-table-container) .ant-table-cell-row-hover {
+  background: none !important;
+  background-color: #e7f0f6 !important;
+  transition: background-color 1s;
+}
+:deep(.ant-table-footer) {
+  border: 1px dashed #ebebeb;
+}

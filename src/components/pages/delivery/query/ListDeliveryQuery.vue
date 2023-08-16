@@ -17,36 +17,33 @@
         bordered
       >
         <!-- 图标内容插槽 -->
-        <!--         <template
-            #customFilterDropdown="{
+        <template
+          #customFilterDropdown="{
                           confirm,
                           column,
                       }"
-          >
-            <div v-if="column.title === '资源类型'">
-              <Filter :list="filterList" @submit="(list) => filterSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
-            </div>
-          </template> -->
+        >
+          <div v-if="column.key === 'status'">
+            <Filter :list="filterList" @submit="(list) => filterSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
+          </div>
+        </template>
         <!-- 图标插槽 -->
-        <!--         <template #customFilterIcon="{ column }">
-            <div v-if="column.title === '资源类型'" style="width: 16px; height: 16px;">
-              <q-svg width="16" height="16" name="filter" :class="filterChecked ? 'filter-result' : ''" />
-            </div>
-          </template> -->
+        <template #customFilterIcon="{ column }">
+          <div v-if="column.key === 'status'" style="width: 16px; height: 16px;">
+            <q-svg width="16" height="16" name="filter" :class="filterChecked ? 'filter-result' : ''" />
+          </div>
+        </template>
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index }">
-          <!-- 序号 -->
-          <div v-if="column.title === '序号'">
-            <div>{{ index + 1 }}</div>
-          </div>
           <!-- 操作 -->
-          <div v-if="column.title === '操作'" class="flex-start">
-            <a-popconfirm title="确定删除这条数据吗?" @confirm="">
+          <div v-if="column.key === 'operate'" class="flex-start">
+            <a-popconfirm title="确定提交该订单嘛?" @confirm="">
               <template #default>
-                <div class="btn-link">删除</div>
+                <div class="btn-link">提交订单</div>
               </template>
             </a-popconfirm>
-            <div class="btn-link ml24" @click="">修改</div>
+            <div class="btn-link ml24" @click="">安装通知</div>
+            <div class="btn-link ml24" @click="">打印</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -68,76 +65,73 @@ const columns = [
     dataIndex: "name",
     key: "number",
     customRender: ({ index }: any) => `${index + 1}`,
-    width: "70px",
-    height: "20px",
+    width: 60,
   },
   {
     title: "项目名称",
-    dataIndex: "name",
-    key: "name",
-    width: "300px",
-    height: "20px",
+    dataIndex: "projectName",
+    key: "projectName",
+    ellipsis: true,
   },
   {
     title: "安装方式",
-    dataIndex: "title",
-    key: "title",
-    width: "200px",
-    height: "20px",
+    dataIndex: "installType",
+    key: "installType",
+    width: 150,
+    customFilterDropdown: true,
   },
   {
     title: "运输方式",
-    dataIndex: "result",
-    key: "result",
-    width: "150px",
-    height: "20px",
+    dataIndex: "tranType",
+    key: "tranType",
+    width: 150,
+    customFilterDropdown: true,
   },
   {
     title: "发货要求",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    dataIndex: "sendAsk",
+    key: "sendAsk",
+    width: 250,
+    ellipsis: true,
   },
   {
     title: "财务审批意见",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    dataIndex: "finaRemark",
+    key: "finaRemark",
+    width: 250,
+    ellipsis: true,
   },
   {
     title: "预定交货时间",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    dataIndex: "preSendDate",
+    key: "preSendDate",
+    width: 120,
   },
   {
     title: "实际发货时间",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    dataIndex: "actuSendDate",
+    key: "actuSendDate",
+    width: 120,
   },
   {
     title: "备注",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    dataIndex: "remark",
+    key: "remark",
+    width: 250,
+    ellipsis: true,
   },
   {
     title: "状态",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    dataIndex: "status",
+    key: "status",
+    width: 100,
+    customFilterDropdown: true,
   },
   {
     title: "操作",
-    dataIndex: "result",
-    key: "result",
+    dataIndex: "operate",
+    key: "operate",
+    width:240
   },
 ];
 // 表体数据
@@ -177,19 +171,79 @@ const tableChangeFn = (pagination: any) => {
   getListFn();
 };
 
+const filterList: any = [
+  {
+    value: "DRAFT",
+    text: "待付款",
+    checked: true,
+  },
+  {
+    value: "REVIEWING",
+    text: "审核中",
+    checked: true,
+  },
+  {
+    value: "WAITOUT",
+    text: "待出库",
+    checked: true,
+  },
+  {
+    value: "WAITINSTALL",
+    text: "待安装",
+    checked: true,
+  },
+  {
+    value: "END",
+    text: "已完成",
+    checked: true,
+  },
+];
+
+let selectFilter: any = ref([]);
+let filterChecked = ref<boolean>(false);
+const filterSubmitFn = (list: any, confirm: any) => {
+  // console.log(list, 'list');
+  // 判断图标带不带颜色
+  const arr = list.filter((x: any) => x.checked);
+  arr.length === filterList.length && (filterChecked.value = false);
+  arr.length !== filterList.length && (filterChecked.value = true);
+  // 关闭弹窗
+  confirm();
+  // 处理数据  如果全选传null  确定 0 取消 1
+  arr.length === 2 && (selectFilter.value = null);
+  arr.length === 1 && (selectFilter.value = Number(arr.map((x: any) => x.value).join()));
+  getListFn();
+};
+
 // 获取列表数据
 const getListFn = async (params?: any) => {
   console.log("列表组件内部传入数据==>", params);
   // 在这里处理数据
   spinning.value = true;
   spinning.value = false;
+  tableList.value = [{
+    id:1,
+    projectName:'第一个项目',
+    installType:'CSCS',
+    tranType:'CSCSC',
+    sendAsk:'CSCSCS',
+    finaRemark:'CSCSC',
+    preSendDate:"2022-08-16",
+    actuSendDate:"2022-08-16",
+    remark:'ACSCASC',
+    status:'DRAFT'
+  }]
 };
-const onMounted = () => {
+onMounted(() => {
   getListFn();
-};
+});
 defineExpose({ getListFn });
 </script>
 
 <style scoped lang="less">
 @import "@/assets/styles/base/antdTable.less";
+
+.filter-result {
+  stroke: #1569ac;
+}
 </style>

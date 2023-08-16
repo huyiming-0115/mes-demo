@@ -16,37 +16,13 @@
         :row-class-name="(_record:any, index:number): any => (index % 2 === 1 ? 'table-striped' : null)"
         bordered
       >
-        <!-- 图标内容插槽 -->
-        <!--         <template
-            #customFilterDropdown="{
-                          confirm,
-                          column,
-                      }"
-          >
-            <div v-if="column.title === '资源类型'">
-              <Filter :list="filterList" @submit="(list) => filterSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
-            </div>
-          </template> -->
-        <!-- 图标插槽 -->
-        <!--         <template #customFilterIcon="{ column }">
-            <div v-if="column.title === '资源类型'" style="width: 16px; height: 16px;">
-              <q-svg width="16" height="16" name="filter" :class="filterChecked ? 'filter-result' : ''" />
-            </div>
-          </template> -->
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index }">
-          <!-- 序号 -->
-          <div v-if="column.title === '序号'">
-            <div>{{ index + 1 }}</div>
-          </div>
           <!-- 操作 -->
-          <div v-if="column.title === '操作'" class="flex-start">
-            <a-popconfirm title="确定删除这条数据吗?" @confirm="">
-              <template #default>
-                <div class="btn-link">删除</div>
-              </template>
-            </a-popconfirm>
-            <div class="btn-link ml24" @click="">修改</div>
+          <div v-if="column.key === 'operate'" class="flex-start">
+            <div class="btn-link" @click="">操作历史</div>
+            <div class="btn-link ml24" @click="">历史趋势</div>
+            <div class="btn-link ml24" @click="">定价</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -65,58 +41,43 @@ let spinning = ref<boolean>(false);
 const columns = [
   {
     title: "序号",
-    dataIndex: "name",
+    dataIndex: "number",
     key: "number",
     customRender: ({ index }: any) => `${index + 1}`,
-    width: "70px",
-    height: "20px",
+    width: 60,
   },
   {
-    title: "物料编号",
+    title: "产品编号",
+    dataIndex: "no",
+    key: "no",
+    ellipsis: true,
+  },
+  {
+    title: "产品名称",
     dataIndex: "name",
     key: "name",
-    width: "300px",
-    height: "20px",
+    ellipsis: true,
   },
   {
-    title: "物料名称",
-    dataIndex: "title",
-    key: "title",
-    width: "200px",
-    height: "20px",
-  },
-  {
-    title: "规格",
-    dataIndex: "result",
-    key: "result",
-    width: "150px",
-    height: "20px",
-  },
-  {
-    title: "型号",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    title: "规格型号",
+    dataIndex: "model",
+    key: "model",
   },
   {
     title: "单位",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    dataIndex: "unit",
+    key: "unit",
   },
   {
     title: "价格",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    dataIndex: "price",
+    key: "price",
   },
   {
     title: "操作",
-    dataIndex: "result",
-    key: "result",
+    dataIndex: "operate",
+    key: "operate",
+    width: 240,
   },
 ];
 // 表体数据
@@ -162,10 +123,18 @@ const getListFn = async (params?: any) => {
   // 在这里处理数据
   spinning.value = true;
   spinning.value = false;
+  tableList.value = [{
+    id:1,
+    no:'12',
+    name:'物料1号',
+    model:'四时速',
+    unit:'个',
+    price:'66666',
+  }]
 };
-const onMounted = () => {
+onMounted(() => {
   getListFn();
-};
+});
 defineExpose({ getListFn });
 </script>
 

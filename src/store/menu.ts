@@ -315,7 +315,7 @@ export const useMenuStore = defineStore("menu", {
                             path: '/work/depot/stock',
                             name: '库存管理',
                             parentName: '仓库管理',
-                            route: '/work/check/stock',
+                            route: '/work/depot/stock',
                             hidden: true,
                             id: '7-4',
                         },

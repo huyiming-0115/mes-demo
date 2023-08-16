@@ -17,36 +17,28 @@
         bordered
       >
         <!-- 图标内容插槽 -->
-        <!--         <template
+                <template
             #customFilterDropdown="{
                           confirm,
                           column,
                       }"
           >
-            <div v-if="column.title === '资源类型'">
+            <div v-if="column.key === 'status'">
               <Filter :list="filterList" @submit="(list) => filterSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
             </div>
-          </template> -->
+          </template>
         <!-- 图标插槽 -->
-        <!--         <template #customFilterIcon="{ column }">
-            <div v-if="column.title === '资源类型'" style="width: 16px; height: 16px;">
+                <template #customFilterIcon="{ column }">
+            <div v-if="column.key === 'status'" style="width: 16px; height: 16px;">
               <q-svg width="16" height="16" name="filter" :class="filterChecked ? 'filter-result' : ''" />
             </div>
-          </template> -->
+          </template>
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index }">
-          <!-- 序号 -->
-          <div v-if="column.title === '序号'">
-            <div>{{ index + 1 }}</div>
-          </div>
           <!-- 操作 -->
-          <div v-if="column.title === '操作'" class="flex-start">
-            <a-popconfirm title="确定删除这条数据吗?" @confirm="">
-              <template #default>
-                <div class="btn-link">删除</div>
-              </template>
-            </a-popconfirm>
-            <div class="btn-link ml24" @click="">修改</div>
+          <div v-if="column.key === 'operate'" class="flex-start">
+            <div class="btn-link" @click="">查看详情</div>
+            <div class="btn-link ml24" @click="">入库</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -65,51 +57,47 @@ let spinning = ref<boolean>(false);
 const columns = [
   {
     title: "序号",
-    dataIndex: "name",
+    dataIndex: "number",
     key: "number",
     customRender: ({ index }: any) => `${index + 1}`,
-    width: "70px",
-    height: "20px",
+    width: 60,
   },
   {
     title: "项目名称",
-    dataIndex: "name",
-    key: "name",
-    width: "300px",
-    height: "20px",
+    dataIndex: "projectName",
+    key: "projectName",
+    ellipsis: true,
   },
   {
     title: "入库时间",
-    dataIndex: "title",
-    key: "title",
-    width: "200px",
-    height: "20px",
+    dataIndex: "inDate",
+    key: "inDate",
+    ellipsis: true,
   },
   {
     title: "出库时间",
-    dataIndex: "result",
-    key: "result",
-    width: "150px",
-    height: "20px",
+    dataIndex: "outDate",
+    key: "outDate",
+    ellipsis: true,
   },
   {
     title: "箱子数量",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    dataIndex: "num",
+    key: "num",
+    ellipsis: true,
   },
   {
     title: "状态",
-    dataIndex: "person",
-    key: "person",
-    width: "250px",
-    height: "20px",
+    dataIndex: "status",
+    key: "status",
+    width: 100,
+    customFilterDropdown: true,
   },
   {
     title: "操作",
-    dataIndex: "result",
-    key: "result",
+    dataIndex: "operate",
+    key: "operate",
+    width:180,
   },
 ];
 // 表体数据
@@ -149,19 +137,70 @@ const tableChangeFn = (pagination: any) => {
   getListFn();
 };
 
+const filterList: any = [
+  {
+    value: 'WAITIN',
+    text: "待入库",
+    checked: true,
+  },
+  {
+    value: 'ENDIN',
+    text: "已入库",
+    checked: true,
+  },
+  {
+    value: 'WAITOUT',
+    text: "待出库",
+    checked: true,
+  },
+  {
+    value: 'ENDOUT',
+    text: "已出库",
+    checked: true,
+  },
+];
+
+let selectFilter: any = ref([]);
+let filterChecked = ref<boolean>(false);
+const filterSubmitFn = (list: any, confirm: any) => {
+  // console.log(list, 'list');
+  // 判断图标带不带颜色
+  const arr = list.filter((x: any) => x.checked);
+  arr.length === filterList.length && (filterChecked.value = false);
+  arr.length !== filterList.length && (filterChecked.value = true);
+  // 关闭弹窗
+  confirm();
+  // 处理数据  如果全选传null  确定 0 取消 1
+  arr.length === 2 && (selectFilter.value = null);
+  arr.length === 1 && (selectFilter.value = Number(arr.map((x: any) => x.value).join()));
+  getListFn();
+};
+
 // 获取列表数据
 const getListFn = async (params?: any) => {
   console.log("列表组件内部传入数据==>", params);
   // 在这里处理数据
   spinning.value = true;
   spinning.value = false;
+  tableList.value = [{
+    id:1,
+    projectName:'第一个项目',
+    inDate:'2023-08-16',
+    outDate:'2023-08-16',
+    num:666,
+    status:'WAITIN'
+  }]
 };
-const onMounted = () => {
+onMounted ( () => {
   getListFn();
-};
+});
 defineExpose({ getListFn });
 </script>
 
 <style scoped lang="less">
 @import "@/assets/styles/base/antdTable.less";
+
+.filter-result {
+  stroke: #1569ac;
+}
 </style>
