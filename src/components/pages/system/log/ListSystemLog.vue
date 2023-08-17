@@ -85,7 +85,7 @@ import { transFormListFn, exportExcelFn, handleTableFn } from "@/utils/tools.ts"
 //加载中标识
 let spinning = ref<boolean>(false);
 let dialogShow = ref(false);
-let sequence = ref(false)
+let sequence = ref(false);
 // 表头
 const columns = [
   {
@@ -99,25 +99,21 @@ const columns = [
     title: "操作用户",
     dataIndex: "operName",
     key: "operName",
-    width: 120,
   },
   {
     title: "操作内容",
     dataIndex: "title",
     key: "title",
-    width: 300,
   },
   {
     title: "IP地址",
     dataIndex: "operIp",
     key: "operIp",
-    width: 150,
   },
   {
     title: "操作时间",
     dataIndex: "operTime",
     key: "operTime",
-    width: 200,
     customFilterDropdown: true,
   },
   {

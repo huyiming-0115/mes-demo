@@ -71,34 +71,35 @@ const columns = [
     title: "项目名称",
     dataIndex: "projectName",
     key: "projectName",
+    width: 160,
     ellipsis: true,
   },
   {
     title: "安装方式",
     dataIndex: "installType",
     key: "installType",
-    width: 150,
+    width: 120,
     customFilterDropdown: true,
   },
   {
     title: "运输方式",
     dataIndex: "tranType",
     key: "tranType",
-    width: 150,
+    width: 120,
     customFilterDropdown: true,
   },
   {
     title: "发货要求",
     dataIndex: "sendAsk",
     key: "sendAsk",
-    width: 250,
+    width: 140,
     ellipsis: true,
   },
   {
     title: "财务审批意见",
     dataIndex: "finaRemark",
     key: "finaRemark",
-    width: 250,
+    width: 140,
     ellipsis: true,
   },
   {
@@ -124,14 +125,14 @@ const columns = [
     title: "状态",
     dataIndex: "status",
     key: "status",
-    width: 100,
+    width: 120,
     customFilterDropdown: true,
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width:240
+    width:280
   },
 ];
 // 表体数据

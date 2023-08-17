@@ -36,11 +36,11 @@
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index }">
           <div v-if="column.key === 'status'" style="width: 84px; height: 26px;">
-            <q-svg width="84" height="26" name="draft-sell"/>
+            <q-svg width="84" height="26" name="draft-sell" />
           </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">查看详情</div>
+            <div class="btn-link" @click.stop="queryFn(record)">查看详情</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -50,6 +50,10 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialog">
+    <DetailSellSale @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row"></DetailSellSale>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -68,7 +72,7 @@ const columns = [
     title: "项目名称",
     dataIndex: "projectName",
     key: "projectName",
-    width: 130,
+    width: 200,
     ellipsis: true,
   },
   {
@@ -96,7 +100,7 @@ const columns = [
     title: "交货日期",
     dataIndex: "sendDate",
     key: "sendDate",
-    width: 150,
+    width: 180,
     ellipsis: true,
   },
   {
@@ -109,16 +113,30 @@ const columns = [
     title: "状态",
     dataIndex: "status",
     key: "status",
-    width: 100,
+    width: 120,
     customFilterDropdown: true,
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 160,
+    width: 280,
   },
 ];
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "查看详情",
+  flag: "detail",
+  row: {},
+  width: 1200,
+});
+
+const queryFn = (item: any) => {
+  dialog.show = true;
+};
+
 // 表体数据
 const tableList: any = ref([]);
 const pagination = getPagination();

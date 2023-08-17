@@ -16,28 +16,11 @@
         :row-class-name="(_record:any, index:number): any => (index % 2 === 1 ? 'table-striped' : null)"
         bordered
       >
-        <!-- 图标内容插槽 -->
-        <!--         <template
-            #customFilterDropdown="{
-                          confirm,
-                          column,
-                      }"
-          >
-            <div v-if="column.title === '资源类型'">
-              <Filter :list="filterList" @submit="(list) => filterSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
-            </div>
-          </template> -->
-        <!-- 图标插槽 -->
-        <!--         <template #customFilterIcon="{ column }">
-            <div v-if="column.title === '资源类型'" style="width: 16px; height: 16px;">
-              <q-svg width="16" height="16" name="filter" :class="filterChecked ? 'filter-result' : ''" />
-            </div>
-          </template> -->
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index }">
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">修改</div>
+            <div class="btn-link" @click.stop="editFn(record)">修改</div>
             <a-popconfirm title="确定删除这条数据吗?" @confirm="">
               <template #default>
                 <div class="btn-link ml24">删除</div>
@@ -52,6 +35,13 @@
       </a-table>
     </a-spin>
   </div>
+
+
+  <MDialog :dialog="dialog">
+    <DetailSystemResource @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row"></DetailSystemResource>
+  </MDialog>
+
+
 </template>
 
 <script setup lang="ts">
@@ -64,48 +54,57 @@ const columns = [
     dataIndex: "name",
     key: "number",
     customRender: ({ index }: any) => `${index + 1}`,
-    width: 70,
+    width: 60,
   },
   {
     title: "资源名称",
     dataIndex: "name",
     key: "name",
-    width: 180,
     ellipsis: true,
   },
   {
     title: "资源标题",
     dataIndex: "title",
     key: "title",
-    width: 150,
     ellipsis: true,
   },
   {
     title: "资源图标",
     dataIndex: "icon",
     key: "icon",
-    width: 120,
   },
   {
     title: "资源路由",
     dataIndex: "route",
     key: "route",
-    width: 160,
     ellipsis: true,
   },
   {
     title: "资源说明",
     dataIndex: "desc",
     key: "desc",
-    width: 180,
     ellipsis: true,
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
+    width: 280,
   },
 ];
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "修改资源",
+  flag: "edit",
+  row: {},
+  width: 900,
+});
+
+const editFn = (item: any) => {
+  dialog.show = true;
+  dialog.row = item;
+};
 // 表体数据
 const tableList: any = ref([]);
 const pagination = getPagination();

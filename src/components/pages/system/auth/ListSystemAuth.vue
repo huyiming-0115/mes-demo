@@ -22,9 +22,9 @@
             <div>{{ index + 1 }}</div>
           </div>
           <!-- 操作 -->
-          <div v-if="column.key === 'operate'" class="flex-start">
+        <!--   <div v-if="column.key === 'operate'" class="flex-start">
             <div class="btn-link" @click.stop="queryFn(record)">查看详情</div>
-          </div>
+          </div> -->
         </template>
         <!-- 空表格时候的插槽 -->
         <template #emptyText>
@@ -75,12 +75,12 @@ const columns = [
     key: "person",
     ellipsis: true,
   },
-  {
+/*   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
     width: 280,
-  },
+  }, */
 ];
 
 // 弹窗所有变量

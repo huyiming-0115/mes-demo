@@ -76,7 +76,7 @@ let buttonText: string = "立 即 登 录";
 const login = async () => {
   if (checkInfo()) {
     console.log("当前角色可以登录");
-    router.push({ path: "/work/visitor" });
+    router.push({ path: "/work/home" });
     localStorage.setItem("auth", "true");
   }
 };

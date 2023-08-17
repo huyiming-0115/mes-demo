@@ -40,9 +40,13 @@
           </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">查看详情</div>
-            <div class="btn-link ml24" @click="">修改</div>
-            <div class="btn-link ml24" @click="">停用</div>
+            <div class="btn-link" @click.stop="queryFn(record)">查看详情</div>
+            <div class="btn-link ml24" @click.stop="editFn(record)">修改</div>
+            <a-popconfirm title="确定停用这条数据吗?" @confirm="">
+              <template #default>
+                <div class="btn-link ml24">停用</div>
+              </template>
+            </a-popconfirm>
             <a-popconfirm title="确定删除这条数据吗?" @confirm="">
               <template #default>
                 <div class="btn-link ml24">删除</div>
@@ -57,6 +61,10 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialog">
+    <BaseSellDress @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row"></BaseSellDress>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -81,7 +89,7 @@ const columns = [
     title: "状态",
     dataIndex: "status",
     key: "status",
-    width: 100,
+    width: 120,
     customFilterDropdown: true,
   },
   {
@@ -91,6 +99,28 @@ const columns = [
     width: 280,
   },
 ];
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "查看详情",
+  flag: "detail",
+  row: {},
+  width: 700,
+});
+
+const queryFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
+
+const editFn = (item: any) => {
+  dialog.show = true;
+  dialog.title = "修改装潢设置";
+  dialog.flag = "edit";
+  dialog.row = item;
+};
+
 // 表体数据
 const tableList: any = ref([]);
 const pagination = getPagination();

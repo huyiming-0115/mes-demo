@@ -38,7 +38,7 @@
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
             <div class="btn-link" @click="">项目信息</div>
-            <div class="btn-link ml24" @click="">审核处理</div>
+            <div class="btn-link ml24" @click.stop="checkFn(record)">审核处理</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -48,6 +48,9 @@
       </a-table>
     </a-spin>
   </div>
+  <MDialog :dialog="dialog">
+    <CheckSellPlan @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row"></CheckSellPlan>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -66,46 +69,58 @@ const columns = [
     title: "项目名称",
     dataIndex: "projectName",
     key: "projectName",
+    width: 300,
     ellipsis: true,
   },
   {
     title: "排产日期",
     dataIndex: "scheDate",
     key: "scheDate",
-    width: 150,
   },
   {
     title: "发货日期",
     dataIndex: "sendDate",
     key: "sendDate",
-    width: 150,
   },
   {
     title: "安装方式",
     dataIndex: "installType",
     key: "installType",
-    width: 150,
   },
   {
     title: "运输方式",
     dataIndex: "tranType",
     key: "tranType",
-    width: 150,
   },
   {
     title: "状态",
     dataIndex: "status",
     key: "status",
-    width: 100,
+    width: 120,
     customFilterDropdown: true,
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 180,
+    width: 280,
   },
 ];
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "审核处理",
+  flag: "add",
+  row: {},
+  width: 620,
+});
+
+const checkFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
+
 // 表体数据
 const tableList: any = ref([]);
 const pagination = getPagination();

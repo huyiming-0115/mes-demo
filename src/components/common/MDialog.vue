@@ -21,8 +21,8 @@ defineProps<{
     title: string;
     show: boolean;
     flag: string;
-    row: string;
-    width:string
+    row: any;
+    width:any
   };
 }>();
 </script>

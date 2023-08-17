@@ -20,9 +20,9 @@
         <template #bodyCell="{ record, column, index }">
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">操作历史</div>
-            <div class="btn-link ml24" @click="">历史趋势</div>
-            <div class="btn-link ml24" @click="">定价</div>
+            <div class="btn-link" @click.stop="operateFn(record)">操作历史</div>
+            <div class="btn-link ml24" @click.stop="historyFn(record)">历史趋势</div>
+            <div class="btn-link ml24" @click.stop="priceFn(record)">定价</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -32,6 +32,30 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialogAll.get('history')!">
+    <HistoryFinancePrice
+      @close="dialogAll.get('history')!.show = false"
+      :pid="dialogAll.get('history')!.flag"
+      :row="dialogAll.get('history')!.row"
+    ></HistoryFinancePrice>
+  </MDialog>
+
+  <MDialog :dialog="dialogAll.get('operation')!">
+    <OperationFinancePrice
+      @close="dialogAll.get('operation')!.show = false"
+      :pid="dialogAll.get('operation')!.flag"
+      :row="dialogAll.get('operation')!.row"
+    ></OperationFinancePrice>
+  </MDialog>
+
+  <MDialog :dialog="dialogAll.get('price')!">
+    <SetPriceFinancePrice
+      @close="dialogAll.get('price')!.show = false"
+      :pid="dialogAll.get('price')!.flag"
+      :row="dialogAll.get('price')!.row"
+    ></SetPriceFinancePrice>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -62,24 +86,76 @@ const columns = [
     title: "规格型号",
     dataIndex: "model",
     key: "model",
+    ellipsis: true,
   },
   {
     title: "单位",
     dataIndex: "unit",
     key: "unit",
+    ellipsis: true,
   },
   {
     title: "价格",
     dataIndex: "price",
     key: "price",
+    ellipsis: true,
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 240,
+    width: 280,
   },
 ];
+
+let dialogAll = reactive(
+  new Map([
+    [
+      "history",
+      {
+        show: false,
+        title: "历史趋势",
+        flag: "history",
+        row: {},
+        width: 900,
+      },
+    ],
+    [
+      "operation",
+      {
+        show: false,
+        title: "操作记录",
+        flag: "operation",
+        row: {},
+        width: 1200,
+      },
+    ],
+    [
+      "price",
+      {
+        show: false,
+        title: "定价",
+        flag: "price",
+        row: {},
+        width: 620,
+      },
+    ],
+  ])
+);
+
+const operateFn = (item: any) => {
+  dialogAll.get("operation")!.show = true;
+  dialogAll.get("operation")!.row = item;
+};
+const historyFn = (item: any) => {
+  dialogAll.get("history")!.show = true;
+  dialogAll.get("history")!.row = item;
+};
+const priceFn = (item: any) => {
+  dialogAll.get("price")!.show = true;
+  dialogAll.get("price")!.row = item;
+};
+
 // 表体数据
 const tableList: any = ref([]);
 const pagination = getPagination();
@@ -123,14 +199,16 @@ const getListFn = async (params?: any) => {
   // 在这里处理数据
   spinning.value = true;
   spinning.value = false;
-  tableList.value = [{
-    id:1,
-    no:'12',
-    name:'物料1号',
-    model:'四时速',
-    unit:'个',
-    price:'66666',
-  }]
+  tableList.value = [
+    {
+      id: 1,
+      no: "12",
+      name: "物料1号",
+      model: "四时速",
+      unit: "个",
+      price: "66666",
+    },
+  ];
 };
 onMounted(() => {
   getListFn();

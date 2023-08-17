@@ -5,6 +5,11 @@ export const uploadHeader = {
         "Content-Type": "application/x-www-form-urlencoded",
     },
 }
+
+export const judgeNullRule: any = { pattern: /^[^\s]*$/, message: '禁止输入空格' }
+export const requiredRuleFn: any = (msg: string) => {
+    return { required: true, message: msg }
+}
 // 状态需要的属性
 const statusMap = new Map()
 // 起草

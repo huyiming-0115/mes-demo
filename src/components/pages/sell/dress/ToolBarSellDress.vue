@@ -5,10 +5,14 @@
         <ToolBarEx :selectOptions="selectOptions" :function-name="listFn"></ToolBarEx>
       </div>
       <div class="toolbar-right">
-        <AButton  type="primary" class="w100 h35 button-position" @click="addFn">新增装潢</AButton>
+        <AButton type="primary" class="w100 h35 button-position" @click="dialog.show = true">新增装潢</AButton>
       </div>
     </div>
   </div>
+
+  <MDialog :dialog="dialog">
+    <BaseSellDress @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag"></BaseSellDress>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -22,17 +26,11 @@ const listFn: FunctionType = inject("getListFn");
 // 弹窗所有变量
 let dialog: any = reactive({
   show: false,
-  addTitle: "新增装潢",
+  title: "新增装潢",
   flag: "add",
   row: {},
+  width:700
 });
-// 新增装潢
-const addFn = () => {
-  dialog.addTitle = "新增装潢";
-  dialog.flag = "add";
-  dialog.row = undefined;
-  dialog.show = true;
-};
 </script>
 
 <style scoped lang="less">

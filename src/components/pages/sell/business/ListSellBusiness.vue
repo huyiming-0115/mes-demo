@@ -47,16 +47,27 @@
           </div>
           <!-- 操作 -->
           <div v-if="column.title === '操作'" class="flex-start">
-            <div class="btn-link" @click="">项目详情</div>
-            <div class="btn-link ml24" @click="">修改</div>
-            <div class="btn-link ml24" @click="">电梯明细</div>
-            <div class="btn-link ml24" @click="">提交评审</div>
-            <div class="btn-link ml24" @click="">打印</div>
-            <a-popconfirm title="确定删除这条数据吗?" @confirm="">
-              <template #default>
-                <div class="btn-link ml24">删除</div>
-              </template>
-            </a-popconfirm>
+            <template v-if="record.status === 'DRAFT'">
+              <div class="btn-link" @click="">项目详情</div>
+              <div class="btn-link ml24" @click.stop="editProjectFn(record)">修改</div>
+              <div class="btn-link ml24" @click="">电梯明细</div>
+              <div class="btn-link ml24" @click="">提交评审</div>
+              <div class="btn-link ml24" @click="">打印</div>
+              <a-popconfirm title="确定删除这条数据吗?" @confirm="">
+                <template #default>
+                  <div class="btn-link ml24">删除</div>
+                </template>
+              </a-popconfirm>
+            </template>
+            <template v-else-if="record.status === 'DEAL'">
+              <div class="btn-link" @click="">项目详情</div>
+              <div class="btn-link ml24" @click="">排产评审</div>
+              <div class="btn-link ml24" @click="">打印</div>
+            </template>
+            <template v-else>
+              <div class="btn-link" @click="">项目详情</div>
+              <div class="btn-link ml24" @click="">打印</div>
+            </template>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -66,6 +77,10 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialogPro">
+    <ProjectSellBusiness @close="dialogPro.show = false" :dialog="dialogPro" :pid="dialogPro.flag" :row="dialogPro.row"></ProjectSellBusiness>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -84,7 +99,7 @@ const columns = [
     title: "项目名称",
     dataIndex: "projectName",
     key: "projectName",
-    width: 160,
+    width: 180,
     ellipsis: true,
   },
   {
@@ -112,7 +127,7 @@ const columns = [
     title: "销售类型",
     dataIndex: "sellType",
     key: "sellType",
-    width: 120,
+    width: 110,
     ellipsis: true,
     customFilterDropdown: true,
   },
@@ -120,7 +135,7 @@ const columns = [
     title: "交货日期",
     dataIndex: "sendDate",
     key: "sendDate",
-    width: 150,
+    width: 160,
     ellipsis: true,
   },
   {
@@ -133,7 +148,8 @@ const columns = [
     title: "状态",
     dataIndex: "status",
     key: "status",
-    width: 100,
+    width: 120,
+    ellipsis: true,
     customFilterDropdown: true,
   },
   {
@@ -143,6 +159,20 @@ const columns = [
     width: 440,
   },
 ];
+
+let dialogPro: any = reactive({
+  show: false,
+  title: "新增项目",
+  flag: "edit",
+  row: {},
+  width: 700,
+});
+
+const editProjectFn = (item: any) => {
+  dialogPro.show = true;
+  dialogPro.row = item;
+};
+
 // 表体数据
 const tableList: any = ref([]);
 const pagination = getPagination();
@@ -296,7 +326,7 @@ const getListFn = async (params?: any) => {
   spinning.value = false;
 
   let arr: any = [];
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 10; i++) {
     let obj = {
       id: i + 1,
       projectName: `第${i + 1}个项目`,
@@ -306,11 +336,38 @@ const getListFn = async (params?: any) => {
       sellType: "OEM",
       sendDate: "2023-08-15 14:58",
       remark: "胡一鸣备注",
-      status: "DRAFT",
+      status: getStatusEnum(i + 1),
     };
     arr.push(obj);
   }
   tableList.value = arr;
+};
+
+const getStatusEnum = (key: number) => {
+  switch (key) {
+    case 1:
+      return "DRAFT";
+    case 2:
+      return "DEAL";
+    case 3:
+      return "REVIEWING";
+    case 4:
+      return "SCHEDULEREVIEW";
+    case 5:
+      return "REVIEWFAIL";
+    case 6:
+      return "TECHNOLOGYREVIEW";
+    case 7:
+      return "PRODUCT";
+    case 8:
+      return "PRODUCTEND";
+    case 9:
+      return "INSTALL";
+    case 10:
+      return "END";
+    default:
+      break;
+  }
 };
 onMounted(() => {
   getListFn();

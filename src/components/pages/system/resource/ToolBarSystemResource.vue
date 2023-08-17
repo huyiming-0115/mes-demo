@@ -5,10 +5,14 @@
         <ToolBarEx :selectOptions="selectOptions" :function-name="listFn"></ToolBarEx>
       </div>
       <div class="toolbar-right">
-        <AButton type="primary" class="w100 h35 button-position" @click="addFn">新增资源</AButton>
+        <AButton type="primary" class="w100 h35 button-position" @click="dialog.show = true">新增资源</AButton>
       </div>
     </div>
   </div>
+
+  <MDialog :dialog="dialog">
+    <DetailSystemResource @close="dialog.show = false" :pid="dialog.flag"></DetailSystemResource>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -30,17 +34,10 @@ const listFn: FunctionType = inject("getListFn");
 // 弹窗所有变量
 let dialog: any = reactive({
   show: false,
-  addTitle: "新增资源",
+  title: "新增资源",
   flag: "add",
   row: {},
 });
-// 新增资源
-const addFn = () => {
-  dialog.addTitle = "新增资源";
-  dialog.flag = "add";
-  dialog.row = undefined;
-  dialog.show = true;
-};
 </script>
 
 <style scoped lang="less">
