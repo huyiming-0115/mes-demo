@@ -5,7 +5,7 @@
         <ToolBarEx :selectOptions="selectOptions" :function-name="listFn"></ToolBarEx>
       </div>
       <div class="toolbar-right">
-        <AButton type="primary" class="w100 h35 button-position" @click="">新增物料</AButton>
+        <AButton type="primary" class="w100 h35 button-position" @click="">新增产品</AButton>
         <AButton type="primary" class="w100 h35 mr24 button-position" @click="">导出</AButton>
         <AButton type="primary" class="w100 h35 mr24 button-position" @click="">导入</AButton>
         <AButton type="primary" class="w100 h35 mr24 button-position" @click="">下载模板</AButton>
