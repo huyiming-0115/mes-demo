@@ -104,7 +104,7 @@ import { MailOutlined, CalendarOutlined, AppstoreOutlined, SettingOutlined } fro
 import { useMenuStore } from "@/store/menu";
 // menu配置项
 const menuConfig: any = reactive({
-  theme: "dark", // dark | light
+  theme: "light", // dark | light
 });
 const store = useMenuStore();
 const collapsed = ref(false);
