@@ -18,12 +18,6 @@ import path from 'path';
 export default defineConfig({
   // 用于cdn静态部署，
   base: '/',
-  server: {
-    open: false,//启动项目后自动打开浏览器
-    port: 5120, //端口配置
-    hmr: true, //开启热加载
-    proxy: {},
-  },
   resolve: {
     alias: {
       // 把 @ 指向到 src 目录去
