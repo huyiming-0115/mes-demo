@@ -76,6 +76,7 @@ const columns = [
     title: "项目名称",
     dataIndex: "projectName",
     key: "projectName",
+    width:350,
     ellipsis: true,
   },
   {
@@ -89,13 +90,11 @@ const columns = [
     title: "排产日期",
     dataIndex: "scheDate",
     key: "scheDate",
-    width: 120,
   },
   {
     title: "发货日期",
     dataIndex: "sendDate",
     key: "sendDate",
-    width: 120,
   },
   {
     title: "状态",
@@ -108,7 +107,7 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 160,
+    width: 280,
   },
 ];
 // 表体数据

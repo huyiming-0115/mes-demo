@@ -48,7 +48,7 @@
                 <div class="btn-link">退回</div>
               </template>
             </a-popconfirm>
-            <a-popconfirm title="确定补购这条数据吗?" @confirm="">
+            <a-popconfirm title="确定补购这条数据吗?" @confirm.stop="addPurchaseFn(record)">
               <template #default>
                 <div class="btn-link ml24">补购</div>
               </template>
@@ -68,11 +68,28 @@
       </a-table>
     </a-spin>
   </div>
+  <MDialog :dialog="dialog">
+    <CheckPurchaseOrder @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row" />
+  </MDialog>
 </template>
 
 <script setup lang="ts">
 //加载中标识
 let spinning = ref<boolean>(false);
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "补购",
+  flag: "add",
+  row: {},
+  width: 620,
+});
+
+const addPurchaseFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
 // 表头
 const columns = [
   {
@@ -106,14 +123,14 @@ const columns = [
     title: "预定完成时间",
     dataIndex: "planTime",
     key: "planTime",
-    width: 130,
+    width: 160,
     ellipsis: true,
   },
   {
     title: "实际完成时间",
     dataIndex: "endTime",
     key: "endTime",
-    width: 130,
+    width: 160,
     ellipsis: true,
   },
   {
@@ -127,7 +144,7 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width:250
+    width: 280,
   },
 ];
 // 表体数据
@@ -251,15 +268,17 @@ const getListFn = async (params?: any) => {
   // 在这里处理数据
   spinning.value = true;
   spinning.value = false;
-  tableList.value = [{
-    id:1,
-    projectName:'第一个项目',
-    purchaseType:'PROJECT',
-    dealTime:'2023-08-15',
-    planTime:'2023-08-15',
-    endTime:'2023-08-15',
-    status:'BUY'
-  }]
+  tableList.value = [
+    {
+      id: 1,
+      projectName: "第一个项目",
+      purchaseType: "PROJECT",
+      dealTime: "2023-08-15",
+      planTime: "2023-08-15",
+      endTime: "2023-08-15",
+      status: "BUY",
+    },
+  ];
 };
 onMounted(() => {
   getListFn();

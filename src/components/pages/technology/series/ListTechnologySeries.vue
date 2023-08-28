@@ -21,7 +21,7 @@
           <div v-if="column.key === 'status'">
             <Filter :list="filterList" @submit="(list) => filterSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
           </div>
-        </template> 
+        </template>
         <!-- 图标插槽 -->
         <template #customFilterIcon="{ column }">
           <div v-if="column.key === 'status'" style="width: 16px; height: 16px;">
@@ -30,6 +30,21 @@
         </template>
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index }">
+          <div v-if="column.key === 'civil'">
+            <div class="btn-link" @click="">编辑</div>
+          </div>
+          <div v-if="column.key === 'param'">
+            <div class="btn-link" @click="">编辑</div>
+          </div>
+          <div v-if="column.key === 'option'">
+            <div class="btn-link" @click="">编辑</div>
+          </div>
+          <div v-if="column.key === 'bom'">
+            <div class="btn-link" @click="">编辑</div>
+          </div>
+          <div v-if="column.key === 'product'">
+            <div class="btn-link" @click="">编辑</div>
+          </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
             <div class="btn-link" @click="">查看详情</div>
@@ -91,32 +106,32 @@ const columns = [
   },
   {
     title: "土建预制",
-    dataIndex: "result",
-    key: "result",
+    dataIndex: "civil",
+    key: "civil",
     width: 90,
   },
   {
     title: "参数表预制",
-    dataIndex: "person",
-    key: "person",
+    dataIndex: "param",
+    key: "param",
     width: 110,
   },
   {
     title: "配置表预制",
-    dataIndex: "person",
-    key: "person",
+    dataIndex: "option",
+    key: "option",
     width: 110,
   },
   {
     title: "BOM清单表预制",
-    dataIndex: "person",
-    key: "person",
+    dataIndex: "bom",
+    key: "bom",
     width: 140,
   },
   {
     title: "生产预设",
-    dataIndex: "person",
-    key: "person",
+    dataIndex: "product",
+    key: "product",
     width: 90,
   },
   {

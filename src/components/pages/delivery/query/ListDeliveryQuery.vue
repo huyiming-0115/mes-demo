@@ -92,14 +92,12 @@ const columns = [
     title: "发货要求",
     dataIndex: "sendAsk",
     key: "sendAsk",
-    width: 140,
     ellipsis: true,
   },
   {
     title: "财务审批意见",
     dataIndex: "finaRemark",
     key: "finaRemark",
-    width: 140,
     ellipsis: true,
   },
   {
@@ -118,7 +116,6 @@ const columns = [
     title: "备注",
     dataIndex: "remark",
     key: "remark",
-    width: 250,
     ellipsis: true,
   },
   {

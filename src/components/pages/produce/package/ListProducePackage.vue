@@ -76,7 +76,6 @@ const columns = [
     title: "箱子数量",
     dataIndex: "boxNumber",
     key: "boxNumber",
-    width: 120,
   },
   {
     title: "状态",
@@ -89,7 +88,7 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 190,
+    width: 280,
   },
 ];
 // 表体数据

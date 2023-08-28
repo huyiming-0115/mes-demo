@@ -37,7 +37,7 @@
         <template #bodyCell="{ record, column, index }">
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">项目信息</div>
+            <div class="btn-link" @click.stop="showProjectInfoFn(record)">项目信息</div>
             <div class="btn-link ml24" @click.stop="checkFn(record)">审核处理</div>
           </div>
         </template>
@@ -50,6 +50,9 @@
   </div>
   <MDialog :dialog="dialog">
     <CheckSellPlan @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row"></CheckSellPlan>
+  </MDialog>
+  <MDialog :dialog="dialogProject">
+    <ProjectInfoCommon @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row" />
   </MDialog>
 </template>
 
@@ -115,6 +118,19 @@ let dialog: any = reactive({
   row: {},
   width: 620,
 });
+
+let dialogProject: any = reactive({
+  show: false,
+  title: "项目信息",
+  flag: "add",
+  row: {},
+  width: 1200,
+});
+
+const showProjectInfoFn = (item: any) => {
+  dialogProject.row = item;
+  dialogProject.show = true;
+};
 
 const checkFn = (item: any) => {
   dialog.row = item;

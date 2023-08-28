@@ -80,19 +80,18 @@ const columns = [
     title: "项目名称",
     dataIndex: "projectName",
     key: "projectName",
+    width:350,
     ellipsis: true,
   },
   {
     title: "工序任务",
     dataIndex: "task",
     key: "task",
-    width: 120,
   },
   {
     title: "指派工时",
     dataIndex: "pointTime",
     key: "pointTime",
-    width: 120,
   },
   {
     title: "状态",
@@ -200,13 +199,15 @@ const getListFn = async (params?: any) => {
   // 在这里处理数据
   spinning.value = true;
   spinning.value = false;
-  tableList.value = [{
-    id:1,
-    projectName:'第一个项目',
-    task:'剪板',
-    pointTime:'6',
-    status:'PRODUCT'
-  }]
+  tableList.value = [
+    {
+      id: 1,
+      projectName: "第一个项目",
+      task: "剪板",
+      pointTime: "6",
+      status: "PRODUCT",
+    },
+  ];
 };
 onMounted(() => {
   getListFn();

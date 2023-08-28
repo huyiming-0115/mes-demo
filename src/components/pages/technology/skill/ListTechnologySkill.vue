@@ -37,14 +37,14 @@
         <template #bodyCell="{ record, column, index }">
           <!-- 生产指令表 -->
           <div v-if="column.key === 'bom'" class="flex-start">
-            <div class="btn-link" @click="">配置BOM清单</div>
-            <div class="btn-link ml24" @click="">上传生产附图</div>
+            <div class="btn-link" @click.stop="setBomFn(record)">配置BOM清单</div>
+            <div class="btn-link ml24" @click.stop="uploadAppend(record)">上传生产附图</div>
           </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">项目详情</div>
+            <div class="btn-link" @click.stop="showProjectInfoFn(record)">项目详情</div>
             <div class="btn-link ml24" @click="">查看原因</div>
-            <a-popconfirm title="确定提交该条数据进行审核?" @confirm="">
+            <a-popconfirm title="确定提交该条数据进行审核?" @confirm.stop="checkFn(record)">
               <template #default>
                 <div class="btn-link ml24">提交审核</div>
               </template>
@@ -58,11 +58,71 @@
       </a-table>
     </a-spin>
   </div>
+  <MDialog :dialog="dialog">
+    <CheckTechnology @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row" />
+  </MDialog>
+  <MDialog :dialog="dialogProject">
+    <ProjectInfoCommon @close="dialogProject.show = false" :dialog="dialogProject" :pid="dialogProject.flag" :row="dialogProject.row" />
+  </MDialog>
+  <MDialog :dialog="dialogBom">
+    <SetBomList @close="dialogBom.show = false" :dialogBom="dialog" :pid="dialogBom.flag" :row="dialogBom.row" />
+  </MDialog>
+  <MDialog :dialog="dialogAppend">
+    <UploadAppend @close="dialogAppend.show = false" :dialog="dialogAppend" :pid="dialogAppend.flag" :row="dialogAppend.row" />
+  </MDialog>
 </template>
 
 <script setup lang="ts">
 //加载中标识
 let spinning = ref<boolean>(false);
+let dialog: any = reactive({
+  show: false,
+  title: "审核处理",
+  flag: "add",
+  row: {},
+  width: 620,
+});
+let dialogProject: any = reactive({
+  show: false,
+  title: "项目信息",
+  flag: "add",
+  row: {},
+  width: 1200,
+});
+let dialogBom: any = reactive({
+  show: false,
+  title: "配置BOM清单",
+  flag: "add",
+  row: {},
+  width: 1200,
+});
+let dialogAppend: any = reactive({
+  show: false,
+  title: "上传生产附图",
+  flag: "add",
+  row: {},
+  width: 620,
+});
+
+const setBomFn = (item: any) => {
+  dialogBom.row = item;
+  dialogBom.show = true;
+};
+
+const uploadAppend = (item: any) => {
+  dialogAppend.row = item;
+  dialogAppend.show = true;
+};
+
+const showProjectInfoFn = (item: any) => {
+  dialogProject.row = item;
+  dialogProject.show = true;
+};
+
+const checkFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
 // 表头
 const columns = [
   {

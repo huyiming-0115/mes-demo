@@ -37,7 +37,7 @@
         <template #bodyCell="{ record, column, index }">
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">单据明细</div>
+            <div class="btn-link" @click.stop="detailInfoFn(record)">单据明细</div>
             <div class="btn-link ml24" @click="">出库</div>
           </div>
         </template>
@@ -48,11 +48,27 @@
       </a-table>
     </a-spin>
   </div>
+  <MDialog :dialog="dialog">
+    <OutInfo :pid="dialog.flag" :row="dialog.row" @close="dialog.show = false" />
+  </MDialog>
 </template>
 
 <script setup lang="ts">
 //加载中标识
 let spinning = ref<boolean>(false);
+
+let dialog: any = reactive({
+  show: false,
+  title: "单据明细",
+  flag: "add", 
+  row: {},
+  width: 1200,
+});
+
+const detailInfoFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
 // 表头
 const columns = [
   {
@@ -72,39 +88,36 @@ const columns = [
     title: "项目名称",
     dataIndex: "projectName",
     key: "projectName",
-    width: 180,
+    width: 260,
     ellipsis: true,
   },
   {
     title: "申请日期",
     dataIndex: "askDate",
     key: "askDate",
-    width: 120,
   },
   {
     title: "出库日期",
     dataIndex: "outDate",
     key: "outDate",
-    width: 120,
   },
   {
     title: "领用人",
     dataIndex: "person",
     key: "person",
-    width: 120,
   },
   {
     title: "状态",
     dataIndex: "status",
     key: "status",
-    width: 100,
+    width: 120,
     customFilterDropdown: true,
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 180,
+    width: 280,
   },
 ];
 // 表体数据
@@ -179,15 +192,17 @@ const getListFn = async (params?: any) => {
   // 在这里处理数据
   spinning.value = true;
   spinning.value = false;
-  tableList.value = [{
-    id:1,
-    orderNo:'20230816',
-    projectName:'第一个项目',
-    askDate:'2023-08-16',
-    outDate:'2023-08-16',
-    person:'胡一鸣',
-    status:'END'
-  }]
+  tableList.value = [
+    {
+      id: 1,
+      orderNo: "20230816",
+      projectName: "第一个项目",
+      askDate: "2023-08-16",
+      outDate: "2023-08-16",
+      person: "胡一鸣",
+      status: "END",
+    },
+  ];
 };
 onMounted(() => {
   getListFn();

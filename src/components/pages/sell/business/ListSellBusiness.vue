@@ -50,7 +50,7 @@
             <template v-if="record.status === 'DRAFT'">
               <div class="btn-link" @click="">项目详情</div>
               <div class="btn-link ml24" @click.stop="editProjectFn(record)">修改</div>
-              <div class="btn-link ml24" @click="">电梯明细</div>
+              <div class="btn-link ml24" @click.stop="elevatorDetailFn(record)">电梯明细</div>
               <div class="btn-link ml24" @click="">提交评审</div>
               <div class="btn-link ml24" @click="">打印</div>
               <a-popconfirm title="确定删除这条数据吗?" @confirm="">
@@ -80,6 +80,10 @@
 
   <MDialog :dialog="dialogPro">
     <ProjectSellBusiness @close="dialogPro.show = false" :dialog="dialogPro" :pid="dialogPro.flag" :row="dialogPro.row"></ProjectSellBusiness>
+  </MDialog>
+
+  <MDialog :dialog="dialogElevatorDetail">
+    <ElevatorDetailBusiness @close="dialogElevatorDetail.show = false" :dialog="dialogElevatorDetail" :pid="dialogElevatorDetail.flag" :row="dialogElevatorDetail.row"></ElevatorDetailBusiness>
   </MDialog>
 </template>
 
@@ -168,10 +172,24 @@ let dialogPro: any = reactive({
   width: 700,
 });
 
+let dialogElevatorDetail: any = reactive({
+  show: false,
+  title: "电梯明细",
+  flag: "edit",
+  row: {},
+  width: 1200,
+});
+
 const editProjectFn = (item: any) => {
   dialogPro.show = true;
   dialogPro.row = item;
 };
+
+
+const elevatorDetailFn = (item:any) => {
+  dialogElevatorDetail.row = item
+  dialogElevatorDetail.show = true
+}
 
 // 表体数据
 const tableList: any = ref([]);

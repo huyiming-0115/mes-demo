@@ -16,11 +16,17 @@
       >
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index, text }">
+          <div v-if="column.key == 'civil'">
+            <div class="btn-link" @click.stop="showCivilFn(record)">上传查看</div>
+          </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
+            <div class="btn-link">查看详情</div>
+            <div class="btn-link ml24">修改</div>
+            <div class="btn-link ml24">打印</div>
             <a-popconfirm title="确定移除部门吗?" :getPopupContainer="(triggerNode): any => triggerNode.parentNode" @confirm="removeFn(record)">
               <template #default>
-                <div class="btn-link">移除</div>
+                <div class="btn-link ml24">移除</div>
               </template>
             </a-popconfirm>
           </div>
@@ -33,14 +39,18 @@
         <!-- footer -->
         <template #footer>
           <div class="flex-center-col">
-            <div class="btn-link" @click="addFn">添加部门</div>
+            <div class="btn-link" @click="addFn">新增明细</div>
           </div>
         </template>
       </a-table>
     </a-spin>
     <!-- 添加部门弹窗 -->
-    <MDialog :dialog="dialog">
+    <!--     <MDialog :dialog="dialog">
       <DepartAddSyetemCompany @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row" />
+    </MDialog> -->
+
+    <MDialog :dialog="dialogCivil">
+      <CivilDialog @close="dialogCivil.show = false" :pid="dialogCivil.flag" :row="dialogCivil.row" />
     </MDialog>
   </div>
 </template>
@@ -58,43 +68,72 @@ let dialog: any = reactive({
   title: "添加部门",
   width: 550,
 });
+
+let dialogCivil: any = reactive({
+  row: {},
+  show: false,
+  flag: "add",
+  title: "土建配置",
+  width: 700,
+});
 // 添加部门
 const addFn = () => {
-  dialog.flag = "add";
-  dialog.show = true;
+  /*   dialog.flag = "add";
+  dialog.show = true; */
 };
 // 关闭部门
 const closeFn = () => {
   getListFn();
   dialog.show = false;
 };
+
+const showCivilFn = (item: any) => {
+  dialogCivil.row = item;
+  dialogCivil.show = true;
+};
 // 表头
 const columns = [
-  {
+  /*   {
     title: "序号",
     dataIndex: "id",
     key: "id",
     ustomRender: ({ index }: any) => `${index + 1}`,
     width: 60,
-  },
+  }, */
   {
-    title: "部门名称",
-    dataIndex: "branchName",
-    key: "branchName",
-    width: 250,
+    title: "电梯系列",
+    dataIndex: "serize",
+    key: "serize",
+    width: 200,
     ellipsis: true,
   },
   {
-    title: "部门简介",
-    dataIndex: "explan",
-    key: "explan",
-    width: 250,
+    title: "电梯装潢",
+    dataIndex: "dress",
+    key: "dress",
+    width: 200,
     ellipsis: true,
+  },
+  {
+    title: "数量",
+    dataIndex: "num",
+    key: "num",
+  },
+  {
+    title: "非标备注",
+    dataIndex: "remark",
+    key: "remark",
+  },
+  {
+    title: "土建配置",
+    dataIndex: "civil",
+    key: "civil",
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
+    width: 280,
   },
 ];
 
@@ -141,11 +180,14 @@ const onCustomRowFn = (record: any) => {
 const getListFn = async () => {
   spinning.value = true;
   let arr: any = [];
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 1; i++) {
     let obj = {
       id: i + 1,
-      branchName: `第${i + 1}个部门`,
-      explan: `第${i + 1}个部门的相关部门简介，原神启动，move，move`,
+      serize: "电梯系列",
+      dress: "电梯装潢",
+      num: 5,
+      remark: "电梯相关非标备注",
+      civil: "",
     };
     arr.push(obj);
   }
@@ -155,14 +197,14 @@ const getListFn = async () => {
 // 移除操作
 const removeFn = async (record: any) => {
   dataSource.data.splice(record.id - 1, 1);
-  ElMessage.success(`模拟移除第${record.id}个关联部门成功`);
+  ElMessage.success(`模拟移除第${record.id}个电梯成功`);
 };
 onMounted(() => {
   getListFn();
 });
 </script>
 
-<style scoped lang="less"> 
+<style scoped lang="less">
 // 底部的边框
 :deep(.ant-table-footer) {
   border: 1px dashed #ebebeb;

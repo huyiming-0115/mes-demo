@@ -10,7 +10,7 @@
           rowKey="id"
           size="small"
           :row-class-name="(_record: any, index: number): any => (index % 2 === 1 ? 'table-striped' : null)"
-          bordered 
+          bordered
           sticky
         >
           <!-- 表体插槽 -->
@@ -46,24 +46,33 @@ const columns = [
     width: 60,
   },
   {
-    title: "变更前价格",
-    dataIndex: "beforePrice",
-    key: "beforePrice",
-    width: 250,
+    title: "物料编号",
+    dataIndex: "no",
+    key: "no",
     ellipsis: true,
   },
   {
-    title: "变更后价格",
-    dataIndex: "afterPrice",
-    key: "afterPrice",
-    width: 250,
+    title: "物料名称",
+    dataIndex: "name",
+    key: "name",
     ellipsis: true,
   },
   {
-    title: "操作时间",
-    dataIndex: "operateTime",
-    key: "operateTime",
-    width: 250,
+    title: "出入库类型",
+    dataIndex: "type",
+    key: "type",
+    ellipsis: true,
+  },
+  {
+    title: "数量变化",
+    dataIndex: "change",
+    key: "change",
+    ellipsis: true,
+  },
+  {
+    title: "剩余数量",
+    dataIndex: "num",
+    key: "num",
     ellipsis: true,
   },
   {
@@ -85,21 +94,23 @@ const dataSource: {
   data: any[];
 } = reactive({
   total: 0,
-  currentPage: 1,
+  currentPage: 1, 
   pageSize: 15,
   data: [],
 });
 
-const getListFn = async () => {
+const getListFn = async () => {       
   spinning.value = true;
   let arr: any = [];
   for (let i = 0; i < 30; i++) {
     let obj = {
       id: i + 1,
-      beforePrice:'1500',
-      afterPrice:'15000',
-      operateTime:'2023-08-28',
-      operate:'刘伟',
+      no: "1500",
+      name: "15000",
+      type:"出入库",
+      change:"+5",
+      num:'100',
+      operate: "刘伟",
     };
     arr.push(obj);
   }

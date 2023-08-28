@@ -1,5 +1,4 @@
 <template>
-  <!-- 新增人员弹窗 -->
   <div style="padding-left: 5px;">
     <a-form
       :model="formState"

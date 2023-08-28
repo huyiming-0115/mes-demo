@@ -43,7 +43,7 @@
         <template #bodyCell="{ record, column, index }">
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">历史质检</div>
+            <div class="btn-link" @click.stop="historyCheckFn(record)">历史质检</div>
             <div class="btn-link ml24" @click="">质检</div>
           </div>
         </template>
@@ -54,11 +54,29 @@
       </a-table>
     </a-spin>
   </div>
+  <MDialog :dialog="dialog">
+    <HistoryCheck @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row" />
+  </MDialog>
 </template>
 
 <script setup lang="ts">
 //加载中标识
 let spinning = ref<boolean>(false);
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "历史质检",
+  flag: "add",
+  row: {},
+  width: 1200,
+});
+
+const historyCheckFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
+
 // 表头
 const columns = [
   {
@@ -72,7 +90,7 @@ const columns = [
     title: "项目名称",
     dataIndex: "projectName",
     key: "projectName",
-    width: 200,
+    width: 260,
     ellipsis: true,
   },
   {
@@ -99,7 +117,7 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 180,
+    width: 280,
   },
 ];
 // 表体数据

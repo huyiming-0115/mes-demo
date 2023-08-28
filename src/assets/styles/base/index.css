@@ -99,6 +99,9 @@ div {
 .ml4 {
   margin-left: 4px;
 }
+.ml12 {
+  margin-left: 12px;
+}
 .ml5 {
   margin-left: 5px;
 }
@@ -125,6 +128,9 @@ div {
 }
 .mt10 {
   margin-top: 10px;
+}
+.mt12 {
+  margin-top: 12px;
 }
 .mt16 {
   margin-top: 16px;

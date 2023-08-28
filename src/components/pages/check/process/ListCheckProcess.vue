@@ -54,7 +54,7 @@
           </div>
           <!-- 操作 -->
           <div v-if="column.title === '操作'" class="flex-start">
-            <div class="btn-link" @click="">修改</div>
+            <div class="btn-link" @click.stop="editFn(record)">修改</div>
             <a-popconfirm title="确定删除这条数据吗?" @confirm="">
               <template #default>
                 <div class="btn-link ml24">删除</div>
@@ -69,11 +69,29 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialog">
+    <ProcessCheck @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row" />
+  </MDialog>
 </template>
 
 <script setup lang="ts">
 //加载中标识
 let spinning = ref<boolean>(false);
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "修改工序",
+  flag: "edit",
+  row: {},
+  width: 620,
+});
+
+const editFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
 // 表头
 const columns = [
   {
@@ -87,41 +105,38 @@ const columns = [
     title: "工序名称",
     dataIndex: "name",
     key: "name",
-    width: 180,
     ellipsis: true,
   },
   {
     title: "标准尺寸",
     dataIndex: "size",
     key: "size",
-    width: 180,
+    ellipsis: true,
   },
   {
     title: "检测方法",
     dataIndex: "method",
     key: "method",
-    width: 180,
     ellipsis: true,
   },
   {
     title: "允许误差",
     dataIndex: "error",
     key: "error",
-    width: 180,
     ellipsis: true,
   },
   {
     title: "状态",
     dataIndex: "state",
     key: "state",
-    width: 100,
+    width: 120,
     customFilterDropdown: true,
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 220,
+    width: 280,
   },
 ];
 // 表体数据

@@ -78,7 +78,7 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width:280
+    width: 280,
   },
 ];
 // 表体数据
@@ -121,13 +121,20 @@ const tableChangeFn = (pagination: any) => {
 // 获取列表数据
 const getListFn = async (params?: any) => {
   console.log("列表组件内部传入数据==>", params);
+  tableList.value = [{
+    id:1,
+    name:'需要售后项目',
+    title:'项目售后',
+    result:'一个需要售后项目不需要原因',
+    person:'胡一鸣'
+  }]
   // 在这里处理数据
   spinning.value = true;
   spinning.value = false;
 };
-const onMounted = () => {
+onMounted(() => {
   getListFn();
-};
+});
 defineExpose({ getListFn });
 </script>
 

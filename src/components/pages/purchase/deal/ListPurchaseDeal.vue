@@ -42,11 +42,7 @@
                 <div class="btn-link">接收任务</div>
               </template>
             </a-popconfirm>
-            <a-popconfirm title="确定完成选中任务?" @confirm="">
-              <template #default>
-                <div class="btn-link ml24">完成任务</div>
-              </template>
-            </a-popconfirm>
+            <div class="btn-link ml24" @click.stop="confirmDeal(record)">完成任务</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -56,11 +52,29 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialog">
+    <CheckPurchaseDeal @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row" />
+  </MDialog>
 </template>
 
 <script setup lang="ts">
 //加载中标识
 let spinning = ref<boolean>(false);
+
+// 弹窗所有变量
+let dialog: any = reactive({
+  show: false,
+  title: "完成任务",
+  flag: "add",
+  row: {},
+  width: 620,
+});
+
+const confirmDeal = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
 // 表头
 const columns = [
   {
@@ -125,7 +139,7 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 160,
+    width: 280,
   },
 ];
 // 表体数据

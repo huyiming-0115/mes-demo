@@ -20,8 +20,8 @@
         <template #bodyCell="{ record, column, index }">
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">修改</div>
-            <div class="btn-link ml24" @click="">库存记录</div>
+            <div class="btn-link" @click.stop="editFn(record)">修改</div>
+            <div class="btn-link ml24" @click.stop="showRecord(record)">库存记录</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -31,11 +31,44 @@
       </a-table>
     </a-spin>
   </div>
+  <MDialog :dialog="addProductDialog">
+    <ProductInfoDialog :pid="addProductDialog.flag" :row="addProductDialog.row" @close="addProductDialog.show = false" />
+  </MDialog>
+  <MDialog :dialog="recordDialog">
+    <ProductRecordDialog :pid="recordDialog.flag" :row="recordDialog.row" @close="recordDialog.show = false"></ProductRecordDialog>
+  </MDialog>
 </template>
 
 <script setup lang="ts">
 //加载中标识
 let spinning = ref<boolean>(false);
+
+let recordDialog: any = reactive({
+  show: false,
+  title: "库存记录",
+  flag: "add",
+  row: {},
+  width: 1200,
+});
+
+// 弹窗所有变量
+let addProductDialog: any = reactive({
+  show: false,
+  title: "修改产品",
+  flag: "edit",
+  row: {},
+  width: 1200,
+});
+
+const editFn = (item: any) => {
+  addProductDialog.row = item;
+  addProductDialog.show = true;
+};
+
+const showRecord = (item: any) => {
+  recordDialog.row = item;
+  recordDialog.show = true;
+};
 // 表头
 const columns = [
   {
@@ -93,7 +126,7 @@ const columns = [
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width:240
+    width: 240,
   },
 ];
 // 表体数据
@@ -139,18 +172,20 @@ const getListFn = async (params?: any) => {
   // 在这里处理数据
   spinning.value = true;
   spinning.value = false;
-  tableList.value = [{
-    id:'1',
-    no:'666',
-    name:'第一等物料',
-    model:'666',
-    unit:'个',
-    price:'6666',
-    stockNum:'666',
-    supplier:'第一等供应商'
-  }]
+  tableList.value = [
+    {
+      id: "1",
+      no: "666",
+      name: "第一等物料",
+      model: "666",
+      unit: "个",
+      price: "6666",
+      stockNum: "666",
+      supplier: "第一等供应商",
+    },
+  ];
 };
-onMounted ( () => {
+onMounted(() => {
   getListFn();
 });
 defineExpose({ getListFn });

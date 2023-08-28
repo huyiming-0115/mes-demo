@@ -10,7 +10,7 @@
           rowKey="id"
           size="small"
           :row-class-name="(_record: any, index: number): any => (index % 2 === 1 ? 'table-striped' : null)"
-          bordered 
+          bordered
           sticky
         >
           <!-- 表体插槽 -->
@@ -46,31 +46,33 @@ const columns = [
     width: 60,
   },
   {
-    title: "变更前价格",
-    dataIndex: "beforePrice",
-    key: "beforePrice",
-    width: 250,
+    title: "产品编号",
+    dataIndex: "no",
+    key: "no",
     ellipsis: true,
   },
   {
-    title: "变更后价格",
-    dataIndex: "afterPrice",
-    key: "afterPrice",
-    width: 250,
+    title: "产品名称",
+    dataIndex: "name",
+    key: "name",
     ellipsis: true,
   },
   {
-    title: "操作时间",
-    dataIndex: "operateTime",
-    key: "operateTime",
-    width: 250,
+    title: "规格型号",
+    dataIndex: "model",
+    key: "model",
     ellipsis: true,
   },
   {
-    title: "操作人员",
-    dataIndex: "operate",
-    key: "operate",
-    width: 250,
+    title: "库存数量",
+    dataIndex: "rest",
+    key: "rest",
+    ellipsis: true,
+  },
+  {
+    title: "申请数量",
+    dataIndex: "num",
+    key: "num", 
     ellipsis: true,
   },
 ];
@@ -96,10 +98,11 @@ const getListFn = async () => {
   for (let i = 0; i < 30; i++) {
     let obj = {
       id: i + 1,
-      beforePrice:'1500',
-      afterPrice:'15000',
-      operateTime:'2023-08-28',
-      operate:'刘伟',
+      no: "1500",
+      name: "15000",
+      model: "快",
+      rest: "66",
+      num: "666",
     };
     arr.push(obj);
   }
