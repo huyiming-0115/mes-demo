@@ -17,20 +17,24 @@
         bordered
       >
         <!-- 图标内容插槽 -->
-        <template
-          #customFilterDropdown="{
-                          confirm,
-                          column,
-                      }"
-        >
+        <template #customFilterDropdown="{ confirm, column }">
           <div v-if="column.key === 'status'">
-            <Filter :list="filterList" @submit="(list) => filterSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
+            <Filter
+              :list="filterList"
+              @submit="(list) => filterSubmitFn(list, confirm)"
+              @cancel="confirm()"
+            ></Filter>
           </div>
         </template>
         <!-- 图标插槽 -->
         <template #customFilterIcon="{ column }">
-          <div v-if="column.key === 'status'" style="width: 16px; height: 16px;">
-            <q-svg width="16" height="16" name="filter" :class="filterChecked ? 'filter-result' : ''" />
+          <div v-if="column.key === 'status'" style="width: 16px; height: 16px">
+            <q-svg
+              width="16"
+              height="16"
+              name="filter"
+              :class="filterChecked ? 'filter-result' : ''"
+            />
           </div>
         </template>
         <!-- 表体插槽 -->
@@ -38,7 +42,7 @@
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
             <div class="btn-link" @click.stop="detailInfoFn(record)">单据明细</div>
-            <div class="btn-link ml24" @click="">出库</div>
+            <div class="btn-link ml24" @click.stop="confirmOutFn(record)">出库</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -51,6 +55,13 @@
   <MDialog :dialog="dialog">
     <OutInfo :pid="dialog.flag" :row="dialog.row" @close="dialog.show = false" />
   </MDialog>
+  <MDialog :dialog="dialogOut">
+    <DetailDepotOut
+      :pid="dialogOut.flag"
+      :row="dialogOut.row"
+      @close="dialogOut.show = false"
+    />
+  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -60,10 +71,23 @@ let spinning = ref<boolean>(false);
 let dialog: any = reactive({
   show: false,
   title: "单据明细",
-  flag: "add", 
+  flag: "add",
   row: {},
   width: 1200,
 });
+
+let dialogOut: any = reactive({
+  show: false,
+  title: "出库",
+  flag: "add",
+  row: {},
+  width: 1200,
+});
+
+const confirmOutFn = (item: any) => {
+  dialogOut.row = item;
+  dialogOut.show = true;
+};
 
 const detailInfoFn = (item: any) => {
   dialog.row = item;

@@ -1,6 +1,11 @@
 <template>
-  <div style="padding-left: 5px">
-    <div style="height: 480px; overflow-y: auto">
+  <div style="height: 680px; padding-left: 5px">
+    <h3>图纸管理</h3>
+    <a-button type="primary" class="primary-button" style="margin: 10px 0"
+      >上传图纸</a-button
+    >
+    <h3>物料信息</h3>
+    <div style="height: 500px; overflow-y: auto; margin-top: 15px; width: 100%">
       <!-- 表格 -->
       <a-spin :spinning="spinning">
         <a-table
@@ -15,8 +20,9 @@
         >
           <!-- 表体插槽 -->
           <template #bodyCell="{ record, column, index, text }">
-            <div v-if="column.key === 'operate'">
-              <div class="btn-link" @click.stop="detailInfoFn(record)">查看明细</div>
+            <div v-if="column.key === 'operate'" class="flex-start">
+              <div class="btn-link">查看详情</div>
+              <div class="btn-link ml24">编辑</div>
             </div>
           </template>
           <!-- 空表格时候的插槽 -->
@@ -26,80 +32,65 @@
         </a-table>
       </a-spin>
     </div>
-
     <div class="flex-center mt48">
-      <a-button class="mr32 w100 h35" @click="closeFn">关闭</a-button>
+      <a-button class="mr32 w100 h35" @click="closeFn">取消</a-button>
+      <a-button
+        v-throttle
+        class="w100 h35 primary-button"
+        type="primary"
+        @click="submitFn"
+        >确定</a-button
+      >
     </div>
   </div>
-
-  <MDialog :dialog="dialog">
-    <BoxDetailInfo :pid="dialog.flag" :row="dialog.row" @close="dialog.show = false" />
-  </MDialog>
 </template>
 
 <script setup lang="ts">
 const { pid, row } = defineProps<{
-  pid?: string;
+  pid: any;
   row?: any;
 }>();
-let spinning = ref<boolean>(false);
-
-let dialog: any = reactive({
-  show: false,
-  title: "查看明细",
-  flag: "add",
-  row: {},
-  width: 1200,
-});
-
-const detailInfoFn = (item: any) => {
-  dialog.row = item;
-  dialog.show = true;
+const emit = defineEmits(["close"]);
+const labelCol: any = {
+  style: {
+    width: "110px",
+    textAlign: "left",
+  },
 };
+
+let spinning = ref<boolean>(false);
 
 // 表头
 const columns = [
   {
-    title: "序号",
+    title: "参数代号",
     dataIndex: "id",
     key: "id",
     ustomRender: ({ index }: any) => `${index + 1}`,
-    width: 60,
+    width: 100,
   },
   {
-    title: "箱子编号",
-    dataIndex: "no",
-    key: "no",
-    ellipsis: true,
-  },
-  {
-    title: "箱子名称",
+    title: "参数名称",
     dataIndex: "name",
     key: "name",
     ellipsis: true,
   },
   {
-    title: "装箱员",
-    dataIndex: "pack",
-    key: "pack",
+    title: "参数类型",
+    dataIndex: "type",
+    key: "type",
     ellipsis: true,
   },
   {
-    title: "检验员",
-    dataIndex: "check",
-    key: "check",
+    title: "计算公式",
+    dataIndex: "exp",
+    key: "exp",
     ellipsis: true,
   },
   {
-    title: "入库时间",
-    dataIndex: "in",
-    key: "in",
-    ellipsis: true,
-  },
-  {
-    title: "出库时间",
-    dataIndex: "out",
-    key: "out",
+    title: "限制条件",
+    dataIndex: "set",
+    key: "set",
     ellipsis: true,
   },
   {
@@ -132,13 +123,10 @@ const getListFn = async () => {
   for (let i = 0; i < 30; i++) {
     let obj = {
       id: i + 1,
-      no: "1500",
-      name: "15000",
-      pack: "刘伟",
-      check: "刘伟",
-      in: "2023-08-29",
-      out: "2023-08-29",
-      operate: "刘伟",
+      name: "1500",
+      type: "1500",
+      exp: "1500",
+      set: "1500",
     };
     arr.push(obj);
   }
@@ -146,18 +134,31 @@ const getListFn = async () => {
   spinning.value = false;
 };
 
-const emit = defineEmits(["close"]);
-
-// 关闭弹窗
+// 表单数据
+const formState = reactive({
+  productNo: "",
+  productName: "",
+  productModel: "",
+  productUnit: "",
+});
 const closeFn = () => {
   emit("close");
 };
-
+const submitFn = () => {
+  emit("close");
+};
 onMounted(() => {
+  if (pid === "edit") {
+    formState.productNo = row.no;
+    formState.productName = row.name;
+    formState.productModel = row.model;
+    formState.productUnit = row.unit;
+  }
   getListFn();
 });
 </script>
 
 <style scoped lang="less">
+@import "@/assets/styles/base/antdForm.less";
 @import "@/assets/styles/base/antdTable.less";
 </style>

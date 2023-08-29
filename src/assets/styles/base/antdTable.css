@@ -4,7 +4,6 @@
   line-height: 28px;
   position: relative;
   font-size: 12px;
-  user-select: none;
 }
 :deep(.ant-pagination.mini) .ant-pagination-total-text {
   display: flex;

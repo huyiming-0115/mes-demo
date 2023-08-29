@@ -19,6 +19,7 @@
               style="width: 100%"
               v-model:value="formState.productNo"
               placeholder="最好是下拉选择框"
+              disabled
             />
           </a-form-item>
         </a-col>
@@ -28,6 +29,7 @@
               :maxlength="20"
               style="width: 100%"
               v-model:value="formState.productName"
+              disabled
             />
           </a-form-item>
         </a-col>
@@ -40,6 +42,7 @@
               style="width: 100%"
               v-model:value="formState.productNo"
               placeholder="最好是下拉选择框"
+              disabled
             />
           </a-form-item>
         </a-col>
@@ -49,6 +52,7 @@
               :maxlength="20"
               style="width: 100%"
               v-model:value="formState.productName"
+              disabled
             />
           </a-form-item>
         </a-col>
@@ -58,6 +62,7 @@
               :maxlength="20"
               style="width: 100%"
               v-model:value="formState.productName"
+              disabled
             />
           </a-form-item>
         </a-col>

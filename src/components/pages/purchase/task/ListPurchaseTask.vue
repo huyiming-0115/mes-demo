@@ -17,33 +17,46 @@
         bordered
       >
         <!-- 图标内容插槽 -->
-        <template
-          #customFilterDropdown="{
-                          confirm,
-                          column,
-                      }"
-        >
+        <template #customFilterDropdown="{ confirm, column }">
           <div v-if="column.key === 'purchaseType'">
-            <Filter :list="filterTypeList" @submit="(list) => filterTypeSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
+            <Filter
+              :list="filterTypeList"
+              @submit="(list) => filterTypeSubmitFn(list, confirm)"
+              @cancel="confirm()"
+            ></Filter>
           </div>
           <div v-if="column.key === 'status'">
-            <Filter :list="filterStatusList" @submit="(list) => filterStatusSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
+            <Filter
+              :list="filterStatusList"
+              @submit="(list) => filterStatusSubmitFn(list, confirm)"
+              @cancel="confirm()"
+            ></Filter>
           </div>
         </template>
         <!-- 图标插槽 -->
         <template #customFilterIcon="{ column }">
-          <div v-if="column.key === 'purchaseType'" style="width: 16px; height: 16px;">
-            <q-svg width="16" height="16" name="filter" :class="filterTypeChecked ? 'filter-result' : ''" />
+          <div v-if="column.key === 'purchaseType'" style="width: 16px; height: 16px">
+            <q-svg
+              width="16"
+              height="16"
+              name="filter"
+              :class="filterTypeChecked ? 'filter-result' : ''"
+            />
           </div>
-          <div v-if="column.key === 'status'" style="width: 16px; height: 16px;">
-            <q-svg width="16" height="16" name="filter" :class="filterStatusChecked ? 'filter-result' : ''" />
+          <div v-if="column.key === 'status'" style="width: 16px; height: 16px">
+            <q-svg
+              width="16"
+              height="16"
+              name="filter"
+              :class="filterStatusChecked ? 'filter-result' : ''"
+            />
           </div>
         </template>
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index }">
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">查看详情</div>
+            <div class="btn-link" @click.stop="addOrderFn(record)">新增订单</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -53,11 +66,29 @@
       </a-table>
     </a-spin>
   </div>
+
+  <MDialog :dialog="dialog">
+    <OrderInfo @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row" />
+  </MDialog>
 </template>
 
 <script setup lang="ts">
 //加载中标识
 let spinning = ref<boolean>(false);
+
+let dialog: any = reactive({
+  show: false,
+  title: "新增订单",
+  flag: "add",
+  row: {},
+  width: 1200,
+});
+
+const addOrderFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
+
 // 表头
 const columns = [
   {
@@ -210,7 +241,8 @@ const filterStatusSubmitFn = (list: any, confirm: any) => {
   confirm();
   // 处理数据  如果全选传null  确定 0 取消 1
   arr.length === 2 && (selectStatusFilter.value = null);
-  arr.length === 1 && (selectStatusFilter.value = Number(arr.map((x: any) => x.value).join()));
+  arr.length === 1 &&
+    (selectStatusFilter.value = Number(arr.map((x: any) => x.value).join()));
   getListFn();
 };
 
@@ -249,7 +281,8 @@ const filterTypeSubmitFn = (list: any, confirm: any) => {
   confirm();
   // 处理数据  如果全选传null  确定 0 取消 1
   arr.length === 2 && (selectTypeFilter.value = null);
-  arr.length === 1 && (selectTypeFilter.value = Number(arr.map((x: any) => x.value).join()));
+  arr.length === 1 &&
+    (selectTypeFilter.value = Number(arr.map((x: any) => x.value).join()));
   getListFn();
 };
 
@@ -259,18 +292,20 @@ const getListFn = async (params?: any) => {
   // 在这里处理数据
   spinning.value = true;
   spinning.value = false;
-  tableList.value = [{
-    id:1,
-    projectName:'第一个项目',
-    no:'CSCSC',
-    name:'CSCS',
-    model:'CSCS',
-    purchaseType:'PROJECT',
-    purchaseNum:1000,
-    stockNum:666,
-    remark:'CCADSCKALSCMALSKCMN',
-    status:'WAITDEAL'
-  }]
+  tableList.value = [
+    {
+      id: 1,
+      projectName: "第一个项目",
+      no: "CSCSC",
+      name: "CSCS",
+      model: "CSCS",
+      purchaseType: "PROJECT",
+      purchaseNum: 1000,
+      stockNum: 666,
+      remark: "CCADSCKALSCMALSKCMN",
+      status: "WAITDEAL",
+    },
+  ];
 };
 onMounted(() => {
   getListFn();

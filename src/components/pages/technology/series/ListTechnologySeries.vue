@@ -17,43 +17,52 @@
         bordered
       >
         <!-- 图标内容插槽 -->
-        <template #customFilterDropdown="{confirm,column,}">
+        <template #customFilterDropdown="{ confirm, column }">
           <div v-if="column.key === 'status'">
-            <Filter :list="filterList" @submit="(list) => filterSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
+            <Filter
+              :list="filterList"
+              @submit="(list) => filterSubmitFn(list, confirm)"
+              @cancel="confirm()"
+            ></Filter>
           </div>
         </template>
         <!-- 图标插槽 -->
         <template #customFilterIcon="{ column }">
-          <div v-if="column.key === 'status'" style="width: 16px; height: 16px;">
-            <q-svg width="16" height="16" name="filter" :class="filterChecked ? 'filter-result' : ''" />
+          <div v-if="column.key === 'status'" style="width: 16px; height: 16px">
+            <q-svg
+              width="16"
+              height="16"
+              name="filter"
+              :class="filterChecked ? 'filter-result' : ''"
+            />
           </div>
         </template>
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index }">
           <div v-if="column.key === 'civil'">
-            <div class="btn-link" @click="">编辑</div>
+            <div class="btn-link" @click.stop="recordSetFn(record, 'civil')">编辑</div>
           </div>
           <div v-if="column.key === 'param'">
-            <div class="btn-link" @click="">编辑</div>
+            <div class="btn-link" @click.stop="recordSetFn(record, 'param')">编辑</div>
           </div>
           <div v-if="column.key === 'option'">
-            <div class="btn-link" @click="">编辑</div>
+            <div class="btn-link" @click.stop="recordSetFn(record, 'option')">编辑</div>
           </div>
           <div v-if="column.key === 'bom'">
-            <div class="btn-link" @click="">编辑</div>
+            <div class="btn-link" @click.stop="recordSetFn(record, 'bom')">编辑</div>
           </div>
           <div v-if="column.key === 'product'">
-            <div class="btn-link" @click="">编辑</div>
+            <div class="btn-link" @click.stop="recordSetFn(record, 'product')">编辑</div>
           </div>
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">查看详情</div>
+            <div class="btn-link" @click="detailFn(record)">查看详情</div>
             <a-popconfirm title="确定通过该系列复制并新增?" @confirm="">
               <template #default>
                 <div class="btn-link ml24" @click="">复制并新增</div>
               </template>
             </a-popconfirm>
-            <div class="btn-link ml24" @click="">修改</div>
+            <div class="btn-link ml24" @click.stop="edifFn(record)">修改</div>
             <a-popconfirm title="确定上线该系列?" @confirm="">
               <template #default>
                 <div class="btn-link ml24" @click="">上线</div>
@@ -78,11 +87,108 @@
       </a-table>
     </a-spin>
   </div>
+  <MDialog :dialog="dialog">
+    <SeriesInfo @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row" />
+  </MDialog>
+
+  <MDialog :dialog="dialogCivil">
+    <CivilSet
+      @close="dialogCivil.show = false"
+      :pid="dialogCivil.flag"
+      :row="dialogCivil.row"
+    />
+  </MDialog>
+  <MDialog :dialog="dialogParam">
+    <ParamSet
+      @close="dialogParam.show = false"
+      :pid="dialogParam.flag"
+      :row="dialogParam.row"
+    />
+  </MDialog>
+  <MDialog :dialog="dialogOption">
+    <OptionSet
+      @close="dialogOption.show = false"
+      :pid="dialogOption.flag"
+      :row="dialogOption.row"
+    />
+  </MDialog>
+  <MDialog :dialog="dialogBom">
+    <BomSet @close="dialogBom.show = false" :pid="dialogBom.flag" :row="dialogBom.row" />
+  </MDialog>
+  <MDialog :dialog="dialogProduct">
+    <ProductSet
+      @close="dialogProduct.show = false"
+      :pid="dialogProduct.flag"
+      :row="dialogProduct.row"
+    />
+  </MDialog>
 </template>
 
 <script setup lang="ts">
 //加载中标识
 let spinning = ref<boolean>(false);
+
+let dialog: any = reactive({
+  show: false,
+  title: "修改系列",
+  flag: "add",
+  row: {},
+  width: 620,
+});
+
+let dialogCivil: any = reactive({});
+let dialogParam: any = reactive({});
+let dialogOption: any = reactive({});
+let dialogBom: any = reactive({});
+let dialogProduct: any = reactive({});
+
+const edifFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
+
+const detailFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
+
+const recordSetFn = (item: any, type: string) => {
+  switch (type) {
+    case "civil":
+      dialogCivil.title = "土建预制";
+      dialogCivil.width = 1200;
+      dialogCivil.row = item;
+      dialogCivil.show = true;
+      break;
+    case "param":
+      dialogParam.title = "参数表预制";
+      dialogParam.width = 1200;
+      dialogParam.row = item;
+      dialogParam.show = true;
+      break;
+    case "option":
+      dialogOption.title = "配置表预制";
+      dialogOption.width = 1200;
+      dialogOption.row = item;
+      dialogOption.show = true;
+      break;
+    case "bom":
+      dialogBom.title = "配置BOM清单";
+      dialogBom.width = 1200;
+      dialogBom.row = item;
+      dialogBom.show = true;
+      break;
+    case "product":
+      dialogProduct.title = "生产预设";
+      dialogProduct.width = 900;
+      dialogProduct.row = item;
+      dialogProduct.show = true;
+      break;
+    default:
+      break;
+  }
+};
+
 // 表头
 const columns = [
   {

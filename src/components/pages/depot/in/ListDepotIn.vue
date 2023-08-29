@@ -17,28 +17,32 @@
         bordered
       >
         <!-- 图标内容插槽 -->
-        <template
-          #customFilterDropdown="{
-                          confirm,
-                          column,
-                      }"
-        >
+        <template #customFilterDropdown="{ confirm, column }">
           <div v-if="column.key === 'status'">
-            <Filter :list="filterList" @submit="(list) => filterSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
+            <Filter
+              :list="filterList"
+              @submit="(list) => filterSubmitFn(list, confirm)"
+              @cancel="confirm()"
+            ></Filter>
           </div>
         </template>
         <!-- 图标插槽 -->
         <template #customFilterIcon="{ column }">
-          <div v-if="column.key === 'status'" style="width: 16px; height: 16px;">
-            <q-svg width="16" height="16" name="filter" :class="filterChecked ? 'filter-result' : ''" />
+          <div v-if="column.key === 'status'" style="width: 16px; height: 16px">
+            <q-svg
+              width="16"
+              height="16"
+              name="filter"
+              :class="filterChecked ? 'filter-result' : ''"
+            />
           </div>
         </template>
         <!-- 表体插槽 -->
         <template #bodyCell="{ record, column, index }">
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link" @click="">单据明细</div>
-            <div class="btn-link ml24" @click="">入库</div>
+            <div class="btn-link" @click.stop="detailInfoFn(record)">单据明细</div>
+            <div class="btn-link ml24" @click.stop="confirmInFn(record)">入库</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -48,11 +52,47 @@
       </a-table>
     </a-spin>
   </div>
+  <MDialog :dialog="dialog">
+    <InInfo :pid="dialog.flag" :row="dialog.row" @close="dialog.show = false" />
+  </MDialog>
+  <MDialog :dialog="dialogIn">
+    <DetailDepotIn
+      :pid="dialogIn.flag"
+      :row="dialogIn.row"
+      @close="dialogIn.show = false"
+    />
+  </MDialog>
 </template>
 
 <script setup lang="ts">
 //加载中标识
 let spinning = ref<boolean>(false);
+let dialog: any = reactive({
+  show: false,
+  title: "单据明细",
+  flag: "add",
+  row: {},
+  width: 1200,
+});
+
+let dialogIn: any = reactive({
+  show: false,
+  title: "出库",
+  flag: "add",
+  row: {},
+  width: 1200,
+});
+
+const confirmInFn = (item: any) => {
+  dialogIn.row = item;
+  dialogIn.show = true;
+};
+
+const detailInfoFn = (item: any) => {
+  dialog.row = item;
+  dialog.show = true;
+};
+
 // 表头
 const columns = [
   {

@@ -14,11 +14,7 @@
           sticky
         >
           <!-- 表体插槽 -->
-          <template #bodyCell="{ record, column, index, text }">
-            <div v-if="column.key === 'operate'">
-              <div class="btn-link" @click.stop="detailInfoFn(record)">查看明细</div>
-            </div>
-          </template>
+          <template #bodyCell="{ record, column, index, text }"></template>
           <!-- 空表格时候的插槽 -->
           <template #emptyText>
             <Empty></Empty>
@@ -31,10 +27,6 @@
       <a-button class="mr32 w100 h35" @click="closeFn">关闭</a-button>
     </div>
   </div>
-
-  <MDialog :dialog="dialog">
-    <BoxDetailInfo :pid="dialog.flag" :row="dialog.row" @close="dialog.show = false" />
-  </MDialog>
 </template>
 
 <script setup lang="ts">
@@ -43,19 +35,6 @@ const { pid, row } = defineProps<{
   row?: any;
 }>();
 let spinning = ref<boolean>(false);
-
-let dialog: any = reactive({
-  show: false,
-  title: "查看明细",
-  flag: "add",
-  row: {},
-  width: 1200,
-});
-
-const detailInfoFn = (item: any) => {
-  dialog.row = item;
-  dialog.show = true;
-};
 
 // 表头
 const columns = [
@@ -67,46 +46,27 @@ const columns = [
     width: 60,
   },
   {
-    title: "箱子编号",
+    title: "物料编号",
     dataIndex: "no",
     key: "no",
     ellipsis: true,
   },
   {
-    title: "箱子名称",
+    title: "物料名称",
     dataIndex: "name",
     key: "name",
     ellipsis: true,
   },
   {
-    title: "装箱员",
-    dataIndex: "pack",
-    key: "pack",
+    title: "规格型号",
+    dataIndex: "model",
+    key: "model",
     ellipsis: true,
   },
   {
-    title: "检验员",
-    dataIndex: "check",
-    key: "check",
-    ellipsis: true,
-  },
-  {
-    title: "入库时间",
-    dataIndex: "in",
-    key: "in",
-    ellipsis: true,
-  },
-  {
-    title: "出库时间",
-    dataIndex: "out",
-    key: "out",
-    ellipsis: true,
-  },
-  {
-    title: "操作",
-    dataIndex: "operate",
-    key: "operate",
-    width: 180,
+    title: "数量",
+    dataIndex: "num",
+    key: "num",
     ellipsis: true,
   },
 ];
@@ -134,11 +94,8 @@ const getListFn = async () => {
       id: i + 1,
       no: "1500",
       name: "15000",
-      pack: "刘伟",
-      check: "刘伟",
-      in: "2023-08-29",
-      out: "2023-08-29",
-      operate: "刘伟",
+      model: "ssss",
+      num: "100",
     };
     arr.push(obj);
   }

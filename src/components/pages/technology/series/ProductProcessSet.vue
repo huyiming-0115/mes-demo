@@ -1,6 +1,6 @@
 <template>
   <!-- 关联部门弹窗 -->
-  <div style="height: 550px; overflow-y: auto">
+  <div style="height: 500px; overflow-y: auto">
     <!-- 表格 -->
     <a-spin :spinning="spinning">
       <a-table
@@ -18,7 +18,15 @@
         <template #bodyCell="{ record, column, index, text }">
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
-            <div class="btn-link">查看详情</div>
+            <a-popconfirm
+              title="确定移除部门吗?"
+              :getPopupContainer="(triggerNode): any => triggerNode.parentNode"
+              @confirm="removeFn(record)"
+            >
+              <template #default>
+                <div class="btn-link">移除</div>
+              </template>
+            </a-popconfirm>
           </div>
           <div v-else class="ovhidden" :title="text">{{ text }}</div>
         </template>
@@ -26,16 +34,26 @@
         <template #emptyText>
           <Empty></Empty>
         </template>
+        <!-- footer -->
+        <template #footer>
+          <div class="flex-center-col">
+            <div class="btn-link" @click="addFn">添加部门</div>
+          </div>
+        </template>
       </a-table>
     </a-spin>
-  </div>
-  <div class="flex-center mt48">
-    <a-button class="mr32 w100 h35" @click="closeFn">关闭</a-button>
+    <!-- 添加部门弹窗 -->
+    <MDialog :dialog="dialog">
+      <DepartAddSyetemCompany
+        @close="dialog.show = false"
+        :pid="dialog.flag"
+        :row="dialog.row"
+      />
+    </MDialog>
   </div>
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(["close"]);
 const { row } = defineProps<{
   row: any;
 }>();
@@ -48,29 +66,15 @@ let dialog: any = reactive({
   title: "添加部门",
   width: 550,
 });
-
-let dialogCivil: any = reactive({
-  row: {},
-  show: false,
-  flag: "add",
-  title: "土建配置",
-  width: 700,
-});
 // 添加部门
 const addFn = () => {
-  /*   dialog.flag = "add";
-    dialog.show = true; */
+  dialog.flag = "add";
+  dialog.show = true;
 };
 // 关闭部门
 const closeFn = () => {
   getListFn();
   dialog.show = false;
-  emit("close");
-};
-
-const showCivilFn = (item: any) => {
-  dialogCivil.row = item;
-  dialogCivil.show = true;
 };
 // 表头
 const columns = [
@@ -82,38 +86,23 @@ const columns = [
     width: 60,
   },
   {
-    title: "项目名称",
-    dataIndex: "name",
-    key: "name",
-    width: 200,
+    title: "部门名称",
+    dataIndex: "branchName",
+    key: "branchName",
+    width: 250,
     ellipsis: true,
   },
   {
-    title: "电梯装潢",
-    dataIndex: "type",
-    key: "type",
+    title: "部门简介",
+    dataIndex: "explan",
+    key: "explan",
+    width: 250,
     ellipsis: true,
-  },
-  {
-    title: "质检时间",
-    dataIndex: "checkTime",
-    key: "checkTime",
-  },
-  {
-    title: "质检人员",
-    dataIndex: "person",
-    key: "person",
-  },
-  {
-    title: "不合格原因",
-    dataIndex: "result",
-    key: "result",
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
-    width: 280,
   },
 ];
 
@@ -163,16 +152,18 @@ const getListFn = async () => {
   for (let i = 0; i < 30; i++) {
     let obj = {
       id: i + 1,
-      name: "项目名称",
-      type: "生产质检",
-      checkTime: "2023-08-28",
-      person: "伽椰子",
-      result: "没啥理由，就是感觉不合格",
+      branchName: `第${i + 1}个部门`,
+      explan: `第${i + 1}个部门的相关部门简介，原神启动，move，move`,
     };
     arr.push(obj);
   }
   dataSource.data = arr;
   spinning.value = false;
+};
+// 移除操作
+const removeFn = async (record: any) => {
+  dataSource.data.splice(record.id - 1, 1);
+  ElMessage.success(`模拟移除第${record.id}个关联部门成功`);
 };
 onMounted(() => {
   getListFn();

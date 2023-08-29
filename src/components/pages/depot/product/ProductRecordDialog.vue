@@ -1,6 +1,6 @@
 <template>
-  <div style="padding-left: 5px;">
-    <div style="height: 480px; overflow-y: auto;">
+  <div style="padding-left: 5px">
+    <div style="height: 480px; overflow-y: auto">
       <!-- 表格 -->
       <a-spin :spinning="spinning">
         <a-table
@@ -94,12 +94,12 @@ const dataSource: {
   data: any[];
 } = reactive({
   total: 0,
-  currentPage: 1, 
+  currentPage: 1,
   pageSize: 15,
   data: [],
 });
 
-const getListFn = async () => {       
+const getListFn = async () => {
   spinning.value = true;
   let arr: any = [];
   for (let i = 0; i < 30; i++) {
@@ -107,9 +107,9 @@ const getListFn = async () => {
       id: i + 1,
       no: "1500",
       name: "15000",
-      type:"出入库",
-      change:"+5",
-      num:'100',
+      type: "出入库",
+      change: "+5",
+      num: "100",
       operate: "刘伟",
     };
     arr.push(obj);
@@ -130,4 +130,6 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+@import "@/assets/styles/base/antdTable.less";
+</style>

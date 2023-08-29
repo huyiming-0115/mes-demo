@@ -17,26 +17,39 @@
         bordered
       >
         <!-- 图标内容插槽 -->
-        <template
-          #customFilterDropdown="{
-                          confirm,
-                          column,
-                      }"
-        >
+        <template #customFilterDropdown="{ confirm, column }">
           <div v-if="column.key === 'type'">
-            <Filter :list="filterTypeList" @submit="(list) => filterTypeSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
+            <Filter
+              :list="filterTypeList"
+              @submit="(list) => filterTypeSubmitFn(list, confirm)"
+              @cancel="confirm()"
+            ></Filter>
           </div>
           <div v-if="column.key === 'status'">
-            <Filter :list="filterStatusList" @submit="(list) => filterStatusSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
+            <Filter
+              :list="filterStatusList"
+              @submit="(list) => filterStatusSubmitFn(list, confirm)"
+              @cancel="confirm()"
+            ></Filter>
           </div>
         </template>
         <!-- 图标插槽 -->
         <template #customFilterIcon="{ column }">
-          <div v-if="column.key === 'type'" style="width: 16px; height: 16px;">
-            <q-svg width="16" height="16" name="filter" :class="filterTypeChecked ? 'filter-result' : ''" />
+          <div v-if="column.key === 'type'" style="width: 16px; height: 16px">
+            <q-svg
+              width="16"
+              height="16"
+              name="filter"
+              :class="filterTypeChecked ? 'filter-result' : ''"
+            />
           </div>
-          <div v-if="column.key === 'status'" style="width: 16px; height: 16px;">
-            <q-svg width="16" height="16" name="filter" :class="filterStatusChecked ? 'filter-result' : ''" />
+          <div v-if="column.key === 'status'" style="width: 16px; height: 16px">
+            <q-svg
+              width="16"
+              height="16"
+              name="filter"
+              :class="filterStatusChecked ? 'filter-result' : ''"
+            />
           </div>
         </template>
         <!-- 表体插槽 -->
@@ -44,7 +57,7 @@
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
             <div class="btn-link" @click.stop="historyCheckFn(record)">历史质检</div>
-            <div class="btn-link ml24" @click="">质检</div>
+            <div class="btn-link ml24" @click.stop="checkFn(record)">质检</div>
           </div>
         </template>
         <!-- 空表格时候的插槽 -->
@@ -55,7 +68,20 @@
     </a-spin>
   </div>
   <MDialog :dialog="dialog">
-    <HistoryCheck @close="dialog.show = false" :dialog="dialog" :pid="dialog.flag" :row="dialog.row" />
+    <HistoryCheck
+      @close="dialog.show = false"
+      :dialog="dialog"
+      :pid="dialog.flag"
+      :row="dialog.row"
+    />
+  </MDialog>
+  <MDialog :dialog="dialogCheck">
+    <CheckProcess
+      @close="dialogCheck.show = false"
+      :dialog="dialogCheck"
+      :pid="dialogCheck.flag"
+      :row="dialogCheck.row"
+    />
   </MDialog>
 </template>
 
@@ -71,6 +97,19 @@ let dialog: any = reactive({
   row: {},
   width: 1200,
 });
+
+let dialogCheck: any = reactive({
+  show: false,
+  title: "质检",
+  flag: "add",
+  row: {},
+  width: 1200,
+});
+
+const checkFn = (item: any) => {
+  dialogCheck.row = item;
+  dialogCheck.show = true;
+};
 
 const historyCheckFn = (item: any) => {
   dialog.row = item;
@@ -187,7 +226,8 @@ const filterStatusSubmitFn = (list: any, confirm: any) => {
   confirm();
   // 处理数据  如果全选传null  确定 0 取消 1
   arr.length === 2 && (selectStatusFilter.value = null);
-  arr.length === 1 && (selectStatusFilter.value = Number(arr.map((x: any) => x.value).join()));
+  arr.length === 1 &&
+    (selectStatusFilter.value = Number(arr.map((x: any) => x.value).join()));
   getListFn();
 };
 
@@ -216,7 +256,8 @@ const filterTypeSubmitFn = (list: any, confirm: any) => {
   confirm();
   // 处理数据  如果全选传null  确定 0 取消 1
   arr.length === 2 && (selectTypeFilter.value = null);
-  arr.length === 1 && (selectTypeFilter.value = Number(arr.map((x: any) => x.value).join()));
+  arr.length === 1 &&
+    (selectTypeFilter.value = Number(arr.map((x: any) => x.value).join()));
   getListFn();
 };
 

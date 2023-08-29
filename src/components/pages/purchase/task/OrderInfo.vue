@@ -1,19 +1,19 @@
 <template>
-  <div style="height: 550px; padding-left: 5px">
+  <div style="height: 680px; padding-left: 5px">
     <h3>基本信息</h3>
     <a-form
       :model="formState"
       ref="modelForm"
       name="basic"
       :label-col="labelCol"
-      style="height: 120px"
+      style="height: 240px"
       :wrapper-col="{ span: 24 }"
       autocomplete="off"
       :layout="'horizontal'"
     >
       <a-row :gutter="24">
         <a-col :span="8">
-          <a-form-item label="入库单号" name="productNo">
+          <a-form-item label="下单日期" name="productNo">
             <a-input
               :maxlength="20"
               style="width: 100%"
@@ -23,7 +23,37 @@
           </a-form-item>
         </a-col>
         <a-col :span="8">
-          <a-form-item label="关联项目名称" name="productName">
+          <a-form-item label="供应商" name="productName">
+            <a-input
+              :maxlength="20"
+              style="width: 100%"
+              v-model:value="formState.productName"
+            />
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label="交货日期" name="productName">
+            <a-input
+              :maxlength="20"
+              style="width: 100%"
+              v-model:value="formState.productName"
+              placeholder="最好是下拉选择框"
+            />
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-row :gutter="24">
+        <a-col :span="8">
+          <a-form-item label="收货人姓名" name="productNo">
+            <a-input
+              :maxlength="20"
+              style="width: 100%"
+              v-model:value="formState.productNo"
+            />
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label="收货人联系方式" name="productName">
             <a-input
               :maxlength="20"
               style="width: 100%"
@@ -33,8 +63,19 @@
         </a-col>
       </a-row>
       <a-row :gutter="24">
-        <a-col :span="8">
-          <a-form-item label="入库单据类型" name="productNo">
+        <a-col :span="16">
+          <a-form-item label="交货地址" name="productNo">
+            <a-input
+              :maxlength="20"
+              style="width: 100%"
+              v-model:value="formState.productNo"
+            />
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-row :gutter="24">
+        <a-col :span="16">
+          <a-form-item label="备注" name="productNo">
             <a-input
               :maxlength="20"
               style="width: 100%"
@@ -43,27 +84,9 @@
             />
           </a-form-item>
         </a-col>
-        <a-col :span="8">
-          <a-form-item label="入库日期" name="productName">
-            <a-input
-              :maxlength="20"
-              style="width: 100%"
-              v-model:value="formState.productName"
-            />
-          </a-form-item>
-        </a-col>
-        <a-col :span="8">
-          <a-form-item label="操作人" name="productName">
-            <a-input
-              :maxlength="20"
-              style="width: 100%"
-              v-model:value="formState.productName"
-            />
-          </a-form-item>
-        </a-col>
       </a-row>
     </a-form>
-    <h3>关联供应商</h3>
+    <h3>物料信息</h3>
     <div style="height: 300px; overflow-y: auto; margin-top: 15px; width: 100%">
       <!-- 表格 -->
       <a-spin :spinning="spinning">
@@ -78,7 +101,11 @@
           sticky
         >
           <!-- 表体插槽 -->
-          <template #bodyCell="{ record, column, index, text }"></template>
+          <template #bodyCell="{ record, column, index, text }">
+            <div v-if="column.key === 'operate'" class="flex-start">
+              <div class="btn-link">删除</div>
+            </div>
+          </template>
           <!-- 空表格时候的插槽 -->
           <template #emptyText>
             <Empty></Empty>
@@ -107,7 +134,7 @@ const { pid, row } = defineProps<{
 const emit = defineEmits(["close"]);
 const labelCol: any = {
   style: {
-    width: "90px",
+    width: "110px",
     textAlign: "left",
   },
 };
@@ -144,22 +171,29 @@ const columns = [
     ellipsis: true,
   },
   {
-    title: "单位",
+    title: "库存数量",
     dataIndex: "unit",
     key: "unit",
     ellipsis: true,
   },
   {
-    title: "备注",
+    title: "实际数量",
     dataIndex: "remark",
     key: "remark",
     ellipsis: true,
   },
   {
-    title: "订单数量",
+    title: "备注",
     dataIndex: "num",
     key: "num",
     width: 180,
+    ellipsis: true,
+  },
+  {
+    title: "操作",
+    dataIndex: "operate",
+    key: "operate",
+    width: 80,
     ellipsis: true,
   },
 ];
@@ -224,4 +258,5 @@ onMounted(() => {
 
 <style scoped lang="less">
 @import "@/assets/styles/base/antdForm.less";
+@import "@/assets/styles/base/antdTable.less";
 </style>
