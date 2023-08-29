@@ -11,12 +11,37 @@ export const useMenuStore = defineStore("menu", {
                 // 首页
                 {
                     path: '/work/home',
-                    route: '/work/home',
+                    //route: '/work/home',
                     name: '首页',
                     hidden: true,
                     id: '0',
                     svg: 'home',
-                    children: []
+                    children: [
+                        {
+                            path: '/work/home/workplace',
+                            name: '工作台',
+                            parentName: '首页',
+                            route: '/work/home/workplace',
+                            hidden: true,
+                            id: '0-1',
+                        },
+                        {
+                            path: '/work/home/deal',
+                            name: '我的待办',
+                            parentName: '首页',
+                            route: '/work/home/deal',
+                            hidden: true,
+                            id: '0-2',
+                        },
+                        {
+                            path: '/work/home/task',
+                            name: '待接任务',
+                            parentName: '首页',
+                            route: '/work/home/task',
+                            hidden: true,
+                            id: '0-3',
+                        },
+                    ]
                 },
                 // 系统管理
                 {

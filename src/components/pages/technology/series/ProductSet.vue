@@ -8,7 +8,6 @@
         :columns="columns"
         :pagination="false"
         rowKey="id"
-        :customRow="onCustomRowFn"
         size="small"
         :row-class-name="(_record: any, index: number): any => (index % 2 === 1 ? 'table-striped' : null)"
         bordered
@@ -18,13 +17,15 @@
         <template #bodyCell="{ record, column, index, text }">
           <!-- 操作 -->
           <div v-if="column.key === 'operate'" class="flex-start">
+            <div class="btn-link" @click.stop="detailFn(record)">查看详情</div>
+            <div class="btn-link ml24" @click.stop="editFn(record)">修改</div>                      
             <a-popconfirm
-              title="确定移除部门吗?"
+              title="确定移除工序吗?"
               :getPopupContainer="(triggerNode): any => triggerNode.parentNode"
               @confirm="removeFn(record)"
             >
               <template #default>
-                <div class="btn-link">移除</div>
+                <div class="btn-link ml24">移除</div>
               </template>
             </a-popconfirm>
           </div>
@@ -37,14 +38,14 @@
         <!-- footer -->
         <template #footer>
           <div class="flex-center-col">
-            <div class="btn-link" @click="addFn">添加部门</div>
+            <div class="btn-link" @click="addFn">新增步骤</div>
           </div>
         </template>
       </a-table>
     </a-spin>
     <!-- 添加部门弹窗 -->
     <MDialog :dialog="dialog">
-      <DepartAddSyetemCompany
+      <ProductProcessSet
         @close="dialog.show = false"
         :pid="dialog.flag"
         :row="dialog.row"
@@ -64,13 +65,24 @@ let dialog: any = reactive({
   show: false,
   flag: "add",
   title: "添加部门",
-  width: 550,
+  width: 700,
 });
 // 添加部门
 const addFn = () => {
   dialog.flag = "add";
   dialog.show = true;
 };
+
+const detailFn = (item:any) => {
+  dialog.row = item;
+  dialog.show = true;
+}
+
+const editFn = (item:any) => {
+  dialog.row = item;
+  dialog.show = true;
+}
+
 // 关闭部门
 const closeFn = () => {
   getListFn();
@@ -79,30 +91,23 @@ const closeFn = () => {
 // 表头
 const columns = [
   {
-    title: "序号",
-    dataIndex: "id",
-    key: "id",
-    ustomRender: ({ index }: any) => `${index + 1}`,
-    width: 60,
-  },
-  {
-    title: "部门名称",
-    dataIndex: "branchName",
-    key: "branchName",
-    width: 250,
+    title: "步骤名称",
+    dataIndex: "name",
+    key: "name",
+    width: 180,
     ellipsis: true,
   },
   {
-    title: "部门简介",
-    dataIndex: "explan",
-    key: "explan",
-    width: 250,
+    title: "工序流程",
+    dataIndex: "exp",
+    key: "exp",
     ellipsis: true,
   },
   {
     title: "操作",
     dataIndex: "operate",
     key: "operate",
+    width:180
   },
 ];
 
@@ -120,31 +125,13 @@ const dataSource: {
   pageSize: 15,
   data: [],
 });
-// 表格配置项
-const ListConfig: any = reactive({
-  selectedRowKeys: [], //表格选中数组
-});
-// 选中表格checked
-// const onSelectChangeFn: any = (selectedRowKeys: any) => {
-//     ListConfig.selectedRowKeys = selectedRowKeys;
-// };
-// 选中表格当前行
-const onCustomRowFn = (record: any) => {
-  return {
-    // 单击表格
-    onClick: () => {
-      const index = ListConfig.selectedRowKeys.indexOf(record.id);
-      index >= 0 && ListConfig.selectedRowKeys.splice(index, 1);
-      index < 0 && ListConfig.selectedRowKeys.push(record.id);
-    },
-    // 双击表格
-    ondblclick: () => {
-      // // 双击情况选择项目，只选择当前行
-      ListConfig.selectedRowKeys = [record.id];
-      //如果有查看详情的列表页，双击打开详情
-    },
-  };
+
+// 移除操作
+const removeFn = async (record: any) => {
+  dataSource.data.splice(record.id - 1, 1);
+  ElMessage.success(`模拟移除第${record.id}个工序成功`);
 };
+
 
 const getListFn = async () => {
   spinning.value = true;
@@ -152,18 +139,13 @@ const getListFn = async () => {
   for (let i = 0; i < 30; i++) {
     let obj = {
       id: i + 1,
-      branchName: `第${i + 1}个部门`,
-      explan: `第${i + 1}个部门的相关部门简介，原神启动，move，move`,
+      name: `第${i + 1}个步骤`,
+      exp: `第${i + 1}个步骤的工序流程`,
     };
     arr.push(obj);
   }
   dataSource.data = arr;
   spinning.value = false;
-};
-// 移除操作
-const removeFn = async (record: any) => {
-  dataSource.data.splice(record.id - 1, 1);
-  ElMessage.success(`模拟移除第${record.id}个关联部门成功`);
 };
 onMounted(() => {
   getListFn();

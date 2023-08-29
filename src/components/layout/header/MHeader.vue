@@ -83,8 +83,8 @@
                 <div class="flex-center">
                   <div style="border-bottom: 1px solid grey; width: 90%;" class="line"></div>
                 </div>
-                <a-menu-item key="退出登录">
-                  <div>退出登录</div>
+                <a-menu-item key="退出登录" @click="logout">
+                  <div  >退出登录</div>
                 </a-menu-item>
               </a-menu>
             </div>
@@ -106,6 +106,7 @@
 import logoUrl from '@/assets/img/logo.png';
 import { message } from 'ant-design-vue';
 import imgUrl from '../../../assets/img/look.png';
+const router = useRouter();
 import Photo from './photo.vue';
 const showFn = () => {
   message.warning('开发中');
@@ -120,6 +121,11 @@ const helpFn = () => {
   a.download = fileName;
   a.target = "_blank"
   a.click();
+}
+
+const logout = () => {
+  localStorage.removeItem("auth");
+  router.push({ path: "/login" });
 }
 // 图片弹窗
 let dialogImg = ref<boolean>(false);

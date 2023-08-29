@@ -3,176 +3,156 @@
     <div style="padding-left: 5px; padding-right: 5px;">
       <div style="height: 520px; overflow-x: hidden; overflow-y: auto;">
         <a-form :model="formState" ref="modelForm" name="basic" :label-col="labelCol" :wrapper-col="{ span: 24 }" autocomplete="off" :layout="'horizontal'">
-          <h3>轿厢装潢</h3>
+          <h3>配置类型</h3>
           <div style="height: 16px;"></div>
           <a-row :gutter="24">
-            <a-col :span="8">
+            <a-col :span="24">
+              <a-form-item class="form-item-require" label="配置类型" name="selectValue">
+        <a-radio-group v-model:value="formState.type" @change="changeFn" name="radioGroup">
+          <a-radio :value="0">客梯配置</a-radio>
+          <a-radio :value="1">货梯配置</a-radio>
+          <a-radio :value="2">别墅梯配置</a-radio>
+          <a-radio :value="3">平台梯配置</a-radio>
+          <a-radio :value="4">背包梯配置</a-radio>
+        </a-radio-group>
+      </a-form-item>
+            </a-col>
+          </a-row>
+      <div class="floor-args"></div>
+      <div style="height: 10px;"></div>
+          <h3>控制系统</h3>
+          <div style="height: 16px;"></div>
+          <a-row :gutter="24">
+            <a-col :span="6">
               <!-- 轿顶装饰 -->
-              <a-form-item label="轿顶装饰" name="name">
+              <a-form-item label="一体机" name="name">
                 <a-input placeholder="轿顶装饰" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
-            <a-col :span="8">
+            <a-col :span="6">
               <!-- 轿顶氛围灯 -->
-              <a-form-item label="轿顶氛围灯" name="name">
+              <a-form-item label="运行继电器" name="name">
                 <a-input placeholder="轿顶氛围灯" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
-            <a-col :span="8">
+            <a-col :span="6">
               <!-- 轿顶装饰 -->
-              <a-form-item label="轿顶装饰" name="name">
+              <a-form-item label="抱闸继电器" name="name">
+                <a-input placeholder="轿顶装饰" style="width: 100%;" v-model:value="formState.name" />
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <!-- 轿顶装饰 -->
+              <a-form-item label="一键通5G" name="name">
                 <a-input placeholder="轿顶装饰" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
           </a-row>
           <a-row :gutter="24">
-            <a-col :span="8">
+            <a-col :span="6">
               <!-- 轿顶装饰 -->
-              <a-form-item label="轿顶装饰" name="name">
+              <a-form-item label="随行电缆" name="name">
                 <a-input placeholder="轿顶装饰" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
-            <a-col :span="8">
+            <a-col :span="6">
               <!-- 轿顶氛围灯 -->
-              <a-form-item label="轿顶氛围灯" name="name">
+              <a-form-item label="应急救援装置" name="name">
                 <a-input placeholder="轿顶氛围灯" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
-            <a-col :span="8">
+            <a-col :span="6">
               <!-- 轿顶装饰 -->
-              <a-form-item label="扶手" name="name">
-                <a-radio-group :value="0"  name="radioGroup">
-                  <a-radio :value="0">有</a-radio>
-                  <a-radio :value="1">无</a-radio>
-                </a-radio-group>
+              <a-form-item label="平层开关" name="name">
+                <a-input placeholder="轿顶氛围灯" style="width: 100%;" v-model:value="formState.name" />
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <!-- 轿顶装饰 -->
+              <a-form-item label="减速开关" name="name">
+                <a-input placeholder="轿顶氛围灯" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
           </a-row>
           <a-row :gutter="24">
-            <a-col :span="24">
-              <!-- 轿门装饰 -->
-              <a-form-item label="轿门装饰" name="name">
-                <a-textarea
-                  style="width: 63%;"
-                  v-model:value="formState.name"
-                  placeholder="请输入轿门装饰"
-                  :maxlength="200"
-                  :auto-size="{ minRows: 2, maxRows: 2 }"
-                />
+            <a-col :span="6">
+              <!-- 轿顶装饰 -->
+              <a-form-item label="操纵箱" name="name">
+                <a-input placeholder="轿顶装饰" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
-          </a-row>
-          <a-row :gutter="24">
-            <a-col :span="24">
-              <!-- 轿壁描述 -->
-              <a-form-item label="轿壁描述" name="name">
-                <a-textarea
-                  style="width: 63%;"
-                  v-model:value="formState.name"
-                  placeholder="请输入轿壁描述"
-                  :maxlength="200"
-                  :auto-size="{ minRows: 2, maxRows: 2 }"
-                />
-              </a-form-item>
-            </a-col>
-          </a-row>
-          <a-row :gutter="24">
-            <a-col :span="24">
-              <!-- 前壁描述 -->
-              <a-form-item label="前壁描述" name="name">
-                <a-textarea
-                  style="width: 63%;"
-                  v-model:value="formState.name"
-                  placeholder="请输入前壁描述"
-                  :maxlength="200"
-                  :auto-size="{ minRows: 2, maxRows: 2 }"
-                />
-              </a-form-item>
-            </a-col>
-          </a-row>
-          <a-row :gutter="24">
-            <a-col :span="24">
-              <!-- 吊顶描述 -->
-              <a-form-item label="吊顶描述" name="name">
-                <a-textarea
-                  style="width: 63%;"
-                  v-model:value="formState.name"
-                  placeholder="请输入吊顶描述"
-                  :maxlength="200"
-                  :auto-size="{ minRows: 2, maxRows: 2 }"
-                />
+            <a-col :span="6">
+              <!-- 轿顶氛围灯 -->
+              <a-form-item label="外呼" name="name">
+                <a-input placeholder="轿顶氛围灯" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
           </a-row>
           <div class="floor-args"></div>
           <div style="height: 10px;"></div>
-          <h3>人机交互系统</h3>
+          <h3>曳引机</h3>
           <div style="height: 16px;"></div>
           <a-row :gutter="24">
-            <a-col :span="8">
+            <a-col :span="12">
               <!-- 操作箱型号 -->
-              <a-form-item label="操作箱型号" name="name">
+              <a-form-item label="免维护型无齿轮曳引机" name="name">
                 <a-input placeholder="操作箱型号" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
-            <a-col :span="8">
+          </a-row>
+          <div class="floor-args"></div>
+          <div style="height: 10px;"></div>
+          <h3>门机系统</h3>
+          <div style="height: 16px;"></div>
+          <a-row :gutter="24">
+            <a-col :span="6">
+              <!-- 操作箱型号 -->
+              <a-form-item label="门机" name="name">
+                <a-input placeholder="操作箱型号" style="width: 100%;" v-model:value="formState.name" />
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <div class="floor-args"></div>
+          <div style="height: 10px;"></div>
+          <h3>主要控制与安全部件</h3>
+          <div style="height: 16px;"></div>
+          <a-row :gutter="24">
+            <a-col :span="6">
+              <!-- 操作箱型号 -->
+              <a-form-item label="限速器" name="name">
+                <a-input placeholder="操作箱型号" style="width: 100%;" v-model:value="formState.name" />
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
               <!-- 操作箱显示 -->
-              <a-form-item label="操作箱显示" name="name">
+              <a-form-item label="提拉结构" name="name">
                 <a-input placeholder="操作箱显示" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
-            <a-col :span="8">
+            <a-col :span="6">
               <!-- 外呼显示 -->
-              <a-form-item label="外呼显示" name="name">
+              <a-form-item label="安全钳" name="name">
+                <a-input placeholder="外呼显示" style="width: 100%;" v-model:value="formState.name" />
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <!-- 外呼显示 -->
+              <a-form-item label="免维护型滑动导靴" name="name">
                 <a-input placeholder="外呼显示" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
           </a-row>
           <a-row :gutter="24">
-            <a-col :span="8">
+            <a-col :span="6">
               <!-- 外呼型号 -->
-              <a-form-item label="外呼型号" name="name">
+              <a-form-item label="光幕" name="name">
                 <a-input placeholder="外呼型号" style="width: 100%;" v-model:value="formState.name" />
               </a-form-item>
             </a-col>
-            <a-col :span="8">
+            <a-col :span="6">
               <!-- 操作箱安装方式 -->
-              <a-form-item label="操作箱安装方式" name="name">
+              <a-form-item label="缓冲器" name="name">
                 <a-input placeholder="操作箱安装方式" style="width: 100%;" v-model:value="formState.name" />
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <!-- 外呼安装方式 -->
-              <a-form-item label="外呼安装方式" name="name">
-                <a-input placeholder="外呼安装方式" style="width: 100%;" v-model:value="formState.name" />
-              </a-form-item>
-            </a-col>
-          </a-row>
-          <a-row :gutter="24">
-            <a-col :span="8">
-              <!-- 外呼面板材质 -->
-              <a-form-item label="外呼面板材质" name="name">
-                <a-input placeholder="外呼面板材质" style="width: 100%;" v-model:value="formState.name" />
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <!-- 操作箱面板材质 -->
-              <a-form-item label="操作箱面板材质" name="name">
-                <a-input placeholder="操作箱面板材质" style="width: 100%;" v-model:value="formState.name" />
-              </a-form-item>
-            </a-col>
-          </a-row>
-          <a-row :gutter="24">
-            <a-col :span="24">
-              <!-- 其他说明 -->
-              <a-form-item label="其他说明" name="name">
-                <a-textarea
-                  style="width: 63%;"
-                  v-model:value="formState.name"
-                  placeholder="请输入其他说明"
-                  :maxlength="200"
-                  :auto-size="{ minRows: 2, maxRows: 2 }"
-                />
               </a-form-item>
             </a-col>
           </a-row>
@@ -204,12 +184,18 @@
   const formState = reactive({
     name: "", //装潢名称
     decoration: {}, //装饰
+    type:0
   });
   
   // 关闭弹窗
   const closeFn = () => {
     emit("close");
   };
+
+  // 单选更改
+const changeFn = () => {
+  console.log(formState.type, "raido");
+};
   
   onMounted(() => {});
   </script>

@@ -1,178 +1,96 @@
 <template>
-  <!-- 关联部门弹窗 -->
-  <div style="height: 500px; overflow-y: auto">
-    <!-- 表格 -->
-    <a-spin :spinning="spinning">
-      <a-table
-        :dataSource="dataSource.data"
-        :columns="columns"
-        :pagination="false"
-        rowKey="id"
-        :customRow="onCustomRowFn"
-        size="small"
-        :row-class-name="(_record: any, index: number): any => (index % 2 === 1 ? 'table-striped' : null)"
-        bordered
-        sticky
-      >
-        <!-- 表体插槽 -->
-        <template #bodyCell="{ record, column, index, text }">
-          <!-- 操作 -->
-          <div v-if="column.key === 'operate'" class="flex-start">
-            <a-popconfirm
-              title="确定移除部门吗?"
-              :getPopupContainer="(triggerNode): any => triggerNode.parentNode"
-              @confirm="removeFn(record)"
-            >
-              <template #default>
-                <div class="btn-link">移除</div>
-              </template>
-            </a-popconfirm>
-          </div>
-          <div v-else class="ovhidden" :title="text">{{ text }}</div>
-        </template>
-        <!-- 空表格时候的插槽 -->
-        <template #emptyText>
-          <Empty></Empty>
-        </template>
-        <!-- footer -->
-        <template #footer>
-          <div class="flex-center-col">
-            <div class="btn-link" @click="addFn">添加部门</div>
-          </div>
-        </template>
-      </a-table>
-    </a-spin>
-    <!-- 添加部门弹窗 -->
-    <MDialog :dialog="dialog">
-      <DepartAddSyetemCompany
-        @close="dialog.show = false"
-        :pid="dialog.flag"
-        :row="dialog.row"
-      />
-    </MDialog>
+  <!-- 新增人员弹窗 -->
+  <div style="padding-left: 5px;">
+    <a-form
+      :model="formState"
+      ref="modelForm"
+      name="basic"
+      :label-col="labelCol"
+      style="height: 160px;"
+      :wrapper-col="{ span: 24 }"
+      autocomplete="off"
+      :layout="'horizontal'"
+    >
+      <!-- 部门 -->
+      <a-form-item class="form-item-require" label="工序名称" name="name" :rules="rules.name">
+        <a-input placeholder="工序名称" style="width: 100%;" v-model:value="formState.name" />
+      </a-form-item>
+      <!-- 岗位 -->
+      <a-form-item class="form-item-require" label="工序流程" name="title">
+        <span class="btn-link">此处未来增加工序流程的增加操作</span>
+      </a-form-item>
+    </a-form>
+    <div class="flex-center mt48">
+      <a-button class="mr32 w100 h35" @click="closeFn">取消</a-button>
+      <a-button v-throttle class="w100 h35 primary-button" type="primary" @click="submitFn">确定</a-button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { row } = defineProps<{
-  row: any;
+const { pid, row } = defineProps<{
+  pid?: string;
+  row?: any;
 }>();
-let spinning = ref<boolean>(false);
+const emit = defineEmits(["close"]);
+
+const labelCol: any = {
+  style: {
+    width: "90px",
+    textAlign: "left",
+  },
+};
+
 // 弹窗所有变量
-let dialog: any = reactive({
-  row: {},
+let dialogs: any = reactive({
   show: false,
+  title: "装潢设置",
   flag: "add",
-  title: "添加部门",
-  width: 550,
+  row: {},
+  width: 1200,
 });
-// 添加部门
-const addFn = () => {
-  dialog.flag = "add";
-  dialog.show = true;
+
+// 表单数据
+const formState = reactive({
+  name: "", //装潢名称
+  decoration: {}, //装饰
+});
+// 校验规则
+const rules = {
+  name: [
+    { required: true, message: "请填写装潢名称" },
+    { pattern: /^[^\s]*$/, message: "禁止输入空格" },
+  ],
 };
-// 关闭部门
+// 关闭弹窗
 const closeFn = () => {
-  getListFn();
-  dialog.show = false;
-};
-// 表头
-const columns = [
-  {
-    title: "序号",
-    dataIndex: "id",
-    key: "id",
-    ustomRender: ({ index }: any) => `${index + 1}`,
-    width: 60,
-  },
-  {
-    title: "部门名称",
-    dataIndex: "branchName",
-    key: "branchName",
-    width: 250,
-    ellipsis: true,
-  },
-  {
-    title: "部门简介",
-    dataIndex: "explan",
-    key: "explan",
-    width: 250,
-    ellipsis: true,
-  },
-  {
-    title: "操作",
-    dataIndex: "operate",
-    key: "operate",
-  },
-];
-
-/**
- * 列表数据x
- */
-const dataSource: {
-  total: number;
-  currentPage: number;
-  pageSize: number;
-  data: any[];
-} = reactive({
-  total: 0,
-  currentPage: 1,
-  pageSize: 15,
-  data: [],
-});
-// 表格配置项
-const ListConfig: any = reactive({
-  selectedRowKeys: [], //表格选中数组
-});
-// 选中表格checked
-// const onSelectChangeFn: any = (selectedRowKeys: any) => {
-//     ListConfig.selectedRowKeys = selectedRowKeys;
-// };
-// 选中表格当前行
-const onCustomRowFn = (record: any) => {
-  return {
-    // 单击表格
-    onClick: () => {
-      const index = ListConfig.selectedRowKeys.indexOf(record.id);
-      index >= 0 && ListConfig.selectedRowKeys.splice(index, 1);
-      index < 0 && ListConfig.selectedRowKeys.push(record.id);
-    },
-    // 双击表格
-    ondblclick: () => {
-      // // 双击情况选择项目，只选择当前行
-      ListConfig.selectedRowKeys = [record.id];
-      //如果有查看详情的列表页，双击打开详情
-    },
-  };
+  emit("close");
 };
 
-const getListFn = async () => {
-  spinning.value = true;
-  let arr: any = [];
-  for (let i = 0; i < 30; i++) {
-    let obj = {
-      id: i + 1,
-      branchName: `第${i + 1}个部门`,
-      explan: `第${i + 1}个部门的相关部门简介，原神启动，move，move`,
-    };
-    arr.push(obj);
-  }
-  dataSource.data = arr;
-  spinning.value = false;
+const setDressFn = () => {
+  dialogs.show = true;
 };
-// 移除操作
-const removeFn = async (record: any) => {
-  dataSource.data.splice(record.id - 1, 1);
-  ElMessage.success(`模拟移除第${record.id}个关联部门成功`);
+
+const getListFn: any = inject("getListFn");
+// ref
+const modelForm = ref();
+// 表单验证
+const submitFn = async () => {
+  const res = await modelForm.value
+    .validateFields()
+    .then((res: any) => res)
+    .catch((_err: any) => "error");
+  if (res === "error") return;
 };
+
 onMounted(() => {
-  getListFn();
+  if (pid === "edit" || pid === "detail") {
+    console.log("传入的相关数据==>",row)
+    formState.name = row.name;
+  }
 });
 </script>
 
 <style scoped lang="less">
-// 底部的边框
-:deep(.ant-table-footer) {
-  border: 1px dashed #ebebeb;
-}
+@import "@/assets/styles/base/antdForm.less";
 </style>
