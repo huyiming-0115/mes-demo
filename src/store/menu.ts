@@ -135,12 +135,38 @@ export const useMenuStore = defineStore("menu", {
                     svg: 'sell',
                     children: [
                         {
+                            path: '/work/sell/order',
+                            name: '销售订单',
+                            parentName: '销售管理',
+                            route: '/work/sell/order',
+                            hidden: true,
+                            id: '2-1',
+                        },
+                        {
                             path: '/work/sell/sale',
                             name: '销售查询',
                             parentName: '销售管理',
                             route: '/work/sell/sale',
                             hidden: true,
-                            id: '2-1',
+                            id: '2-2',
+                        },
+                    ]
+                },
+                //商务管理
+                {
+                    path: '/work/sell',
+                    name: '商务管理',
+                    hidden: true,
+                    id: '9',
+                    svg: 'sell',
+                    children: [
+                        {
+                            path: '/work/sell/buorder',
+                            name: '商务订单',
+                            parentName: '销售管理',
+                            route: '/work/sell/buorder',
+                            hidden: true,
+                            id: '9-1',
                         },
                         {
                             path: '/work/sell/dress',
@@ -148,7 +174,7 @@ export const useMenuStore = defineStore("menu", {
                             parentName: '销售管理',
                             route: '/work/sell/dress',
                             hidden: true,
-                            id: '2-2',
+                            id: '9-2',
                         },
                         {
                             path: '/work/sell/business',
@@ -156,7 +182,7 @@ export const useMenuStore = defineStore("menu", {
                             parentName: '销售管理',
                             route: '/work/sell/business',
                             hidden: true,
-                            id: '2-3',
+                            id: '9-3',
                         },
                         {
                             path: '/work/sell/plan',
@@ -164,7 +190,7 @@ export const useMenuStore = defineStore("menu", {
                             parentName: '销售管理',
                             route: '/work/sell/plan',
                             hidden: true,
-                            id: '2-4',
+                            id: '9-4',
                         },
                     ]
                 },
@@ -176,6 +202,14 @@ export const useMenuStore = defineStore("menu", {
                     id: '3',
                     svg: 'technology',
                     children: [
+                        {
+                            path: '/work/technology/order',
+                            name: '技术订单',
+                            parentName: '技术管理',
+                            route: '/work/technology/order',
+                            hidden: true,
+                            id: '3-4',
+                        },
                         {
                             path: '/work/technology/skill',
                             name: '技术查询',
@@ -212,7 +246,7 @@ export const useMenuStore = defineStore("menu", {
                     children: [
                         {
                             path: '/work/produce/product',
-                            name: '生产查询',
+                            name: '生产订单',
                             parentName: '生产管理',
                             route: '/work/produce/product',
                             hidden: true,
@@ -288,7 +322,7 @@ export const useMenuStore = defineStore("menu", {
                     children: [
                         {
                             path: '/work/check/task',
-                            name: '质检任务',
+                            name: '质检订单',
                             parentName: '质检管理',
                             route: '/work/check/task',
                             hidden: true,
@@ -312,6 +346,22 @@ export const useMenuStore = defineStore("menu", {
                     id: '7',
                     svg: 'depot',
                     children: [
+                        {
+                            path: '/work/depot/inorder',
+                            name: '入库单',
+                            parentName: '仓库管理',
+                            route: '/work/depot/inorder',
+                            hidden: true,
+                            id: '7-9',
+                        },
+                        {
+                            path: '/work/depot/outorder',
+                            name: '出库单',
+                            parentName: '仓库管理',
+                            route: '/work/depot/outorder',
+                            hidden: true,
+                            id: '7-10',
+                        },
                         {
                             path: '/work/depot/product',
                             name: '产品管理',
@@ -362,6 +412,14 @@ export const useMenuStore = defineStore("menu", {
                     id: '8',
                     svg: 'finance',
                     children: [
+                        {
+                            path: '/work/finance/order',
+                            name: '财务订单',
+                            parentName: '财务管理',
+                            route: '/work/finance/order',
+                            hidden: true,
+                            id: '8-1',
+                        },
                         {
                             path: '/work/finance/price',
                             name: '价格管理',
