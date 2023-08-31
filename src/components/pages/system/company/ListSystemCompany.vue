@@ -17,20 +17,24 @@
         bordered
       >
         <!-- 图标内容插槽 -->
-        <template
-          #customFilterDropdown="{
-                          confirm,
-                          column,
-                      }"
-        >
+        <template #customFilterDropdown="{ confirm, column }">
           <div v-if="column.key === 'status'">
-            <Filter :list="filterList" @submit="(list:any) => filterSubmitFn(list, confirm)" @cancel="confirm()"></Filter>
+            <Filter
+              :list="filterList"
+              @submit="(list:any) => filterSubmitFn(list, confirm)"
+              @cancel="confirm()"
+            ></Filter>
           </div>
         </template>
         <!-- 图标插槽 -->
         <template #customFilterIcon="{ column }">
-          <div v-if="column.key === 'status'" style="width: 16px; height: 16px;">
-            <q-svg width="16" height="16" name="filter" :class="filterChecked ? 'filter-result' : ''" />
+          <div v-if="column.key === 'status'" style="width: 16px; height: 16px">
+            <q-svg
+              width="16"
+              height="16"
+              name="filter"
+              :class="filterChecked ? 'filter-result' : ''"
+            />
           </div>
         </template>
         <!-- 表体插槽 -->
@@ -39,13 +43,24 @@
           <div v-if="column.key === 'status'">
             <div class="flex-start box-status">
               <div>
-                <a-switch class="scale8" v-show="record.status === 1" v-model:checked="statusTrue" />
-                <a-switch class="scale8" v-show="record.status !== 1" v-model:checked="statusFalse" />
+                <a-switch
+                  class="scale8"
+                  v-show="record.status === 1"
+                  v-model:checked="statusTrue"
+                />
+                <a-switch
+                  class="scale8"
+                  v-show="record.status !== 1"
+                  v-model:checked="statusFalse"
+                />
               </div>
               <div class="ml10 font-blue" v-show="record.status === 1">{{ "启用" }}</div>
               <div class="ml10 font-grey" v-show="record.status !== 1">{{ "停用" }}</div>
               <!-- 这里得字段变化一下 -->
-              <a-popconfirm title="确定调整该公司的状态嘛?" @confirm="changeStatusFn(record)">
+              <a-popconfirm
+                title="确定调整该公司的状态嘛?"
+                @confirm="changeStatusFn(record)"
+              >
                 <template #default>
                   <div class="box-fill pointer"></div>
                 </template>
@@ -71,10 +86,18 @@
     </a-spin>
   </div>
   <MDialog :dialog="dialog">
-    <DetailSystemCompany @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row"></DetailSystemCompany>
+    <DetailSystemCompany
+      @close="dialog.show = false"
+      :pid="dialog.flag"
+      :row="dialog.row"
+    ></DetailSystemCompany>
   </MDialog>
   <MDialog :dialog="dialogDepart">
-    <LinkDepartSystemCompany @close="dialog.show = false" :pid="dialog.flag" :row="dialog.row"></LinkDepartSystemCompany>
+    <LinkDepartSystemCompany
+      @close="dialog.show = false"
+      :pid="dialog.flag"
+      :row="dialog.row"
+    ></LinkDepartSystemCompany>
   </MDialog>
 </template>
 
@@ -160,16 +183,15 @@ let dialog: any = reactive({
   addTitle: "修改公司",
   flag: "edit",
   row: {},
-  width:550
+  width: 550,
 });
 
-const editFn = (item:any) => {
+const editFn = (item: any) => {
   dialog.title = "修改公司";
   dialog.flag = "edit";
   dialog.row = item;
   dialog.show = true;
 };
-
 
 // 弹窗所有变量
 let dialogDepart: any = reactive({
@@ -177,14 +199,14 @@ let dialogDepart: any = reactive({
   title: "修改公司",
   flag: "edit",
   row: {},
-  width:822
+  width: 822,
 });
-const linkFn = (item:any) => {
+const linkFn = (item: any) => {
   dialogDepart.title = "关联部门";
   dialogDepart.flag = "edit";
   dialogDepart.row = item;
   dialogDepart.show = true;
-}
+};
 
 /**
  * filterList 筛选列表
@@ -227,8 +249,8 @@ const changeStatusFn = async (record: any) => {
   tableList.value = [
     {
       id: 1,
-      organizeName: "一鸣有限公司",
-      explan: "这是胡一鸣先生和夏子未小姐的第一家公司",
+      organizeName: "111",
+      explan: "222",
       status: record.status == 0 ? 1 : 0,
     },
   ];
@@ -244,8 +266,8 @@ const getListFn = async (params?: any) => {
   tableList.value = [
     {
       id: 1,
-      organizeName: "一鸣有限公司",
-      explan: "这是胡一鸣先生和夏子未小姐的第一家公司",
+      organizeName: "111",
+      explan: "222",
       status: 1,
     },
   ];

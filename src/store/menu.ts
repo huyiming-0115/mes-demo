@@ -26,14 +26,6 @@ export const useMenuStore = defineStore("menu", {
                             id: '0-1',
                         },
                         {
-                            path: '/work/home/deal',
-                            name: '我的待办',
-                            parentName: '首页',
-                            route: '/work/home/deal',
-                            hidden: true,
-                            id: '0-2',
-                        },
-                        {
                             path: '/work/home/task',
                             name: '待接任务',
                             parentName: '首页',
@@ -41,6 +33,15 @@ export const useMenuStore = defineStore("menu", {
                             hidden: true,
                             id: '0-3',
                         },
+                        {
+                            path: '/work/home/deal',
+                            name: '我的待办',
+                            parentName: '首页',
+                            route: '/work/home/deal',
+                            hidden: true,
+                            id: '0-2',
+                        },
+
                     ]
                 },
                 // 系统管理
@@ -157,40 +158,41 @@ export const useMenuStore = defineStore("menu", {
                     path: '/work/sell',
                     name: '商务管理',
                     hidden: true,
-                    id: '9',
+                    id: '99',
                     svg: 'sell',
                     children: [
                         {
-                            path: '/work/sell/buorder',
+                            path: '/work/sell/business',
                             name: '商务订单',
                             parentName: '销售管理',
-                            route: '/work/sell/buorder',
+                            route: '/work/sell/business',
                             hidden: true,
-                            id: '9-1',
+                            id: '99-3',
                         },
+                        /*                         {
+                                                    path: '/work/sell/buorder',
+                                                    name: '商务订单',
+                                                    parentName: '销售管理',
+                                                    route: '/work/sell/buorder',
+                                                    hidden: true,
+                                                    id: '9-1',
+                                                }, */
                         {
                             path: '/work/sell/dress',
                             name: '装潢管理',
                             parentName: '销售管理',
                             route: '/work/sell/dress',
                             hidden: true,
-                            id: '9-2',
+                            id: '99-2',
                         },
-                        {
-                            path: '/work/sell/business',
-                            name: '商务查询',
-                            parentName: '销售管理',
-                            route: '/work/sell/business',
-                            hidden: true,
-                            id: '9-3',
-                        },
+
                         {
                             path: '/work/sell/plan',
                             name: '计划查询',
                             parentName: '销售管理',
                             route: '/work/sell/plan',
                             hidden: true,
-                            id: '9-4',
+                            id: '99-4',
                         },
                     ]
                 },
@@ -228,11 +230,19 @@ export const useMenuStore = defineStore("menu", {
                         },
                         {
                             path: '/work/technology/civil',
-                            name: '土建管理',
+                            name: '图纸管理',
                             parentName: '技术管理',
                             route: '/work/technology/civil',
                             hidden: true,
-                            id: '3-3',
+                            id: '3-5',
+                        },
+                        {
+                            path: '/work/technology/bom',
+                            name: 'BOM单管理',
+                            parentName: '技术管理',
+                            route: '/work/technology/bom',
+                            hidden: true,
+                            id: '3-7',
                         }
                     ]
                 },
@@ -418,7 +428,7 @@ export const useMenuStore = defineStore("menu", {
                             parentName: '财务管理',
                             route: '/work/finance/order',
                             hidden: true,
-                            id: '8-1',
+                            id: '8-2',
                         },
                         {
                             path: '/work/finance/price',
